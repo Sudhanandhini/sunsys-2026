@@ -2,3 +2,10 @@ node_modules
 dist
 .astro
 .env
+public/api/_lib/config.php
+public/api/_private/*
+!public/api/_private/.htaccess
+public/uploads/blog/*
+!public/uploads/blog/.gitkeep
+config.local.php
+.local-private

@@ -14,8 +14,8 @@ export const company = {
     x: '#',
     linkedin: '#',
   },
-  // Contact / quote / newsletter form POST endpoint (e.g. your Express API). Forms cannot send until this is set.
-  formEndpoint: import.meta.env.PUBLIC_FORM_ENDPOINT ?? '',
+  // Contact / quote / newsletter forms POST here. Defaults to the PHP API in public/api.
+  formEndpoint: import.meta.env.PUBLIC_FORM_ENDPOINT || '/api/contact.php',
 };
 
 export const nav = [

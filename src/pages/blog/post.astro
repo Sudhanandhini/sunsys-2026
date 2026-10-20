@@ -1,0 +1,35 @@
+---
+// Single article page: /blog/post/?slug=… The article loads from the PHP API.
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import BlogPost from '../../components/BlogPost.jsx';
+---
+<Base title="Blog" description="Articles on website design, development, hosting and online growth from Sunsys Technologies.">
+  <BlogPost client:load />
+  <CtaBand />
+</Base>
+
+<style is:global>
+  @keyframes post-in { from { opacity: 0; transform: translateY(20px); } }
+  .post-in { animation: post-in .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+  @keyframes post-cover { from { clip-path: inset(100% 0 0 0); } }
+  .post-cover { aspect-ratio: 16 / 9; animation: post-cover 1.3s cubic-bezier(.65,0,.35,1) .2s both; }
+  @keyframes blog-rise { from { opacity: 0; transform: translateY(24px); } }
+  .blog-rise { animation: blog-rise .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+
+  .prose-sunsys { font-size: 18px; line-height: 1.8; color: var(--color-body); }
+  .prose-sunsys > * + * { margin-top: 1.2em; }
+  .prose-sunsys h2 { font-family: var(--font-serif); font-weight: 400; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; color: var(--color-ink); margin-top: 1.8em; }
+  .prose-sunsys h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; color: var(--color-ink); margin-top: 1.5em; }
+  .prose-sunsys a { color: var(--color-navy); border-bottom: 1px solid var(--color-gold); }
+  .prose-sunsys a:hover { color: var(--color-gold); }
+  .prose-sunsys ul, .prose-sunsys ol { padding-left: 1.4em; }
+  .prose-sunsys ul { list-style: none; padding-left: 0; }
+  .prose-sunsys ul li { position: relative; padding-left: 1.6em; }
+  .prose-sunsys ul li::before { content: ""; position: absolute; left: .2em; top: .7em; width: 6px; height: 6px; background: var(--color-gold); transform: rotate(45deg); }
+  .prose-sunsys ol { list-style: decimal; } .prose-sunsys ol li::marker { color: var(--color-gold); font-family: var(--font-serif); }
+  .prose-sunsys li + li { margin-top: .4em; }
+  .prose-sunsys blockquote { border-left: 2px solid var(--color-gold); padding-left: 1.4em; font-family: var(--font-serif); font-style: italic; font-size: 22px; color: color-mix(in srgb, var(--color-ink) 85%, transparent); }
+  .prose-sunsys code { background: var(--color-cream); padding: .1em .4em; border-radius: 4px; font-size: .88em; }
+  .prose-sunsys strong { color: var(--color-ink); }
+</style>

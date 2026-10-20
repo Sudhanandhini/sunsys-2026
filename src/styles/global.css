@@ -85,7 +85,8 @@
 
 /* Header: gold underline grows from the centre; current page keeps it with a small diamond */
 .hdr-nav::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: -2px; height: 1px; background: var(--color-gold); transition: left .4s cubic-bezier(.2,.7,.2,1), right .4s cubic-bezier(.2,.7,.2,1); }
-.hdr-nav:hover::after, .hdr-nav.is-on::after { left: .875rem; right: .875rem; }
+.hdr-nav:hover::after, .hdr-nav.is-on::after { left: .625rem; right: .625rem; }
+@media (width >= 80rem) { .hdr-nav:hover::after, .hdr-nav.is-on::after { left: .875rem; right: .875rem; } }
 .hdr-nav.is-on::before { content: ""; position: absolute; left: 50%; bottom: -5px; width: 6px; height: 6px; background: var(--color-gold); transform: translateX(-50%) rotate(45deg); }
 .hdr-link { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .4s cubic-bezier(.2,.7,.2,1), color .3s; }
 .hdr-link:hover, .hdr-link:focus-visible { background-size: 100% 1px; }
@@ -117,3 +118,11 @@
 .qf-sent-check { stroke-dasharray: 36; stroke-dashoffset: 36; animation: qf-draw .5s cubic-bezier(.65,0,.35,1) .6s forwards; }
 .qf-sent > :not(svg) { animation: rise .7s cubic-bezier(.2,.7,.2,1) .8s both; }
 @keyframes qf-draw { to { stroke-dashoffset: 0; } }
+
+/* Career job board */
+.job-row { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+.job-more { grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
+.job-more.is-open { grid-template-rows: 1fr; }
+.apply-dialog[open] { animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
+.apply-dialog::backdrop { animation: fade-in .3s ease both; }
+@keyframes fade-in { from { opacity: 0; } }

@@ -2,28 +2,22 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
-import Icon from '../components/Icon.jsx';
-import { posts } from '../data/site';
-const fmt = (d: string) => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+import BlogList from '../components/BlogList.jsx';
 ---
 <Base title="Blog" description="Articles on website design, development, hosting and online growth from Sunsys Technologies.">
-  <PageHero title="Blog" intro="Practical advice on websites, hosting and growing your business online." crumbs={[{ label: 'Blog' }]} />
-  <section class="container-x py-20 md:py-24">
-    <ul class="divide-y divide-line border-y border-line">
-      {posts.map((p) => (
-        <li>
-          <a href={p.slug} class="group grid gap-2 py-8 md:grid-cols-[160px_1fr_auto] md:items-center md:gap-10">
-            <time datetime={p.date} class="text-sm text-body">{fmt(p.date)}</time>
-            <span>
-              <span class="block font-head text-xl font-bold text-ink group-hover:text-brand">{p.title}</span>
-              <span class="mt-1 block">{p.excerpt}</span>
-            </span>
-            <span class="link-more">Read article <Icon name="ArrowRight" size={16} strokeWidth={2} /></span>
-          </a>
-        </li>
-      ))}
-    </ul>
+  <PageHero eyebrow="Insights" title="Ideas for a better website" accent="website" intro="Practical advice on websites, hosting and growing your business online." crumbs={[{ label: 'Blog' }]} />
+  <section class="bg-ivory py-20 md:py-28">
+    <div class="container-x">
+      <BlogList client:load />
+    </div>
   </section>
 
   <CtaBand />
 </Base>
+
+<style is:global>
+  .blog-card .blog-img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .blog-card:hover .blog-img { transform: scale(1.08); }
+  @keyframes blog-rise { from { opacity: 0; transform: translateY(24px); } }
+  .blog-rise { animation: blog-rise .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+</style>

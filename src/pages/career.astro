@@ -3,14 +3,13 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.jsx';
+import JobBoard from '../components/JobBoard.jsx';
 import { Image } from 'astro:assets';
 import teamPhoto from '../images/about.png';
 import { company, stats, footprints, openings } from '../data/site';
 
 const years = new Date().getFullYear() - company.founded;
 const team = stats.find((s) => s.label === 'Team members');
-const pad = (n: number) => String(n).padStart(2, '0');
-const apply = (role: string) => `/contact?role=${encodeURIComponent(role)}`;
 
 // Only claims already made elsewhere on the site
 const expect = [
@@ -72,41 +71,10 @@ const expect = [
           <p class="eyebrow">Join the team</p>
           <h2 class="h-classic mt-4">Current <em class="text-gold">openings</em></h2>
         </div>
-        <p class="lead">All roles are full-time at our Vijayanagar office. Apply through the contact form and mention the role.</p>
+        <p class="lead">All roles are full-time at our Vijayanagar office. Apply online with your CV in under two minutes.</p>
       </div>
 
-      <ul class="mt-14 border-t border-gold/30">
-        {openings.map((o, i) => (
-          <li class="relative" data-reveal style={`--d:${i * 0.12}s`}>
-            <span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px bg-gold/30"></span>
-            <a href={apply(o.title)} class="car-row group relative grid gap-6 py-8 md:grid-cols-[6.5rem_1fr_auto] md:items-center md:gap-8 md:py-10">
-              <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-ivory transition-transform duration-700 ease-[cubic-bezier(.65,0,.35,1)] group-hover:scale-x-100"></span>
-              <span aria-hidden="true" class="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-gold transition-transform duration-500 group-hover:scale-y-100"></span>
-
-              <span class="relative font-serif text-[44px] font-light italic leading-none text-gold/60 transition-colors duration-500 group-hover:text-gold md:pl-6">{pad(i + 1)}</span>
-
-              <span class="relative min-w-0">
-                <span class="block font-serif text-[26px] leading-tight tracking-[-0.015em] text-ink transition-colors duration-500 group-hover:text-navy md:text-[30px]">{o.title}</span>
-                <span class="mt-2 block max-w-[60ch] text-[15.5px] leading-relaxed">{o.text}</span>
-                <span class="mt-4 flex flex-wrap gap-2">
-                  {[['Briefcase', o.type], ['Clock', o.exp], ['MapPin', 'Bengaluru']].map(([icon, label]) => (
-                    <span class="inline-flex items-center gap-1.5 border border-gold/35 bg-white/70 px-3 py-1.5 text-[12.5px] text-body">
-                      <Icon name={icon} size={14} strokeWidth={1.7} className="text-gold" />{label}
-                    </span>
-                  ))}
-                </span>
-              </span>
-
-              <span class="relative inline-flex items-center gap-3 self-start text-[12px] font-bold uppercase tracking-[.16em] text-navy md:self-center md:pr-6">
-                Apply now
-                <span class="grid size-11 place-items-center rounded-full border border-navy/20 transition-all duration-500 group-hover:-rotate-45 group-hover:border-navy group-hover:bg-navy group-hover:text-gold-soft">
-                  <Icon name="ArrowRight" size={16} strokeWidth={1.8} />
-                </span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div class="mt-14"><JobBoard client:load initial={openings} /></div>
 
       <!-- open application -->
       <div class="relative mt-14 overflow-hidden border border-gold/30 bg-ivory px-8 py-10 md:flex md:items-center md:justify-between md:gap-10 md:px-12" data-reveal>
@@ -114,13 +82,13 @@ const expect = [
         <span aria-hidden="true" class="pointer-events-none absolute -right-6 -top-6 size-36 rounded-full border border-gold/20"></span>
         <div class="relative">
           <p class="font-serif text-[26px] leading-tight text-ink">Don’t see a matching <em class="text-gold">role</em>?</p>
-          <p class="mt-2 text-[15.5px]">Get in touch through our contact form and we will keep your details on file.</p>
+          <p class="mt-2 text-[15.5px]">Send us your details and CV, and we will keep them on file for future roles.</p>
         </div>
-        <a href={apply('General application')} class="group relative mt-6 inline-flex shrink-0 items-center gap-3 overflow-hidden rounded-[2px] bg-navy px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-white shadow-lg shadow-navy/15 md:mt-0">
+        <button type="button" onclick="window.dispatchEvent(new Event('apply:general'))" class="group relative mt-6 inline-flex shrink-0 items-center gap-3 overflow-hidden rounded-[2px] bg-navy px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-white shadow-lg shadow-navy/15 md:mt-0">
           <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100"></span>
           <span class="relative">Send your details</span>
           <Icon name="ArrowRight" size={15} strokeWidth={2} className="relative transition-transform duration-300 group-hover:translate-x-1" />
-        </a>
+        </button>
       </div>
     </div>
   </section>

@@ -1,0 +1,5 @@
+# Keep the admin out of search engines and block framing
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+DirectoryIndex index.php

@@ -62,7 +62,7 @@ export default function Header({ path = '/' }) {
   const isActive = (href) => (href === '/' ? path === '/' : path.startsWith(href));
 
   const linkCls = (on) =>
-    `hdr-nav relative flex items-center gap-1 px-3.5 py-2 font-head text-[14px] font-semibold uppercase tracking-[.12em] transition-colors ${
+    `hdr-nav relative flex items-center gap-1 whitespace-nowrap px-2.5 py-2 font-head text-[13px] font-semibold uppercase tracking-[.1em] transition-colors xl:px-3.5 xl:text-[14px] xl:tracking-[.12em] ${
       on ? 'is-on text-navy' : 'text-navy/70 hover:text-navy'
     }`;
 
@@ -117,7 +117,7 @@ export default function Header({ path = '/' }) {
           <div className="flex items-center gap-3">
             <a
               href="/contact?type=quote"
-              className="hdr-cta group relative hidden items-center gap-2.5 overflow-hidden rounded-[2px] bg-navy px-6 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-white shadow-lg shadow-navy/15 sm:inline-flex"
+              className="hdr-cta group relative hidden items-center gap-2.5 overflow-hidden rounded-[2px] bg-navy px-6 py-3 whitespace-nowrap text-[12px] font-bold uppercase tracking-[.16em] text-white shadow-lg shadow-navy/15 sm:inline-flex lg:hidden xl:inline-flex"
             >
               <span aria-hidden="true" className="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" />
               <span className="relative">Get a quote</span>
