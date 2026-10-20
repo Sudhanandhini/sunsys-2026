@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceList from '../../components/ServiceList.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.jsx';
+import { services, industries } from '../../data/site';
+const web = services.filter((s) => s.group === 'web');
+const hosting = services.filter((s) => s.group === 'hosting');
+const tech = ['React', 'Node.js', 'PHP', 'WordPress', 'WooCommerce', 'MySQL', 'MongoDB', 'HTML5', 'Tailwind CSS'];
+---
+<Base title="Services" description="Website development, e-commerce, WordPress, hosting and maintenance services from Sunsys Technologies, Bengaluru.">
+  <PageHero title="Empowering businesses with expert digital strategies" intro="Design, development, hosting and maintenance, all from one Bengaluru team." crumbs={[{ label: 'Services' }]} />
+
+  <section class="container-x py-20 md:py-24">
+    <h2 class="h-section">Web development</h2>
+    <div class="mt-10"><ServiceList items={web} /></div>
+  </section>
+
+  <section class="container-x pb-20 md:pb-24">
+    <h2 class="h-section">Hosting & maintenance</h2>
+    <div class="mt-10"><ServiceList items={hosting} /></div>
+  </section>
+
+  <section class="bg-paper py-20 md:py-24">
+    <div class="container-x">
+      <h2 class="h-section">Industry solutions</h2>
+      <p class="lead mt-3">Websites shaped around how customers in your sector search, compare and enquire.</p>
+      <div class="mt-10"><ServiceList items={industries} base="/industries" /></div>
+    </div>
+  </section>
+
+  <section class="container-x py-20 md:py-24">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+      <div>
+        <h2 class="h-section">Technologies we use</h2>
+        <p class="lead mt-3">We pick the stack that suits the project, not the other way round.</p>
+      </div>
+      <ul class="flex flex-wrap gap-3">
+        {tech.map((t) => <li class="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-head text-sm font-semibold text-ink"><Icon name="Check" size={16} strokeWidth={2.4} className="text-brand" />{t}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Ready to take your business to the next level?" />
+</Base>

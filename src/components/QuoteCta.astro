@@ -1,0 +1,95 @@
+---
+// Home page closing CTA: photo panel with contact details beside a short quote form.
+import QuoteForm from './QuoteForm.jsx';
+import Icon from './Icon.jsx';
+import { company } from '../data/site';
+---
+<section class="relative overflow-clip bg-ivory py-20 md:py-28" data-cta>
+  <div aria-hidden="true" class="pointer-events-none absolute -right-32 top-10 size-[28rem] rounded-full bg-gold/10 blur-3xl"></div>
+  <div class="container-x relative">
+    <div class="grid overflow-hidden rounded-3xl bg-white shadow-[0_40px_80px_-40px_rgba(6,42,82,.35)] ring-1 ring-gold/20 lg:grid-cols-[5fr_6fr]" data-cta-card>
+
+      <!-- photo panel -->
+      <div class="relative min-h-[26rem] overflow-hidden lg:min-h-full" data-cta-media>
+        <img src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" width="900" height="1100" loading="lazy" class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" data-cta-img />
+        <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20"></span>
+
+        <div class="relative flex h-full flex-col justify-end p-8 text-white md:p-10">
+          <span class="cta-badge inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[12px] font-semibold text-white ring-1 ring-white/20 backdrop-blur" data-cta-fade>
+            <span class="relative flex size-2"><span class="absolute inset-0 animate-ping rounded-full bg-[#28c840] opacity-70"></span><span class="relative size-2 rounded-full bg-[#28c840]"></span></span>
+            Reply within one working hour
+          </span>
+          <ul class="mt-8 space-y-4 text-[15px]">
+            <li class="flex items-start gap-3" data-cta-fade>
+              <span class="grid size-9 shrink-0 place-items-center rounded-full border border-gold-soft/40 text-gold-soft"><Icon name="Clock" size={16} strokeWidth={1.6} /></span>
+              <span><span class="block text-[11px] font-bold uppercase tracking-[.16em] text-white/55">Office hours</span>{company.hours}</span>
+            </li>
+            <li class="flex items-start gap-3" data-cta-fade>
+              <span class="grid size-9 shrink-0 place-items-center rounded-full border border-gold-soft/40 text-gold-soft"><Icon name="MapPin" size={16} strokeWidth={1.6} /></span>
+              <span><span class="block text-[11px] font-bold uppercase tracking-[.16em] text-white/55">Visit us</span><span class="text-white/85">{company.address}</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- form panel -->
+      <div class="relative p-8 md:p-12 lg:p-14">
+        <p class="eyebrow" data-cta-fade>Let’s begin</p>
+        <h2 class="h-classic mt-4" data-cta-title>Planning a new website for your <em class="text-gold">business</em>?</h2>
+        <p class="lead mt-4" data-cta-fade>Tell us what you need. You get a free quote and consultation within one working hour.</p>
+        <div class="mt-10" data-cta-form>
+          <QuoteForm client:visible endpoint={company.formEndpoint} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { SplitText } from 'gsap/SplitText';
+
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  const section = document.querySelector<HTMLElement>('[data-cta]');
+  if (section) {
+    const q = gsap.utils.selector(section);
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+      const st = { trigger: q('[data-cta-card]')[0], start: 'top 75%' };
+
+      // Card rises, photo panel wipes open while the image settles from a zoom
+      gsap.timeline({ scrollTrigger: st })
+        .from(q('[data-cta-card]'), { y: 80, autoAlpha: 0, duration: 1, ease: 'power3.out' })
+        .from(q('[data-cta-media]'), { clipPath: 'inset(0 100% 0 0)', duration: 1.3, ease: 'expo.inOut' }, '<0.2')
+        .from(q('[data-cta-img]'), { scale: 1.35, duration: 1.8, ease: 'expo.out' }, '<0.2')
+        .from(q('[data-cta-fade]'), { y: 20, autoAlpha: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' }, '<0.1');
+
+      SplitText.create(q('[data-cta-title]'), { type: 'lines', mask: 'lines', autoSplit: true,
+        onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 1.1, stagger: 0.12, ease: 'expo.out', delay: 0.5, scrollTrigger: st }),
+      });
+
+      // Form fields cascade in once React has rendered them (client:visible hydrates on scroll)
+      const formWrap = q('[data-cta-form]')[0] as HTMLElement;
+      let done = false;
+      const animateFields = () => {
+        const f = formWrap.querySelectorAll('[data-qf-field]');
+        if (done || !f.length) return;
+        done = true;
+        gsap.from(f, { y: 30, autoAlpha: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.6, clearProps: 'all' });
+      };
+      const mo = new MutationObserver(animateFields);
+      mo.observe(formWrap, { childList: true, subtree: true });
+      ScrollTrigger.create({ ...st, once: true, onEnter: animateFields });
+
+      // Slow parallax drift on the photo
+      gsap.to(q('[data-cta-img]'), {
+        yPercent: 6, ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 },
+      });
+
+      return () => mo.disconnect();
+    });
+  }
+</script>

@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.jsx';
+import { Image } from 'astro:assets';
+import teamPhoto from '../images/about.png';
+import { company, stats, footprints, openings } from '../data/site';
+
+const years = new Date().getFullYear() - company.founded;
+const team = stats.find((s) => s.label === 'Team members');
+const pad = (n: number) => String(n).padStart(2, '0');
+const apply = (role: string) => `/contact?role=${encodeURIComponent(role)}`;
+
+// Only claims already made elsewhere on the site
+const expect = [
+  { icon: 'Briefcase', title: 'Real client projects', text: 'Work that goes live for businesses, not internal demos.' },
+  { icon: 'Star', title: 'A small, experienced team', text: `${team ? `${team.value}${team.suffix} people` : 'A close team'} with ${years}+ years of practice behind them.` },
+  { icon: 'Globe', title: 'Clients worldwide', text: `Projects for clients across ${footprints.length} countries.` },
+  { icon: 'MapPin', title: 'Office in Bengaluru', text: 'Based in Vijayanagar, Bengaluru.' },
+];
+---
+<Base title="Career" description="Join the Sunsys Technologies team in Bengaluru. See current openings for developers and marketers.">
+  <PageHero
+    eyebrow="Careers"
+    title="Build your career with us"
+    accent="career"
+    intro="Work on real client projects with a small, experienced team in Vijayanagar, Bengaluru."
+    crumbs={[{ label: 'Career' }]}
+  />
+
+  <!-- Life at Sunsys -->
+  <section class="relative overflow-clip bg-ivory py-20 md:py-28">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 hidden w-[36%] bg-cream lg:block"></div>
+    <div class="container-x relative grid items-center gap-16 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
+      <div data-reveal="left">
+        <p class="eyebrow">Life at Sunsys</p>
+        <h2 class="h-classic mt-4">Grow with a team that <em class="text-gold">builds</em></h2>
+        <p class="lead mt-6">Since {company.founded} we have designed, built and hosted websites for businesses in India and abroad. Join us and you will work directly on client projects, alongside people who have done it for years.</p>
+
+        <ul class="mt-10 grid gap-px border border-gold/25 bg-gold/25 sm:grid-cols-2">
+          {expect.map((e, i) => (
+            <li class="group bg-ivory p-6 transition-colors duration-500 hover:bg-white" data-reveal style={`--d:${0.15 + i * 0.1}s`}>
+              <span class="grid size-11 place-items-center rounded-full border border-gold/50 text-navy transition-all duration-500 group-hover:-translate-y-0.5 group-hover:border-navy group-hover:bg-navy group-hover:text-gold-soft">
+                <Icon name={e.icon} size={19} strokeWidth={1.5} />
+              </span>
+              <p class="mt-4 font-serif text-[19px] text-ink">{e.title}</p>
+              <p class="mt-1.5 text-[14.5px] leading-relaxed">{e.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-[440px]" data-reveal="right">
+        <div aria-hidden="true" class="absolute inset-0 -translate-x-4 translate-y-4 rounded-t-full border border-gold"></div>
+        <div class="arch-reveal relative overflow-hidden rounded-t-full shadow-2xl shadow-navy/15">
+          <Image src={teamPhoto} alt="The Sunsys Technologies team at the Bengaluru office" widths={[440, 880]} sizes="(min-width: 480px) 440px, 100vw" format="webp" class="aspect-square w-full origin-[30%_0%] scale-110 object-cover" />
+        </div>
+        <div class="car-badge absolute -bottom-6 -left-6 bg-navy px-7 py-5 text-white shadow-xl">
+          <p class="font-serif text-4xl font-light leading-none">{String(openings.length).padStart(2, "0")}</p>
+          <p class="mt-2 text-[11px] uppercase tracking-[.2em] text-white/70">Open roles</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Openings -->
+  <section class="bg-white py-20 md:py-28" id="openings">
+    <div class="container-x">
+      <div class="grid gap-6 lg:grid-cols-[7fr_5fr] lg:items-end lg:gap-20" data-reveal>
+        <div>
+          <p class="eyebrow">Join the team</p>
+          <h2 class="h-classic mt-4">Current <em class="text-gold">openings</em></h2>
+        </div>
+        <p class="lead">All roles are full-time at our Vijayanagar office. Apply through the contact form and mention the role.</p>
+      </div>
+
+      <ul class="mt-14 border-t border-gold/30">
+        {openings.map((o, i) => (
+          <li class="relative" data-reveal style={`--d:${i * 0.12}s`}>
+            <span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px bg-gold/30"></span>
+            <a href={apply(o.title)} class="car-row group relative grid gap-6 py-8 md:grid-cols-[6.5rem_1fr_auto] md:items-center md:gap-8 md:py-10">
+              <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-ivory transition-transform duration-700 ease-[cubic-bezier(.65,0,.35,1)] group-hover:scale-x-100"></span>
+              <span aria-hidden="true" class="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-gold transition-transform duration-500 group-hover:scale-y-100"></span>
+
+              <span class="relative font-serif text-[44px] font-light italic leading-none text-gold/60 transition-colors duration-500 group-hover:text-gold md:pl-6">{pad(i + 1)}</span>
+
+              <span class="relative min-w-0">
+                <span class="block font-serif text-[26px] leading-tight tracking-[-0.015em] text-ink transition-colors duration-500 group-hover:text-navy md:text-[30px]">{o.title}</span>
+                <span class="mt-2 block max-w-[60ch] text-[15.5px] leading-relaxed">{o.text}</span>
+                <span class="mt-4 flex flex-wrap gap-2">
+                  {[['Briefcase', o.type], ['Clock', o.exp], ['MapPin', 'Bengaluru']].map(([icon, label]) => (
+                    <span class="inline-flex items-center gap-1.5 border border-gold/35 bg-white/70 px-3 py-1.5 text-[12.5px] text-body">
+                      <Icon name={icon} size={14} strokeWidth={1.7} className="text-gold" />{label}
+                    </span>
+                  ))}
+                </span>
+              </span>
+
+              <span class="relative inline-flex items-center gap-3 self-start text-[12px] font-bold uppercase tracking-[.16em] text-navy md:self-center md:pr-6">
+                Apply now
+                <span class="grid size-11 place-items-center rounded-full border border-navy/20 transition-all duration-500 group-hover:-rotate-45 group-hover:border-navy group-hover:bg-navy group-hover:text-gold-soft">
+                  <Icon name="ArrowRight" size={16} strokeWidth={1.8} />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- open application -->
+      <div class="relative mt-14 overflow-hidden border border-gold/30 bg-ivory px-8 py-10 md:flex md:items-center md:justify-between md:gap-10 md:px-12" data-reveal>
+        <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full border border-gold/20"></span>
+        <span aria-hidden="true" class="pointer-events-none absolute -right-6 -top-6 size-36 rounded-full border border-gold/20"></span>
+        <div class="relative">
+          <p class="font-serif text-[26px] leading-tight text-ink">Don’t see a matching <em class="text-gold">role</em>?</p>
+          <p class="mt-2 text-[15.5px]">Get in touch through our contact form and we will keep your details on file.</p>
+        </div>
+        <a href={apply('General application')} class="group relative mt-6 inline-flex shrink-0 items-center gap-3 overflow-hidden rounded-[2px] bg-navy px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-white shadow-lg shadow-navy/15 md:mt-0">
+          <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100"></span>
+          <span class="relative">Send your details</span>
+          <Icon name="ArrowRight" size={15} strokeWidth={2} className="relative transition-transform duration-300 group-hover:translate-x-1" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style is:global>
+  @keyframes car-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+  .car-badge { animation: car-float 6s ease-in-out infinite; }
+</style>

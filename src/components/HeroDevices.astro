@@ -1,0 +1,54 @@
+---
+// Pure-CSS illustration of what Sunsys delivers: one site, every screen, hosted.
+const pins = [
+  { label: 'Web design', cls: 'left-[6%] top-[4%]' },
+  { label: 'Mobile app', cls: 'right-[2%] top-[18%]' },
+  { label: 'Web app', cls: 'right-[0%] bottom-[16%]' },
+  { label: 'Web hosting', cls: 'left-[0%] bottom-[8%]' },
+];
+---
+<div class="relative mx-auto aspect-[5/4] w-full max-w-[560px]" aria-hidden="true">
+  <!-- desktop browser -->
+  <div class="absolute left-[10%] top-[12%] w-[74%] overflow-hidden rounded-xl border border-white/15 bg-white shadow-[0_30px_60px_rgba(0,0,0,.35)]">
+    <div class="flex items-center gap-1.5 bg-[#e9eef5] px-3 py-2">
+      <span class="size-2.5 rounded-full bg-[#ff5f57]"></span><span class="size-2.5 rounded-full bg-[#febc2e]"></span><span class="size-2.5 rounded-full bg-[#28c840]"></span>
+      <span class="ml-3 h-4 flex-1 rounded bg-white text-[9px] leading-4 text-body/70 pl-2">yourbusiness.com</span>
+    </div>
+    <div class="p-4">
+      <div class="flex items-center justify-between"><span class="h-2.5 w-14 rounded bg-navy"></span><span class="flex gap-2"><span class="h-1.5 w-6 rounded bg-line"></span><span class="h-1.5 w-6 rounded bg-line"></span><span class="h-1.5 w-6 rounded bg-line"></span></span></div>
+      <div class="mt-4 rounded-lg bg-brand-soft p-4">
+        <span class="block h-3 w-3/5 rounded bg-ink"></span>
+        <span class="mt-2 block h-3 w-2/5 rounded bg-ink"></span>
+        <span class="mt-3 block h-1.5 w-4/5 rounded bg-body/30"></span>
+        <span class="mt-3 inline-block h-4 w-16 rounded-full bg-brand"></span>
+      </div>
+      <div class="mt-3 grid grid-cols-3 gap-2">
+        <span class="h-12 rounded bg-paper ring-1 ring-line"></span><span class="h-12 rounded bg-paper ring-1 ring-line"></span><span class="h-12 rounded bg-paper ring-1 ring-line"></span>
+      </div>
+    </div>
+  </div>
+  <!-- phone -->
+  <div class="absolute right-[6%] top-[30%] w-[22%] rounded-[18px] border-[5px] border-ink bg-white p-2 shadow-2xl">
+    <span class="mx-auto block h-1 w-6 rounded bg-line"></span>
+    <span class="mt-2 block h-12 rounded bg-brand-soft"></span>
+    <span class="mt-2 block h-1.5 w-4/5 rounded bg-ink"></span>
+    <span class="mt-1.5 block h-1.5 w-3/5 rounded bg-body/30"></span>
+    <span class="mt-2 block h-3 w-1/2 rounded-full bg-brand"></span>
+    <span class="mt-2 block h-8 rounded bg-paper ring-1 ring-line"></span>
+  </div>
+  <!-- server -->
+  <div class="absolute bottom-[4%] left-[22%] w-[26%] space-y-1 rounded-lg bg-[#0b3a6e] p-2 shadow-2xl ring-1 ring-white/15">
+    {[0, 1, 2].map(() => (
+      <div class="flex items-center gap-1.5 rounded bg-white/10 px-2 py-1.5"><span class="size-1.5 rounded-full bg-[#28c840]"></span><span class="h-1 flex-1 rounded bg-white/30"></span></div>
+    ))}
+  </div>
+  {pins.map((p, i) => (
+    <span class={`hero-pin absolute ${p.cls} inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 font-head text-[12px] font-semibold text-ink shadow-lg`} style={`animation-delay:${300 + i * 140}ms`}>
+      <span class="size-2 rounded-full bg-brand"></span>{p.label}
+    </span>
+  ))}
+</div>
+<style>
+  .hero-pin { animation: pin .5s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes pin { from { opacity: 0; transform: translateY(8px) scale(.94); } to { opacity: 1; transform: none; } }
+</style>

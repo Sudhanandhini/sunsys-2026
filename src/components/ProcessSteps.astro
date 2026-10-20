@@ -1,0 +1,142 @@
+---
+// "How we work": a gold track fills as you scroll, and each step lights up when the fill reaches it.
+// Horizontal on desktop, vertical on smaller screens.
+import Icon from './Icon.jsx';
+import { processSteps } from '../data/site';
+
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+const icons = ['Search', 'PenTool', 'CodeXml', 'Rocket'];
+---
+<section class="relative overflow-clip bg-ivory py-20 md:py-28" data-proc>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow" data-proc-fade>Our method</p>
+      <h2 class="h-classic mt-4" data-proc-title>How we <em class="text-gold">work</em></h2>
+      <p class="lead mx-auto mt-4" data-proc-fade>A clear four-step process, so you always know what happens next.</p>
+    </div>
+
+    <ol class="proc relative mt-16 grid gap-6 pl-14 md:mt-20 lg:grid-cols-4 lg:gap-6 lg:pl-0 lg:pt-24" data-proc-list>
+      <!-- track: vertical on mobile (left), horizontal on desktop (top) -->
+      <span aria-hidden="true" class="proc-track absolute bg-gold/25"></span>
+      <span aria-hidden="true" class="proc-fill absolute bg-gold" data-proc-fill></span>
+
+      {processSteps.map((p, i) => (
+        <li class="proc-step group relative" data-proc-step style={`--i:${i}`}>
+          <!-- node on the track -->
+          <span class="proc-node absolute grid size-11 place-items-center rounded-full border border-gold bg-ivory font-serif text-[15px] text-navy transition-colors duration-500 lg:size-14 lg:text-lg" aria-hidden="true">
+            <span class="proc-ring absolute inset-0 rounded-full border border-gold"></span>
+            {roman[i]}
+          </span>
+
+          <!-- card -->
+          <div class="proc-card relative h-full overflow-hidden rounded-2xl border border-gold/25 bg-white p-7 transition-[transform,box-shadow,border-color] duration-500 lg:p-8">
+            <span aria-hidden="true" class="proc-bar absolute inset-x-0 top-0 h-1 origin-left bg-gold"></span>
+            <div class="relative flex items-center justify-between">
+              <span class="proc-icon grid size-14 place-items-center rounded-xl bg-ivory text-navy transition-colors duration-500" data-proc-icon>
+                <Icon name={icons[i] ?? 'Check'} size={26} strokeWidth={1.4} />
+              </span>
+              <span aria-hidden="true" class="proc-num select-none font-serif text-[56px] font-light italic leading-none text-gold/25 transition-colors duration-500">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <p class="relative mt-6 text-[11px] font-bold uppercase tracking-[.2em] text-gold">Step {String(i + 1).padStart(2, '0')}</p>
+            <h3 class="relative mt-2 font-serif text-[24px] font-normal leading-tight tracking-[-0.015em] text-ink">{p.title}</h3>
+            <p class="relative mt-3 text-[15px] leading-relaxed">{p.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-14 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center" data-proc-fade>
+      <p class="font-serif text-lg text-ink">Ready to start with step one?</p>
+      <a href="/contact?type=quote" class="inline-flex items-center gap-2 border-b border-gold pb-1 text-[13px] font-semibold uppercase tracking-[.15em] text-navy hover:text-gold">Book a free consultation <Icon name="ArrowRight" size={14} strokeWidth={2} /></a>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* Track geometry: mobile runs down the left edge through the nodes; desktop runs across the top */
+  .proc .proc-track, .proc .proc-fill { left: 1.35rem; top: 1.5rem; bottom: 1.5rem; width: 1px; }
+  .proc .proc-fill { transform-origin: top; transform: scaleY(var(--p, 1)); }
+  .proc .proc-node { left: -3.5rem; top: 1.75rem; }
+  @media (width >= 64rem) {
+    .proc .proc-track, .proc .proc-fill { left: 12.5%; right: 12.5%; top: 1.75rem; bottom: auto; width: auto; height: 1px; }
+    .proc .proc-fill { transform-origin: left; transform: scaleX(var(--p, 1)); }
+    .proc .proc-node { left: 50%; top: -6rem; translate: -50% 0; }
+  }
+
+  /* Step states. Steps start lit (no-JS / reduced motion); JS dims them until the fill arrives */
+  .proc .proc-bar { transform: scaleX(0); transition: transform .8s cubic-bezier(.65,0,.35,1); }
+  .proc .proc-ring { opacity: 0; }
+  .proc-step.is-on .proc-node { background: var(--color-navy); color: var(--color-gold-soft); border-color: var(--color-navy); }
+  .proc-step.is-on .proc-ring { animation: proc-ping 1.4s cubic-bezier(.2,.7,.2,1) 1; }
+  .proc-step.is-on .proc-bar { transform: scaleX(1); }
+  .proc-step.is-on .proc-icon { background: var(--color-navy); color: var(--color-gold-soft); }
+  .proc-step.is-on .proc-num { color: rgb(176 141 87 / .55); }
+  .proc-step.is-on .proc-card { border-color: rgb(176 141 87 / .5); box-shadow: 0 24px 50px -24px rgb(6 42 82 / .3); }
+  .proc-step .proc-card:hover { transform: translateY(-6px); }
+  .proc-armed .proc-step:not(.is-on) .proc-card { opacity: .55; }
+  .proc-armed .proc-step .proc-card { transition: transform .5s, box-shadow .5s, border-color .5s, opacity .6s; }
+  @keyframes proc-ping { from { transform: scale(1); opacity: .8; } to { transform: scale(1.9); opacity: 0; } }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { SplitText } from 'gsap/SplitText';
+  import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+
+  gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
+
+  const section = document.querySelector<HTMLElement>('[data-proc]');
+  if (section) {
+    const q = gsap.utils.selector(section);
+    const list = q('[data-proc-list]')[0] as HTMLElement;
+    const steps = q('[data-proc-step]') as HTMLElement[];
+
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+      const st = { trigger: section, start: 'top 70%' };
+
+      SplitText.create(q('[data-proc-title]'), { type: 'lines', mask: 'lines', autoSplit: true,
+        onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 1.1, ease: 'expo.out', scrollTrigger: st }),
+      });
+      gsap.from(q('[data-proc-fade]'), { y: 20, autoAlpha: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out', delay: 0.2, scrollTrigger: st });
+
+      // Cards rise in a cascade
+      gsap.from(steps, {
+        y: 60, autoAlpha: 0, duration: 1, stagger: 0.15, ease: 'power3.out', clearProps: 'all',
+        scrollTrigger: { trigger: list, start: 'top 85%' },
+      });
+
+      // Track fill is tied to scroll; each step switches on as the fill passes its node
+      list.classList.add('proc-armed');
+      const n = steps.length;
+      const isDesktop = () => matchMedia('(min-width: 64rem)').matches;
+      const update = (p: number) => {
+        list.style.setProperty('--p', p.toFixed(4));
+        steps.forEach((s, i) => {
+          // desktop nodes sit at 0, 1/3, 2/3, 1 of the track; mobile nodes are spread evenly down it
+          const at = isDesktop() ? i / (n - 1) : i / n;
+          const on = p >= at - 0.001 && p > 0;
+          if (on !== s.classList.contains('is-on')) {
+            s.classList.toggle('is-on', on);
+            if (on) gsap.fromTo(s.querySelectorAll('[data-proc-icon] svg > *'), { drawSVG: 0 }, { drawSVG: '100%', duration: 0.9, stagger: 0.08, ease: 'power2.inOut' });
+          }
+        });
+      };
+      update(0);
+      ScrollTrigger.create({
+        trigger: list, start: 'top 70%', end: 'bottom 55%', scrub: 0.6,
+        onUpdate: (self) => update(self.progress),
+      });
+
+      return () => {
+        list.classList.remove('proc-armed');
+        list.style.removeProperty('--p');
+        steps.forEach((s) => s.classList.add('is-on'));
+      };
+    });
+
+    // Reduced motion: everything is simply lit
+    gsap.matchMedia().add('(prefers-reduced-motion: reduce)', () => steps.forEach((s) => s.classList.add('is-on')));
+  }
+</script>

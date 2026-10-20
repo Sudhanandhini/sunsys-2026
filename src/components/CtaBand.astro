@@ -1,0 +1,104 @@
+---
+// Closing call to action used across inner pages: copy and buttons on navy beside an arch photo.
+// `accent` (optional) is a word or phrase inside `title` shown in gold italics.
+import { company, stats, footprints } from '../data/site';
+
+interface Props { title?: string; text?: string; accent?: string }
+const {
+  title = 'Planning a new website for your business?',
+  text = 'Tell us what you need. You get a free quote and consultation within one working hour.',
+  accent = 'business',
+} = Astro.props;
+const parts = accent && title.includes(accent) ? title.split(accent) : null;
+const years = new Date().getFullYear() - company.founded;
+const projects = stats.find((s) => s.label === 'Projects completed');
+const facts = [
+  `${years}+ years`,
+  projects ? `${projects.value.toLocaleString('en-IN')}${projects.suffix} projects` : null,
+  `${footprints.length} countries`,
+].filter(Boolean);
+---
+<section class="bg-ivory py-16 md:py-24">
+  <div class="container-x">
+    <div class="cta-band relative overflow-hidden bg-navy text-white" data-reveal>
+      <!-- background: drifting glows, dot grid, slow dashed ring -->
+      <div aria-hidden="true" class="cta-glow pointer-events-none absolute -left-24 -top-32 size-96 rounded-full bg-gold/20 blur-3xl"></div>
+      <div aria-hidden="true" class="cta-glow pointer-events-none absolute -bottom-40 right-1/3 size-96 rounded-full bg-brand/25 blur-3xl" style="animation-delay:-6s"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(rgb(217_195_155/.14)_1px,transparent_1.4px)_0_0/22px_22px] [mask-image:linear-gradient(90deg,#000,transparent_70%)]"></div>
+      <svg aria-hidden="true" class="cta-ring pointer-events-none absolute -left-20 -bottom-24 size-72 text-gold-soft/25" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width=".4" stroke-dasharray="2 3" /></svg>
+      <span aria-hidden="true" class="cta-frame pointer-events-none absolute inset-3 border border-gold-soft/25"></span>
+
+      <div class="relative grid items-center gap-12 px-8 py-14 md:px-14 md:py-16 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+        <!-- copy -->
+        <div>
+          <p class="eyebrow cta-in !text-gold-soft" style="--i:0">Let’s begin</p>
+          <h2 class="h-classic cta-in mt-4 max-w-xl !text-white" style="--i:1">
+            {parts ? <>{parts[0]}<em class="text-gold-soft">{accent}</em>{parts.slice(1).join(accent)}</> : title}
+          </h2>
+          <span aria-hidden="true" class="cta-rule mt-6 block h-px w-24 origin-left bg-gold-soft"></span>
+          <p class="lead cta-in mt-6 max-w-lg !text-white/75" style="--i:2">{text}</p>
+
+          <div class="cta-in mt-9 flex flex-wrap items-center gap-4" style="--i:3">
+            <a href="/contact?type=quote" class="group relative inline-flex items-center gap-3 overflow-hidden rounded-[2px] bg-gold px-8 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-navy shadow-lg shadow-black/20">
+              <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-white transition-transform duration-500 group-hover:scale-x-100"></span>
+              <span class="relative">Request a quote</span>
+              <svg class="relative transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+            <a href="/services" class="inline-flex items-center gap-2 rounded-[2px] border border-white/30 px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-white transition-colors hover:border-gold-soft hover:text-gold-soft">
+              Explore services
+            </a>
+          </div>
+
+          <ul class="cta-in mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/10 pt-6 text-[12px] font-semibold uppercase tracking-[.16em] text-white/60" style="--i:4">
+            {facts.map((f, i) => (
+              <li class="flex items-center gap-5">
+                {i > 0 && <span aria-hidden="true" class="size-1 rotate-45 bg-gold-soft"></span>}
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- arch photo -->
+        <div class="relative mx-auto hidden w-full max-w-[330px] lg:block">
+          <div aria-hidden="true" class="cta-outline absolute inset-0 translate-x-4 translate-y-4 rounded-t-full border border-gold-soft/60"></div>
+          <div class="arch-reveal relative overflow-hidden rounded-t-full">
+            <img src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" width="900" height="1100" loading="lazy" class="aspect-[4/5] w-full object-cover" />
+            <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent"></span>
+          </div>
+          <!-- floating badge -->
+          <span class="cta-badge absolute -left-10 bottom-10 inline-flex items-center gap-2.5 rounded-full bg-white px-4 py-2.5 text-[12px] font-semibold text-ink shadow-xl">
+            <span class="relative flex size-2"><span class="absolute inset-0 animate-ping rounded-full bg-[#28c840] opacity-70"></span><span class="relative size-2 rounded-full bg-[#28c840]"></span></span>
+            Reply within one working hour
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* Ambient motion */
+  @keyframes cta-drift { 0%, 100% { translate: 0 0; } 50% { translate: 40px 24px; } }
+  @keyframes cta-spin { to { rotate: 360deg; } }
+  @keyframes cta-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+  .cta-band .cta-glow { animation: cta-drift 12s ease-in-out infinite; }
+  .cta-band .cta-ring { animation: cta-spin 60s linear infinite; }
+  .cta-band .cta-badge { animation: cta-float 5s ease-in-out infinite; }
+
+  /* Entrance: copy cascades, rule draws, frame and outline settle, badge pops (arch opens via .arch-reveal) */
+  .reveal-on .cta-band .cta-in { transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: calc(.25s + var(--i, 0) * .1s); }
+  .reveal-on .cta-band:not(.is-in) .cta-in { opacity: 0; transform: translateY(24px); }
+  .reveal-on .cta-band .cta-rule { transition: transform 1.1s cubic-bezier(.65,0,.35,1) .55s; }
+  .reveal-on .cta-band:not(.is-in) .cta-rule { transform: scaleX(0); }
+  .reveal-on .cta-band .cta-frame { transition: opacity 1s ease .3s, inset .9s cubic-bezier(.2,.7,.2,1) .3s; }
+  .reveal-on .cta-band:not(.is-in) .cta-frame { opacity: 0; inset: 1.5rem; }
+  .reveal-on .cta-band .cta-outline { transition: translate 1s cubic-bezier(.2,.7,.2,1) .7s, opacity .8s ease .7s; }
+  .reveal-on .cta-band:not(.is-in) .cta-outline { translate: 0 0; opacity: 0; }
+  .reveal-on .cta-band:not(.is-in) .cta-badge { opacity: 0; scale: .6; }
+  .reveal-on .cta-band .cta-badge { transition: opacity .5s ease 1.2s, scale .6s cubic-bezier(.34,1.56,.64,1) 1.2s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-band .cta-in, .cta-band .cta-rule, .cta-band .cta-frame, .cta-band .cta-outline, .cta-band .cta-badge { opacity: 1 !important; transform: none !important; scale: 1 !important; }
+  }
+</style>

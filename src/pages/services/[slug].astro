@@ -1,0 +1,111 @@
+---
+import fs from 'node:fs';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.jsx';
+import { services } from '../../data/site';
+import { serviceDetails } from '../../data/details';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+const { service } = Astro.props;
+const detail = serviceDetails[service.slug];
+const photo = (slug: string) => (fs.existsSync(`public/images/services/${slug}.jpg`) ? `/images/services/${slug}.jpg` : undefined);
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+const groupLabel = service.group === 'web' ? 'Web development' : 'Hosting & care';
+const accent = service.title.split(' ').slice(-1)[0];
+const quote = `/contact?service=${encodeURIComponent(service.title)}`;
+---
+<Base title={service.title} description={service.summary}>
+  <PageHero
+    eyebrow={groupLabel}
+    title={service.title}
+    accent={accent}
+    intro={service.summary}
+    image={photo(service.slug)}
+    crumbs={[{ label: 'Services', href: '/services' }, { label: service.title }]}
+  />
+
+  <!-- Overview -->
+  <section class="relative overflow-clip bg-ivory py-20 md:py-28">
+    <div class="container-x grid gap-14 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
+      <div data-reveal="left">
+        <p class="eyebrow">Overview</p>
+        <h2 class="h-classic mt-4">What you <em class="text-gold">get</em></h2>
+        <p class="lead mt-6">{detail?.intro ?? service.body}</p>
+        {detail && <p class="mt-4 text-[16px] leading-relaxed">{service.body}</p>}
+
+        <ul class="mt-10 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          {service.points.map((p, i) => (
+            <li class="flex items-start gap-3 border-b border-gold/25 pb-4" data-reveal style={`--d:${0.1 + i * 0.08}s`}>
+              <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-navy text-gold-soft"><Icon name="Check" size={13} strokeWidth={2.6} /></span>
+              <span class="font-serif text-[18px] text-ink">{p}</span>
+            </li>
+          ))}
+        </ul>
+
+        {detail && (
+          <div class="mt-12" data-reveal>
+            <p class="text-[12px] font-bold uppercase tracking-[.2em] text-gold">Ideal for</p>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {detail.idealFor.map((w) => <li class="border border-gold/35 bg-white px-4 py-2 text-[14px] text-body">{w}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <!-- sticky quote card -->
+      <aside class="lg:sticky lg:top-28 lg:self-start" data-reveal="right">
+        <div class="relative overflow-hidden bg-navy p-8 text-white shadow-[0_40px_80px_-40px_rgba(6,42,82,.5)] md:p-10">
+          <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-gold/20 blur-3xl"></div>
+          <span aria-hidden="true" class="pointer-events-none absolute inset-3 border border-gold-soft/25"></span>
+          <span class="relative grid size-16 place-items-center rounded-full border border-gold-soft/50 text-gold-soft"><Icon name={service.icon} size={28} strokeWidth={1.4} /></span>
+          <p class="relative mt-6 font-serif text-[26px] leading-tight">Talk to us about <em class="text-gold-soft">{service.title.toLowerCase()}</em></p>
+          <p class="relative mt-3 text-white/75">Free consultation and a quote within one working hour.</p>
+          <a href={quote} class="group relative mt-8 flex items-center justify-center gap-3 overflow-hidden rounded-[2px] bg-gold px-6 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-navy">
+            <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-white transition-transform duration-500 group-hover:scale-x-100"></span>
+            <span class="relative">Request a quote</span>
+            <Icon name="ArrowRight" size={15} strokeWidth={2} className="relative transition-transform group-hover:translate-x-1" />
+          </a>
+          <ul class="relative mt-8 space-y-3 border-t border-white/10 pt-6 text-[14px] text-white/70">
+            <li class="flex items-center gap-3"><span class="size-1.5 rotate-45 bg-gold-soft"></span>Bengaluru-based team</li>
+            <li class="flex items-center gap-3"><span class="size-1.5 rotate-45 bg-gold-soft"></span>One team from plan to launch</li>
+            <li class="flex items-center gap-3"><span class="size-1.5 rotate-45 bg-gold-soft"></span>Support after go-live</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- What's included -->
+  {detail && (
+    <section class="bg-white py-20 md:py-28">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl text-center" data-reveal>
+          <p class="eyebrow">What’s included</p>
+          <h2 class="h-classic mt-4">Everything in the <em class="text-gold">package</em></h2>
+        </div>
+        <ul class="mt-14 grid border-t border-gold/30 sm:grid-cols-2 lg:grid-cols-4">
+          {detail.includes.map((it, i) => (
+            <li class="inc-item group relative border-b border-gold/30 px-7 py-10 transition-colors duration-500 hover:bg-ivory" data-reveal style={`--d:${i * 0.12}s`}>
+              <span aria-hidden="true" class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100"></span>
+              <span class="flex items-center gap-3 font-serif text-[15px] italic text-gold"><span class="h-px w-6 bg-gold/60 transition-all duration-500 group-hover:w-10"></span>{roman[i]}</span>
+              <h3 class="mt-5 font-serif text-[22px] font-normal leading-snug text-ink">{it.title}</h3>
+              <p class="mt-3 text-[15px] leading-relaxed">{it.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <ProcessSteps />
+
+  {detail && <Faq items={detail.faqs} />}
+
+  <CtaBand />
+</Base>

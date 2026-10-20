@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.jsx';
+import Icon from '../components/Icon.jsx';
+import { company } from '../data/site';
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(company.address)}&output=embed`;
+const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`;
+
+const cards = [
+  { icon: 'MapPin', title: 'Visit our office', text: company.address },
+  { icon: 'Clock', title: 'Office hours', text: company.hours },
+  { icon: 'Check', title: 'Quick response', text: 'A free quote and consultation within one working hour.' },
+];
+---
+<Base title="Contact Us" description="Contact Sunsys Technologies in Vijayanagar, Bengaluru for a free website quote and consultation.">
+  <PageHero
+    eyebrow="Contact us"
+    title="Let’s talk about your website"
+    accent="website"
+    intro="Free quote and consultation within one working hour."
+    crumbs={[{ label: 'Contact us' }]}
+  />
+
+  <!-- info cards -->
+  <section class="relative bg-ivory pt-16 md:pt-20">
+    <div class="container-x">
+    <ul class="grid gap-px border border-gold/25 bg-gold/25 md:grid-cols-3">
+      {cards.map((c, i) => (
+        <li class="group flex items-start gap-5 bg-ivory p-7 transition-colors duration-500 hover:bg-white md:p-8" data-reveal style={`--d:${i * 0.12}s`}>
+          <span class="grid size-14 shrink-0 place-items-center rounded-full border border-gold/50 text-navy transition-all duration-500 group-hover:-translate-y-1 group-hover:border-navy group-hover:bg-navy group-hover:text-gold-soft">
+            <Icon name={c.icon} size={22} strokeWidth={1.5} />
+          </span>
+          <span>
+            <span class="block font-serif text-[20px] text-ink">{c.title}</span>
+            <span aria-hidden="true" class="mt-2 flex items-center gap-1.5"><span class="h-px w-6 bg-gold transition-all duration-500 group-hover:w-10"></span><span class="size-1 rotate-45 bg-gold"></span></span>
+            <span class="mt-3 block text-[15px] leading-relaxed">{c.text}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+    </div>
+  </section>
+
+  <!-- form + photo -->
+  <section class="relative overflow-clip bg-ivory py-16 md:py-24">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-32 top-20 size-[28rem] rounded-full bg-gold/10 blur-3xl"></div>
+    <div class="container-x relative grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
+      <!-- left: heading + arch photo -->
+      <div data-reveal="left">
+        <p class="eyebrow">Get in touch</p>
+        <h2 class="h-classic mt-4">Tell us about your <em class="text-gold">project</em></h2>
+        <p class="lead mt-5">Share a few details about what you need. Our Bengaluru team will get back to you with ideas, a timeline and a free quote.</p>
+
+        <div class="relative mx-auto mt-12 hidden w-full max-w-[360px] lg:block">
+          <div aria-hidden="true" class="absolute inset-0 translate-x-4 translate-y-4 rounded-t-full border border-gold"></div>
+          <div class="arch-reveal relative overflow-hidden rounded-t-full shadow-2xl shadow-navy/15">
+            <img src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" width="900" height="1100" loading="lazy" class="aspect-[4/5] w-full object-cover" />
+            <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent"></span>
+            <span class="absolute inset-x-0 bottom-0 flex items-center gap-2 p-6 text-[13px] font-semibold text-white">
+              <span class="relative flex size-2"><span class="absolute inset-0 animate-ping rounded-full bg-[#28c840] opacity-70"></span><span class="relative size-2 rounded-full bg-[#28c840]"></span></span>
+              Our team is ready to help
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: form card -->
+      <div class="cf-card relative self-start bg-white p-8 shadow-[0_40px_80px_-40px_rgba(6,42,82,.35)] ring-1 ring-gold/20 md:p-12" data-reveal="right">
+        <span aria-hidden="true" class="absolute inset-x-0 top-0 h-1 origin-left bg-gold" data-reveal-line></span>
+        <h2 class="font-serif text-[30px] leading-tight text-ink">Send us a message</h2>
+        <span aria-hidden="true" class="mt-3 flex items-center gap-1.5"><span class="h-px w-8 bg-gold"></span><span class="size-1 rotate-45 bg-gold"></span></span>
+        <div class="mt-8">
+          <ContactForm client:load endpoint={company.formEndpoint} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- map -->
+  <section class="bg-white py-16 md:py-24">
+    <div class="container-x">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="eyebrow">Find us</p>
+        <h2 class="h-classic mt-4">Our office in <em class="text-gold">Vijayanagar</em></h2>
+      </div>
+      <div class="relative mt-12" data-reveal="fade">
+        <div aria-hidden="true" class="absolute inset-0 translate-x-3 translate-y-3 border border-gold/60"></div>
+        <div class="relative overflow-hidden bg-cream shadow-xl shadow-navy/10">
+          <iframe title="Sunsys Technologies office location" src={mapSrc} loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map-frame block h-[420px] w-full"></iframe>
+          <!-- address card over the map -->
+          <div class="pointer-events-none absolute inset-x-4 bottom-4 sm:inset-x-auto sm:bottom-6 sm:left-6 sm:w-80">
+            <div class="pointer-events-auto bg-navy p-6 text-white shadow-2xl">
+              <p class="text-[11px] font-bold uppercase tracking-[.2em] text-gold-soft">Sunsys Technologies</p>
+              <p class="mt-3 text-[15px] leading-relaxed text-white/85">{company.address}</p>
+              <a href={directions} target="_blank" rel="noopener" class="group mt-5 inline-flex items-center gap-2 border-b border-gold-soft/60 pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-gold-soft hover:border-gold-soft">
+                Get directions <Icon name="ArrowRight" size={13} strokeWidth={2.2} className="transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* Map: muted to suit the palette, full colour on hover */
+  .map-frame { filter: grayscale(.6) sepia(.15) contrast(1.05); transition: filter .6s ease; }
+  .map-frame:hover { filter: none; }
+
+  /* Form fields cascade in once the card is revealed */
+  .reveal-on .cf-card .cf-field { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal-on .cf-card.is-in .cf-field { opacity: 1; transform: none; transition-delay: calc(.4s + var(--i, 0) * .08s); }
+  @media (prefers-reduced-motion: reduce) { .reveal-on .cf-card .cf-field { opacity: 1 !important; transform: none !important; } }
+</style>

@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.jsx';
+interface Props { items: { slug: string; title: string; icon: string; summary: string }[]; base?: string }
+const { items, base = '/services' } = Astro.props;
+---
+<ul class="grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+  {items.map((s) => (
+    <li class="group relative border-b border-line p-7 sm:[&:nth-child(odd)]:border-r lg:border-r lg:[&:nth-child(4n)]:border-r-0">
+      <span class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-brand transition-transform duration-300 group-hover:scale-x-100"></span>
+      <Icon name={s.icon} size={34} className="text-brand" />
+      <h3 class="h-card mt-5">{s.title}</h3>
+      <p class="mt-2 text-[16px] leading-6">{s.summary}</p>
+      <a href={`${base}/${s.slug}`} class="link-more mt-5 after:absolute after:inset-0">
+        Learn more<span class="sr-only"> about {s.title}</span>
+        <Icon name="ArrowRight" size={16} strokeWidth={2} />
+      </a>
+    </li>
+  ))}
+</ul>

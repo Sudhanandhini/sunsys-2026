@@ -1,0 +1,157 @@
+---
+// Industries: tall photo cards in a staggered three-column grid.
+// Photos live at public/images/industries/<slug>.jpg (Unsplash, free licence); a tinted
+// gradient stands in for any sector without one.
+import fs from 'node:fs';
+import Icon from './Icon.jsx';
+import { industries } from '../data/site';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const photo = (slug: string) => (fs.existsSync(`public/images/industries/${slug}.jpg`) ? `/images/industries/${slug}.jpg` : null);
+const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photo(ind.slug) }));
+---
+<section class="relative overflow-clip bg-navy py-20 text-white md:py-28" data-ind>
+  <div aria-hidden="true" class="pointer-events-none absolute -left-48 top-1/3 size-[36rem] rounded-full bg-gold/10 blur-3xl" data-ind-glow></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -right-40 -top-40 size-[30rem] rounded-full bg-brand/20 blur-3xl"></div>
+
+  <div class="container-x relative">
+    <!-- header -->
+    <div class="grid gap-8 lg:grid-cols-[7fr_5fr] lg:items-end lg:gap-20">
+      <div>
+        <p class="eyebrow" data-ind-fade>Industries</p>
+        <h2 class="h-classic mt-4 !text-white" data-ind-title>Tailored solutions for <em class="text-gold-soft">your</em> industry</h2>
+      </div>
+      <div data-ind-fade>
+        <p class="lead !text-white/75">We have built websites for these sectors many times over, so we know the pages and features your customers look for.</p>
+        <div class="mt-6 flex flex-wrap items-center gap-x-8 gap-y-5">
+          <div class="flex items-center gap-4">
+            <p class="font-serif text-[48px] font-light leading-none text-gold-soft tabular-nums" data-ind-count={items.length}>{pad(items.length)}</p>
+            <p class="text-[12px] font-semibold uppercase leading-relaxed tracking-[.16em] text-white/60">Sectors we<br />specialise in</p>
+          </div>
+          <a href="/contact?type=quote" class="btn !rounded-[2px] bg-gold px-6 py-3 text-[12px] font-bold uppercase tracking-[.14em] text-navy transition-colors hover:bg-white">Discuss your project</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- cards -->
+    <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:pb-16">
+      {items.map((ind, i) => (
+        <li class={i % 3 === 1 ? 'lg:translate-y-16' : ''} data-ind-col={i % 3}>
+          <a href={`/industries/${ind.slug}`} class="ind-card group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0b3a6e] ring-1 ring-white/10" data-ind-card>
+            {ind.img
+              ? <img src={ind.img} alt="" loading="lazy" width="900" height="1100" class="ind-img absolute inset-0 size-full object-cover" data-ind-img />
+              : <span class="ind-img absolute inset-0 bg-[linear-gradient(150deg,#0b3a6e,#062a52)]" data-ind-img></span>}
+            <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-navy/5 transition-opacity duration-500"></span>
+            <span aria-hidden="true" class="ind-tint absolute inset-0 bg-navy/55 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
+
+            <!-- top row: icon + number -->
+            <span class="absolute inset-x-0 top-0 flex items-start justify-between p-6">
+              <span class="grid size-12 place-items-center rounded-full border border-white/25 bg-navy/40 text-gold-soft backdrop-blur-sm transition-colors duration-500 group-hover:border-gold-soft group-hover:bg-gold-soft group-hover:text-navy" data-ind-icon>
+                <Icon name={ind.icon} size={22} strokeWidth={1.5} />
+              </span>
+              <span class="font-serif text-[40px] font-light italic leading-none text-white/35 transition-colors duration-500 group-hover:text-gold-soft">{ind.n}</span>
+            </span>
+
+            <!-- bottom: title, summary reveals on hover -->
+            <span class="absolute inset-x-0 bottom-0 p-6">
+              <span aria-hidden="true" class="mb-4 block h-px w-10 origin-left bg-gold-soft transition-transform duration-500 group-hover:scale-x-[2.5]"></span>
+              <span class="block font-serif text-[26px] leading-tight tracking-[-0.015em] text-white">{ind.title}</span>
+              <span class="ind-more grid">
+                <span class="overflow-hidden">
+                  <span class="block pt-2 text-[15px] leading-relaxed text-white/75">{ind.summary}</span>
+                </span>
+              </span>
+              <span class="mt-4 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[.16em] text-gold-soft">
+                Explore<span class="sr-only"> {ind.title} websites</span>
+                <span class="grid size-7 place-items-center rounded-full border border-gold-soft/50 transition-all duration-500 group-hover:-rotate-45 group-hover:bg-gold-soft group-hover:text-navy">
+                  <Icon name="ArrowRight" size={13} strokeWidth={2} />
+                </span>
+              </span>
+            </span>
+
+            <!-- corner frame draws in on hover -->
+            <span aria-hidden="true" class="ind-frame pointer-events-none absolute inset-3 rounded-xl border border-gold-soft/60"></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style is:global>
+  /* Hover: photo zooms, summary opens, inner frame appears */
+  .ind-card .ind-img { transform: scale(1.04); transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .ind-card:hover .ind-img, .ind-card:focus-visible .ind-img { transform: scale(1.14); }
+  .ind-card .ind-more { grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .6s cubic-bezier(.2,.7,.2,1), opacity .4s ease; }
+  .ind-card:hover .ind-more, .ind-card:focus-visible .ind-more { grid-template-rows: 1fr; opacity: 1; }
+  .ind-card .ind-frame { opacity: 0; transform: scale(1.04); transition: opacity .5s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .ind-card:hover .ind-frame, .ind-card:focus-visible .ind-frame { opacity: 1; transform: none; }
+  .ind-card:focus-visible .ind-tint { opacity: 1; }
+
+  /* Touch screens have no hover: keep the summary open */
+  @media (hover: none) {
+    .ind-card .ind-more { grid-template-rows: 1fr; opacity: 1; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { SplitText } from 'gsap/SplitText';
+
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  const section = document.querySelector<HTMLElement>('[data-ind]');
+  if (section) {
+    const q = gsap.utils.selector(section);
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const st = { trigger: section, start: 'top 70%' };
+
+      SplitText.create(q('[data-ind-title]'), { type: 'lines', mask: 'lines', autoSplit: true,
+        onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 1.1, stagger: 0.12, ease: 'expo.out', scrollTrigger: st }),
+      });
+      gsap.from(q('[data-ind-fade]'), { y: 24, autoAlpha: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.25, scrollTrigger: st });
+
+      const counter = q('[data-ind-count]')[0] as HTMLElement | undefined;
+      if (counter) {
+        const n = { v: 0 };
+        gsap.to(n, {
+          v: Number(counter.dataset.indCount), duration: 1.6, ease: 'power2.out', delay: 0.5,
+          onUpdate: () => { counter.textContent = String(Math.round(n.v)).padStart(2, '0'); },
+          scrollTrigger: { trigger: counter, start: 'top 85%' },
+        });
+      }
+
+      // Cards: curtain wipe upward, photo settles from a zoom, icon pops; staggered across each row
+      ScrollTrigger.batch(q('[data-ind-card]'), {
+        start: 'top 88%',
+        once: true,
+        onEnter: (batch) => batch.forEach((card, i) => {
+          gsap.timeline({ delay: i * 0.14 })
+            .from(card, { clipPath: 'inset(100% 0% 0% 0% round 16px)', duration: 1.2, ease: 'expo.inOut' })
+            .from(card.querySelector('[data-ind-img]'), { scale: 1.4, duration: 1.6, ease: 'expo.out', clearProps: 'transform' }, '<0.25')
+            .from(card.querySelector('[data-ind-icon]'), { scale: 0, rotate: -90, duration: 0.7, ease: 'back.out(2)' }, '-=1')
+            .from(card.querySelectorAll(':scope > span:nth-last-child(2) > span:not(.ind-more)'), { y: 24, autoAlpha: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out', clearProps: 'all' }, '<0.1');
+        }),
+      });
+
+      // Background glow drifts with scroll
+      gsap.to(q('[data-ind-glow]'), {
+        yPercent: -40, xPercent: 20, ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 },
+      });
+    });
+
+    // Desktop: columns drift at different speeds for depth
+    mm.add('(min-width: 64rem) and (prefers-reduced-motion: no-preference)', () => {
+      [[0, 30], [1, -40], [2, 10]].forEach(([col, y]) => {
+        gsap.to(q(`[data-ind-col="${col}"]`), {
+          y, ease: 'none',
+          scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1.2 },
+        });
+      });
+    });
+  }
+</script>

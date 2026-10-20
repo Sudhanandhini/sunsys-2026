@@ -1,0 +1,221 @@
+---
+import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import aboutTeam from '../images/about.png';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Stats from '../components/Stats.jsx';
+import Icon from '../components/Icon.jsx';
+import ClientLogos from '../components/ClientLogos.astro';
+import { company, stats, footprints, services } from '../data/site';
+
+const years = new Date().getFullYear() - company.founded;
+const projects = stats.find((s) => s.label === 'Projects completed');
+
+// Milestones use only facts from site data
+const milestones = [
+  { year: String(company.founded), title: 'Founded in Bengaluru', text: `${company.founder} starts Sunsys as a web services company in May ${company.founded}.` },
+  { year: String(company.registered), title: 'Registered company', text: `Registered as ${company.legalName} in May ${company.registered}.` },
+  { year: 'Today', title: `${years}+ years of craft`, text: `${projects ? `${projects.value.toLocaleString('en-IN')}${projects.suffix} projects` : 'Hundreds of projects'} for clients across ${footprints.length} countries.` },
+];
+
+// Text for the first four comes from the matching service summaries in site data
+const summary = (slug: string) => services.find((s) => s.slug === slug)?.summary ?? '';
+const offer = [
+  { icon: 'MonitorSmartphone', label: 'Web design', img: '/images/services/website-redesign.jpg', text: summary('responsive-web-design'), href: '/services/responsive-web-design' },
+  { icon: 'CodeXml', label: 'Web development', img: '/images/services/custom-web-development.jpg', text: summary('custom-web-development'), href: '/services/custom-web-development' },
+  { icon: 'Server', label: 'Windows & Linux hosting', img: '/images/services/website-maintenance.jpg', text: summary('web-hosting'), href: '/services/web-hosting' },
+  { icon: 'Wrench', label: 'Website maintenance', img: '/images/services/cms-web-development.jpg', text: summary('website-maintenance'), href: '/services/website-maintenance' },
+  { icon: 'Globe', label: 'Domain registration', img: '/images/services/domain-registration.jpg', text: 'Register the right name for your business and keep it renewed alongside your hosting.', href: '/contact' },
+];
+
+const btnDark = 'group relative inline-flex items-center gap-3 overflow-hidden rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold uppercase tracking-[.14em] text-white shadow-lg shadow-navy/15';
+---
+<Base title="About Us" description="Learn about Sunsys Technologies, a Bengaluru web design and development company founded in 2006.">
+  <PageHero
+    eyebrow={`Since ${company.founded}`}
+    title="Your trusted partner in digital growth"
+    accent="growth"
+    intro="Websites, hosting and digital services for businesses in India and around the world."
+    crumbs={[{ label: 'About us' }]}
+  />
+
+  <!-- Story -->
+  <section class="relative overflow-clip bg-ivory py-20 md:py-28">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 hidden w-[38%] bg-cream lg:block"></div>
+    <div class="container-x relative grid items-center gap-16 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <div class="relative mx-auto w-full max-w-[440px]" data-reveal="left">
+        <div aria-hidden="true" class="absolute inset-0 translate-x-4 translate-y-4 rounded-t-full border border-gold"></div>
+        <div class="arch-reveal relative overflow-hidden rounded-t-full shadow-2xl shadow-navy/15">
+          <Image src={aboutTeam} alt="The Sunsys Technologies team at the Bengaluru office" widths={[440, 880]} sizes="(min-width: 480px) 440px, 100vw" format="webp" class="aspect-square w-full origin-[30%_0%] scale-110 object-cover" />
+        </div>
+        <!-- rotating seal -->
+        <div class="absolute -bottom-8 -right-6 grid size-32 place-items-center rounded-full bg-navy text-white shadow-xl md:size-36">
+          <svg viewBox="0 0 100 100" class="absolute inset-0 size-full anim-spin" aria-hidden="true">
+            <defs><path id="about-seal" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0" /></defs>
+            <text font-size="8.4" letter-spacing="2.6" fill="#d9c39b" font-family="Manrope Variable, Manrope, sans-serif" font-weight="700">
+              <textPath href="#about-seal">QUALITY · FAIR PRICE · SINCE {company.founded} ·</textPath>
+            </text>
+          </svg>
+          <span class="text-center leading-none"><span class="block font-serif text-3xl">{years}+</span><span class="mt-1 block text-[10px] uppercase tracking-[.2em] text-white/70">years</span></span>
+        </div>
+      </div>
+
+      <div data-reveal="right">
+        <p class="eyebrow">Our story</p>
+        <h2 class="h-classic mt-4">Quality and experience in <em class="text-gold">web design</em></h2>
+        <blockquote class="mt-7 border-l-2 border-gold pl-6 font-serif text-[22px] font-light italic leading-relaxed text-ink/85">
+          Quality work at a fair price, since {company.founded}.
+        </blockquote>
+        <p class="lead mt-6">{company.name} was founded in Bengaluru by {company.founder} in May {company.founded}. We began as a web services company and registered as {company.legalName} in May {company.registered}.</p>
+        <p class="lead mt-4">Over {years} years we have built a reputation for quality work at a fair price, for clients in {footprints.slice(0, 6).join(', ')} and more.</p>
+        <div class="mt-9 flex flex-wrap items-center gap-6">
+          <a href="/contact" class={btnDark}>
+            <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100"></span>
+            <span class="relative">Contact us</span>
+            <Icon name="ArrowRight" size={15} strokeWidth={2} className="relative transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section class="bg-white py-20 md:py-24">
+    <div class="container-x">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="eyebrow">Our journey</p>
+        <h2 class="h-classic mt-4">Milestones along the <em class="text-gold">way</em></h2>
+      </div>
+      <ol class="relative mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
+        <span aria-hidden="true" class="absolute left-[16.66%] right-[16.66%] top-[3.25rem] hidden h-px bg-gold/50 md:block" data-reveal-line></span>
+        {milestones.map((m, i) => (
+          <li class="relative text-center" data-reveal style={`--d:${0.2 + i * 0.2}s`}>
+            <span class="font-serif text-[32px] font-light italic leading-none text-gold">{m.year}</span>
+            <span class="relative mx-auto mt-4 grid size-5 place-items-center rounded-full border border-gold bg-white">
+              <span class="size-2 rotate-45 bg-gold"></span>
+            </span>
+            <h3 class="mt-6 font-serif text-[22px] font-normal text-ink">{m.title}</h3>
+            <p class="mx-auto mt-2 max-w-[30ch] text-[15px]">{m.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Vision & mission -->
+  <section class="relative overflow-hidden bg-navy py-20 text-white md:py-28">
+    <div aria-hidden="true" class="pointer-events-none absolute -left-40 top-1/3 size-[32rem] rounded-full bg-gold/10 blur-3xl"></div>
+    <div class="container-x relative">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="eyebrow !text-gold-soft">What drives us</p>
+        <h2 class="h-classic mt-4 !text-white">Vision &amp; <em class="text-gold-soft">mission</em></h2>
+      </div>
+      <div class="mt-16 grid gap-8 md:grid-cols-2">
+        {[
+          { n: 'I', title: 'Our vision', text: 'To go beyond customer satisfaction: to exceed expectations, earn trust on a global scale and build relationships with clients that last for years.', img: '/images/vision.jpg', alt: 'Team reviewing a website on a laptop' },
+          { n: 'II', title: 'Our mission', text: 'To understand each client’s needs in depth, deliver solutions that work, and share in the success they bring.', img: '/images/mission.jpg', alt: 'Team discussing a project report' },
+        ].map((c, i) => (
+          <article class="vm-card group relative overflow-hidden border border-white/10 bg-white/[.03] transition-colors duration-500 hover:border-gold-soft/40" data-reveal style={`--d:${i * 0.15}s`}>
+            <div class="relative aspect-[2/1] overflow-hidden">
+              <img src={c.img} alt={c.alt} width="685" height="343" loading="lazy" class="size-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-110" />
+              <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent"></span>
+              <span class="absolute bottom-4 left-8 font-serif text-[56px] font-light italic leading-none text-gold-soft/90">{c.n}</span>
+            </div>
+            <div class="p-8 md:p-10">
+              <h3 class="font-serif text-[28px] font-normal text-white">{c.title}</h3>
+              <span aria-hidden="true" class="mt-3 flex items-center gap-1.5"><span class="h-px w-8 bg-gold-soft transition-all duration-500 group-hover:w-14"></span><span class="size-1 rotate-45 bg-gold-soft"></span></span>
+              <p class="mt-5 text-[17px] leading-relaxed text-white/75">{c.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What we offer: expanding photo panels -->
+  <section class="bg-ivory py-20 md:py-28">
+    <div class="container-x">
+      <div class="grid gap-6 lg:grid-cols-[7fr_5fr] lg:items-end lg:gap-20" data-reveal>
+        <div>
+          <p class="eyebrow">What we offer</p>
+          <h2 class="h-classic mt-4">One team for your whole <em class="text-gold">website</em></h2>
+        </div>
+        <p class="lead">From the first design to the domain name and the server it runs on, everything is handled by our Bengaluru team.</p>
+      </div>
+
+      <ul class="offer mt-14 flex flex-col gap-3 lg:h-[30rem] lg:flex-row" data-offer>
+        {offer.map((o, i) => (
+          <li class={`offer-panel group relative min-h-[15rem] overflow-hidden bg-navy lg:min-h-0 ${i === 0 ? 'is-open' : ''}`} data-reveal style={`--d:${i * 0.1}s`}>
+            <a href={o.href} class="absolute inset-0 block" aria-label={o.label}>
+              <img src={o.img} alt="" width="600" height="800" loading="lazy" class="offer-img absolute inset-0 size-full object-cover" />
+              <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/20"></span>
+              <span aria-hidden="true" class="pointer-events-none absolute inset-3 border border-gold-soft/30"></span>
+
+              <!-- collapsed label (desktop): vertical title -->
+              <span class="offer-vert absolute inset-x-0 bottom-8 hidden flex-col items-center gap-4 lg:flex">
+                <span class="grid size-11 place-items-center rounded-full border border-gold-soft/50 text-gold-soft"><Icon name={o.icon} size={20} strokeWidth={1.5} /></span>
+                <span class="font-serif text-[20px] text-white [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">{o.label}</span>
+              </span>
+
+              <!-- open content -->
+              <span class="offer-body absolute inset-x-0 bottom-0 block p-7 md:p-9">
+                <span class="flex items-center gap-4">
+                  <span class="grid size-12 shrink-0 place-items-center rounded-full bg-gold-soft text-navy"><Icon name={o.icon} size={22} strokeWidth={1.5} /></span>
+                  <span class="font-serif text-[40px] font-light italic leading-none text-gold-soft/80">0{i + 1}</span>
+                </span>
+                <span class="mt-5 block font-serif text-[28px] leading-tight text-white">{o.label}</span>
+                <span class="mt-3 block max-w-sm text-[15px] leading-relaxed text-white/75">{o.text}</span>
+                <span class="mt-5 inline-flex items-center gap-2 border-b border-gold-soft/60 pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-gold-soft">
+                  Learn more <Icon name="ArrowRight" size={13} strokeWidth={2.2} />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <section class="relative overflow-hidden bg-navy py-6">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 size-96 rounded-full bg-gold/15 blur-3xl"></div>
+    <div class="container-x relative" data-reveal><Stats client:visible items={stats} classic dark /></div>
+  </section>
+
+  <!-- Clients -->
+  <section class="border-b border-gold/25 bg-white py-20 md:py-24">
+    <div class="container-x text-center" data-reveal>
+      <p class="eyebrow">Trusted by</p>
+      <h2 class="h-classic mt-4">Clients we have <em class="text-gold">served</em></h2>
+    </div>
+    <div class="mt-12" data-reveal="fade"><ClientLogos /></div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  // Desktop: hovering or focusing a panel opens it; the last opened one stays open
+  const list = document.querySelector('[data-offer]');
+  list?.querySelectorAll<HTMLElement>('.offer-panel').forEach((panel) => {
+    const openThis = () => list.querySelectorAll('.offer-panel').forEach((p) => p.classList.toggle('is-open', p === panel));
+    panel.addEventListener('mouseenter', openThis);
+    panel.addEventListener('focusin', openThis);
+  });
+</script>
+
+<style is:global>
+  /* Panels share the row; the open one takes most of the width */
+  @media (width >= 64rem) {
+    .offer-panel { flex: 1 1 0; transition: flex-grow .8s cubic-bezier(.65,0,.35,1); }
+    .offer-panel.is-open { flex-grow: 4.2; }
+    .offer-panel .offer-vert { transition: opacity .4s ease; }
+    .offer-panel.is-open .offer-vert { opacity: 0; }
+    .offer-panel .offer-body { opacity: 0; transform: translateY(24px); transition: opacity .35s ease, transform .5s ease; pointer-events: none; }
+    .offer-panel.is-open .offer-body { opacity: 1; transform: none; transition: opacity .6s ease .35s, transform .8s cubic-bezier(.2,.7,.2,1) .35s; pointer-events: auto; }
+    .offer-panel .offer-body { min-width: 24rem; }
+  }
+  .offer-panel .offer-img { transform: scale(1.15); filter: saturate(.6); transition: transform 1.6s cubic-bezier(.2,.7,.2,1), filter .8s ease; }
+  .offer-panel.is-open .offer-img, .offer-panel:hover .offer-img { transform: scale(1); filter: none; }
+</style>

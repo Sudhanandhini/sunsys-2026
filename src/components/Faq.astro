@@ -1,0 +1,35 @@
+---
+// Classic FAQ accordion (native <details>, so it works without JS). The first item starts open.
+interface Props { items: { q: string; a: string }[]; title?: string; accent?: string }
+const { items, title = 'Questions we often hear', accent = 'often' } = Astro.props;
+const parts = title.includes(accent) ? title.split(accent) : null;
+---
+<section class="bg-white py-20 md:py-28">
+  <div class="container-x grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20">
+    <div data-reveal="left">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="h-classic mt-4">{parts ? <>{parts[0]}<em class="text-gold">{accent}</em>{parts.slice(1).join(accent)}</> : title}</h2>
+      <p class="lead mt-5">Can’t find your answer? <a href="/contact" class="border-b border-gold text-navy hover:text-gold">Ask us directly</a>.</p>
+    </div>
+    <div class="border-t border-gold/30">
+      {items.map((f, i) => (
+        <details class="faq group border-b border-gold/30" open={i === 0} data-reveal style={`--d:${i * 0.1}s`}>
+          <summary class="flex cursor-pointer list-none items-center gap-5 py-6 [&::-webkit-details-marker]:hidden">
+            <span class="font-serif text-[15px] italic text-gold">{String(i + 1).padStart(2, '0')}</span>
+            <span class="flex-1 font-serif text-[21px] leading-snug text-ink transition-colors group-hover:text-gold">{f.q}</span>
+            <span aria-hidden="true" class="relative grid size-10 shrink-0 place-items-center rounded-full border border-gold/40 text-navy transition-all duration-500 group-open:rotate-180 group-open:border-navy group-open:bg-navy group-open:text-gold-soft">
+              <span class="absolute h-px w-3.5 bg-current"></span>
+              <span class="absolute h-3.5 w-px bg-current transition-transform duration-500 group-open:scale-y-0"></span>
+            </span>
+          </summary>
+          <div class="faq-body pb-7 pl-10 pr-14 text-[16px] leading-relaxed">{f.a}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @keyframes faq-in { from { opacity: 0; transform: translateY(-8px); } }
+  .faq[open] .faq-body { animation: faq-in .5s cubic-bezier(.2,.7,.2,1); }
+</style>

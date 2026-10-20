@@ -1,0 +1,44 @@
+---
+// Scrolling strip of client logos (src/images/logo). Logos sit on white tiles so the
+// JPGs' white backgrounds blend in on both light and navy sections.
+import { Image } from 'astro:assets';
+import apollo from '../images/logo/Frame-1000006027.jpg';
+import dynafusion from '../images/logo/Frame-1000006028.jpg';
+import ica from '../images/logo/Frame-1000006029.jpg';
+import spectrum from '../images/logo/Frame-1000006030.jpg';
+import alcon from '../images/logo/Frame-1000006031.jpg';
+import bel from '../images/logo/Frame-1000006032.jpg';
+import iisc from '../images/logo/Frame-1000006034.jpg';
+import supreme from '../images/logo/Frame-1000006035.jpg';
+import childfund from '../images/logo/Frame-1000006036.jpg';
+import kle from '../images/logo/Frame-1000006037-1.jpg';
+
+interface Props { dark?: boolean }
+const { dark = false } = Astro.props;
+
+const logos = [
+  { src: supreme, name: 'Supreme' },
+  { src: alcon, name: 'Alcon' },
+  { src: bel, name: 'Bharat Electronics' },
+  { src: childfund, name: 'ChildFund India' },
+  { src: kle, name: 'KLE Society' },
+  { src: iisc, name: 'Indian Institute of Science' },
+  { src: spectrum, name: 'Spectrum' },
+  { src: ica, name: 'Indian Cricketers’ Association' },
+  { src: dynafusion, name: 'DynaFusion' },
+  { src: apollo, name: 'Apollo' },
+];
+---
+<div class="marquee-wrap relative overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+  <ul class="marquee flex w-max items-center gap-5 pr-5">
+    {[...logos, ...logos].map((l, i) => (
+      <li aria-hidden={i >= logos.length ? 'true' : undefined}>
+        <span class={`logo-tile block overflow-hidden bg-white transition-all duration-500 hover:-translate-y-1 ${
+          dark ? 'rounded-xl ring-1 ring-white/10 hover:ring-gold-soft/60' : 'rounded-xl ring-1 ring-gold/20 hover:shadow-[0_18px_40px_-20px_rgba(6,42,82,.35)] hover:ring-gold/50'
+        }`}>
+          <Image src={l.src} alt={i >= logos.length ? '' : l.name} loading="lazy" class="block" />
+        </span>
+      </li>
+    ))}
+  </ul>
+</div>
