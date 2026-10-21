@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { nameInput, phoneInput, emailInput, experienceInput, nameError, phoneError, emailError, experienceError } from '../lib/validate';
 
 const pad = (n) => String(n).padStart(2, '0');
 const Arrow = ({ className = '' }) => (
@@ -88,9 +89,8 @@ function ApplyDialog({ job, jobs, url, onClose }) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const err = {};
-    if (!String(fd.get('name')).trim()) err.name = 'Enter your name.';
-    if (!/^\S+@\S+\.\S+$/.test(String(fd.get('email')))) err.email = 'Enter a valid email address.';
-    if (!/^[+\d\s-]{7,20}$/.test(String(fd.get('phone')).trim())) err.phone = 'Enter a valid phone number.';
+    const checks = { name: nameError(String(fd.get('name'))), email: emailError(String(fd.get('email'))), phone: phoneError(String(fd.get('phone'))), experience: experienceError(String(fd.get('experience') ?? '')) };
+    Object.entries(checks).forEach(([k, m]) => { if (m) err[k] = m; });
     const cv = fd.get('cv');
     if (cv && cv.size > 5 * 1024 * 1024) err.cv = 'CV must be 5 MB or smaller.';
     setErrors(err);
@@ -111,6 +111,8 @@ function ApplyDialog({ job, jobs, url, onClose }) {
   const label = 'qf-label pointer-events-none absolute left-0 top-6 origin-left text-[16px] text-body/70 transition-all duration-300';
   const line = <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gold transition-transform duration-500 peer-focus:scale-x-100" />;
   const err = (k) => errors[k] && <p className="mt-1.5 text-[13px] text-[#c62828]">{errors[k]}</p>;
+  // Uncontrolled inputs: filter out characters a field can't contain as the visitor types
+  const filter = (fn) => (e) => { const el = e.currentTarget; const v = fn(el.value); if (v !== el.value) el.value = v; };
 
   return (
     <dialog ref={ref} onClose={onClose} onClick={(e) => e.target === ref.current && close()} className="apply-dialog m-auto w-[min(640px,calc(100%-24px))] max-h-[calc(100dvh-24px)] overflow-y-auto bg-transparent p-0 backdrop:bg-navy/70 backdrop:backdrop-blur-sm" aria-labelledby="apply-title">
@@ -146,10 +148,10 @@ function ApplyDialog({ job, jobs, url, onClose }) {
                   {line}
                 </div>
               )}
-              <div className="relative"><input id="ap-name" name="name" className={field('name')} placeholder=" " autoComplete="name" /><label htmlFor="ap-name" className={label}>Full name</label>{line}{err('name')}</div>
-              <div className="relative"><input id="ap-email" name="email" type="email" className={field('email')} placeholder=" " autoComplete="email" /><label htmlFor="ap-email" className={label}>Email address</label>{line}{err('email')}</div>
-              <div className="relative"><input id="ap-phone" name="phone" type="tel" className={field('phone')} placeholder=" " autoComplete="tel" /><label htmlFor="ap-phone" className={label}>Phone number</label>{line}{err('phone')}</div>
-              <div className="relative"><input id="ap-exp" name="experience" className={field('experience')} placeholder=" " /><label htmlFor="ap-exp" className={label}>Years of experience</label>{line}</div>
+              <div className="relative"><input id="ap-name" name="name" className={field('name')} placeholder=" " autoComplete="name" maxLength={60} onInput={filter(nameInput)} /><label htmlFor="ap-name" className={label}>Full name</label>{line}{err('name')}</div>
+              <div className="relative"><input id="ap-email" name="email" type="email" className={field('email')} placeholder=" " autoComplete="email" inputMode="email" onInput={filter(emailInput)} /><label htmlFor="ap-email" className={label}>Email address</label>{line}{err('email')}</div>
+              <div className="relative"><input id="ap-phone" name="phone" type="tel" className={field('phone')} placeholder=" " autoComplete="tel-national" inputMode="numeric" maxLength={10} onInput={filter(phoneInput)} /><label htmlFor="ap-phone" className={label}>Phone number</label>{line}{err('phone')}</div>
+              <div className="relative"><input id="ap-exp" name="experience" className={field('experience')} placeholder=" " inputMode="decimal" maxLength={4} onInput={filter(experienceInput)} /><label htmlFor="ap-exp" className={label}>Years of experience <span className="text-body/50">(optional)</span></label>{line}{err('experience')}</div>
               <div className="relative sm:col-span-2"><textarea id="ap-msg" name="message" rows={3} className={`${field('message')} resize-none`} placeholder=" " /><label htmlFor="ap-msg" className={label}>About you <span className="text-body/50">(optional)</span></label>{line}</div>
 
               <label className={`group relative flex cursor-pointer items-center gap-4 border border-dashed px-5 py-4 transition-colors sm:col-span-2 ${errors.cv ? 'border-[#c62828]' : 'border-gold/50 hover:border-gold hover:bg-ivory'}`}>

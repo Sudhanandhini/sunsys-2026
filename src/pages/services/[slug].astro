@@ -1,11 +1,11 @@
 ---
-import fs from 'node:fs';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ProcessSteps from '../../components/ProcessSteps.astro';
 import Faq from '../../components/Faq.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.jsx';
+import { photoPath } from '../../lib/photos';
 import { services } from '../../data/site';
 import { serviceDetails } from '../../data/details';
 
@@ -14,7 +14,7 @@ export function getStaticPaths() {
 }
 const { service } = Astro.props;
 const detail = serviceDetails[service.slug];
-const photo = (slug: string) => (fs.existsSync(`public/images/services/${slug}.jpg`) ? `/images/services/${slug}.jpg` : undefined);
+const photo = (slug: string) => photoPath(`/images/services/${slug}.jpg`);
 const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 const groupLabel = service.group === 'web' ? 'Web development' : 'Hosting & care';
 const accent = service.title.split(' ').slice(-1)[0];

@@ -2,11 +2,17 @@
 import '../styles/global.css';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
+import { getImage } from 'astro:assets';
 import { company } from '../data/site';
+import { photo } from '../lib/photos';
+import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
 interface Props { title: string; description?: string }
 const { title, description = 'Sunsys Technologies is a Bengaluru website design and development company offering custom websites, e-commerce, hosting and maintenance since 2006.' } = Astro.props;
 const fullTitle = title === 'Home' ? 'Sunsys Technologies | Website Design & Development Company in Bangalore' : `${title} | Sunsys Technologies`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Mega-menu promo photo (React can't use astro:assets, so it gets a pre-built URL)
+const promo = await getImage({ src: photo('/images/cta-team.jpg')!, width: 480, format: 'webp', quality: 70 });
 ---
 <!doctype html>
 <html lang="en-IN">
@@ -17,6 +23,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#062a52" />
     <!-- Scroll reveal: content is only hidden once JS is known to be running -->
     <script is:inline>document.documentElement.classList.add('reveal-on');</script>
@@ -40,7 +48,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <p class="hidden lg:block">{company.hours}</p>
       </div>
     </div>
-    <Header client:load path={Astro.url.pathname} />
+    <Header client:idle path={Astro.url.pathname} promoImg={promo.src} />
     <main id="main"><slot /></main>
     <Footer />
     <script is:inline>

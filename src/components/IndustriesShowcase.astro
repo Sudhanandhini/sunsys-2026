@@ -1,14 +1,14 @@
 ---
 // Industries: tall photo cards in a staggered three-column grid.
-// Photos live at public/images/industries/<slug>.jpg (Unsplash, free licence); a tinted
+// Photos live at src/assets/photos/industries/<slug>.jpg (Unsplash, free licence); a tinted
 // gradient stands in for any sector without one.
-import fs from 'node:fs';
 import Icon from './Icon.jsx';
+import Photo from './Photo.astro';
+import { photoPath } from '../lib/photos';
 import { industries } from '../data/site';
 
 const pad = (n: number) => String(n).padStart(2, '0');
-const photo = (slug: string) => (fs.existsSync(`public/images/industries/${slug}.jpg`) ? `/images/industries/${slug}.jpg` : null);
-const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photo(ind.slug) }));
+const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photoPath(`/images/industries/${ind.slug}.jpg`) }));
 ---
 <section class="relative overflow-clip bg-navy py-20 text-white md:py-28" data-ind>
   <div aria-hidden="true" class="pointer-events-none absolute -left-48 top-1/3 size-[36rem] rounded-full bg-gold/10 blur-3xl" data-ind-glow></div>
@@ -39,7 +39,7 @@ const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photo(in
         <li class={i % 3 === 1 ? 'lg:translate-y-16' : ''} data-ind-col={i % 3}>
           <a href={`/industries/${ind.slug}`} class="ind-card group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0b3a6e] ring-1 ring-white/10" data-ind-card>
             {ind.img
-              ? <img src={ind.img} alt="" loading="lazy" width="900" height="1100" class="ind-img absolute inset-0 size-full object-cover" data-ind-img />
+              ? <Photo src={ind.img} alt="" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" loading="lazy" class="ind-img absolute inset-0 size-full object-cover" data-ind-img />
               : <span class="ind-img absolute inset-0 bg-[linear-gradient(150deg,#0b3a6e,#062a52)]" data-ind-img></span>}
             <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-navy/5 transition-opacity duration-500"></span>
             <span aria-hidden="true" class="ind-tint absolute inset-0 bg-navy/55 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>

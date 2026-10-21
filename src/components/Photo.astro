@@ -1,0 +1,13 @@
+---
+// <img> for a site photo ("/images/..."), emitted as responsive WebP. `sizes` should say how wide the
+// photo is drawn so phones download the small variant; `widths` overrides the default 400px + full size.
+import { Image } from 'astro:assets';
+import { photo } from '../lib/photos';
+
+interface Props { src: string; alt: string; sizes?: string; widths?: number[]; [attr: string]: any }
+const { src, alt, sizes = '100vw', widths: custom, width: _w, height: _h, ...rest } = Astro.props;
+const img = photo(src);
+if (!img) throw new Error(`Photo not found: ${src} (expected under src/assets/photos)`);
+const widths = custom?.filter((w) => w <= img.width) ?? [...new Set([Math.min(400, img.width), img.width])];
+---
+<Image src={img} alt={alt} format="webp" quality={75} widths={widths} sizes={sizes} {...rest} />

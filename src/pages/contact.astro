@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
 import ContactForm from '../components/ContactForm.jsx';
 import Icon from '../components/Icon.jsx';
 import { company } from '../data/site';
@@ -55,7 +56,7 @@ const cards = [
         <div class="relative mx-auto mt-12 hidden w-full max-w-[360px] lg:block">
           <div aria-hidden="true" class="absolute inset-0 translate-x-4 translate-y-4 rounded-t-full border border-gold"></div>
           <div class="arch-reveal relative overflow-hidden rounded-t-full shadow-2xl shadow-navy/15">
-            <img src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" width="900" height="1100" loading="lazy" class="aspect-[4/5] w-full object-cover" />
+            <Photo src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" sizes="(min-width: 1024px) 400px, 100vw" loading="lazy" class="aspect-[4/5] w-full object-cover" />
             <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent"></span>
             <span class="absolute inset-x-0 bottom-0 flex items-center gap-2 p-6 text-[13px] font-semibold text-white">
               <span class="relative flex size-2"><span class="absolute inset-0 animate-ping rounded-full bg-[#28c840] opacity-70"></span><span class="relative size-2 rounded-full bg-[#28c840]"></span></span>

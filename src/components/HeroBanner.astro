@@ -1,0 +1,63 @@
+---
+// Home banner: full-bleed background video (Vimeo) with a single headline over it.
+// The poster frame shows first; the video loads once the page is idle (skipped for reduced motion / data saver).
+import Photo from './Photo.astro';
+
+const VIDEO = 'https://player.vimeo.com/video/1150019487?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&api=1';
+---
+<section class="hero-banner relative isolate flex min-h-[calc(100svh-124px)] items-center overflow-hidden bg-navy text-white" data-hero>
+  <!-- background: poster frame, then the looping video once it is playing -->
+  <div aria-hidden="true" class="hb-video absolute inset-0 -z-10">
+    <Photo src="/images/hero-video.jpg" alt="" widths={[640, 1024, 1440, 1920]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" />
+    <iframe data-src={VIDEO} title="Sunsys Technologies background video" tabindex="-1" allow="autoplay; fullscreen; picture-in-picture" class="hb-frame" data-video></iframe>
+  </div>
+
+  <div class="hb-copy container-x relative py-16 md:py-24">
+    <div class="max-w-3xl">
+      <p class="hb-badge inline-block rounded-full font-head border border-gold-soft/50 bg-navy px-4 py-2 text-[11px] font-bold uppercase tracking-[.18em] text-gold-soft shadow-lg shadow-black/30 anim-rise sm:text-[12px]">Exceptional Web Design in Bangalore</p>
+      <h1 class="mt-6 font-serif text-[40px] font-normal leading-[1.06] tracking-[-0.03em] !text-white anim-rise sm:text-[52px] md:text-[76px]" style="--d:.12s">
+        Custom Websites That<br /><em class="text-gold-soft">Elevate Your Brand!</em>
+      </h1>
+      <p class="lead mt-7 font-body font-medium text-white anim-rise" style="--d:.25s">
+        Enhance your brand with our expertly crafted, easy-to-navigate websites. Stand out online with a design tailored to your needs.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* A 16:9 iframe scaled to cover the section (like object-fit: cover), faded in once playing */
+  .hero-banner .hb-video { container-type: size; }
+  .hero-banner .hb-frame { position: absolute; top: 50%; left: 50%; width: max(100cqw, 177.78cqh); height: max(100cqh, 56.25cqw); transform: translate(-50%, -50%); border: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+  .hero-banner .hb-frame.is-ready { opacity: 1; }
+  /* No overlay on the video, so the text carries its own shadow to stay readable on bright frames */
+  .hero-banner .hb-copy { text-shadow: 0 1px 3px rgb(0 0 0 / .45), 0 4px 28px rgb(0 0 0 / .55); }
+  .hero-banner .hb-badge { text-shadow: none; }
+</style>
+
+<script>
+  const frame = document.querySelector<HTMLIFrameElement>('[data-hero] [data-video]');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  if (frame && !reduced && !saveData) {
+    // Reveal it only once Vimeo reports playback (its player postMessage API), so a slow, blocked or
+    // failed embed never covers the poster frame with a black box or an error page
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== 'https://player.vimeo.com' || e.source !== frame.contentWindow) return;
+      let d: { event?: string };
+      try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+      if (d?.event === 'ready') ['play', 'timeupdate'].forEach((ev) => frame.contentWindow!.postMessage(JSON.stringify({ method: 'addEventListener', value: ev }), 'https://player.vimeo.com'));
+      if (d?.event === 'play' || d?.event === 'timeupdate') {
+        frame.classList.add('is-ready');
+        removeEventListener('message', onMessage);
+      }
+    };
+    const load = () => {
+      addEventListener('message', onMessage);
+      frame.src = frame.dataset.src!;
+    };
+    // Load after the page so the video never delays the first paint
+    const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(load, { timeout: 2500 }) : setTimeout(load, 1200));
+    document.readyState === 'complete' ? idle() : addEventListener('load', idle, { once: true });
+  }
+</script>

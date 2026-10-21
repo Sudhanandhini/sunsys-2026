@@ -1,15 +1,15 @@
 ---
 // "What we do": bento grid of photo tiles. One large featured service, eight smaller ones.
-// Photos live at public/images/services/<slug>.jpg (Unsplash, free licence).
-import fs from 'node:fs';
+// Photos live at src/assets/photos/services/<slug>.jpg (Unsplash, free licence).
 import Icon from './Icon.jsx';
+import Photo from './Photo.astro';
+import { photoPath } from '../lib/photos';
 import { services } from '../data/site';
 
-const photo = (slug: string) => (fs.existsSync(`public/images/services/${slug}.jpg`) ? `/images/services/${slug}.jpg` : null);
 const items = services
   .filter((s) => s.group === 'web')
   .slice(0, 9)
-  .map((s) => ({ ...s, img: photo(s.slug) }));
+  .map((s) => ({ ...s, img: photoPath(`/images/services/${s.slug}.jpg`) }));
 const btnLine = 'btn !rounded-[2px] border border-navy/30 px-7 py-3.5 text-[13px] font-bold uppercase tracking-[.14em] text-navy hover:border-navy hover:bg-navy hover:text-white';
 ---
 <section class="relative overflow-clip bg-ivory py-20 md:py-28" data-svc>
@@ -30,7 +30,7 @@ const btnLine = 'btn !rounded-[2px] border border-navy/30 px-7 py-3.5 text-[13px
         return (
           <li class={big ? 'sm:col-span-2 lg:row-span-2' : ''} data-svc-card>
             <a href={`/services/${s.slug}`} class={`svc-tile group relative block h-full overflow-hidden rounded-2xl bg-navy ${big ? 'min-h-[22rem]' : 'min-h-[15rem]'}`}>
-              {s.img && <img src={s.img} alt="" width="600" height="800" loading="lazy" class="svc-img absolute inset-0 size-full object-cover" data-svc-img />}
+              {s.img && <Photo src={s.img} alt="" sizes={big ? '(min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw'} loading="lazy" class="svc-img absolute inset-0 size-full object-cover" data-svc-img />}
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-navy/5"></span>
               <span aria-hidden="true" class="absolute inset-0 bg-navy/40 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
               <span aria-hidden="true" class="pointer-events-none absolute inset-2.5 rounded-xl border border-transparent transition-colors duration-500 group-hover:border-gold-soft/50"></span>

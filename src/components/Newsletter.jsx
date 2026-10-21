@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { emailInput, emailError } from '../lib/validate';
 
 export default function Newsletter({ endpoint = '' }) {
   const [email, setEmail] = useState('');
@@ -6,7 +7,7 @@ export default function Newsletter({ endpoint = '' }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!/^\S+@\S+\.\S+$/.test(email)) return setState('invalid');
+    if (emailError(email)) return setState('invalid');
     setState('sending');
     try {
       if (endpoint) {
@@ -24,13 +25,13 @@ export default function Newsletter({ endpoint = '' }) {
       <div className="flex rounded-full bg-white p-1.5">
         <label htmlFor="nl-email" className="sr-only">Email address</label>
         <input
-          id="nl-email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setState('idle'); }}
-          placeholder="Your email address" autoComplete="email"
+          id="nl-email" type="email" value={email} onChange={(e) => { setEmail(emailInput(e.target.value)); setState('idle'); }}
+          placeholder="Your email address" autoComplete="email" inputMode="email"
           className="min-w-0 flex-1 rounded-full px-4 text-ink outline-none"
         />
         <button type="submit" className="btn btn-primary !py-2.5" disabled={state === 'sending'}>Subscribe</button>
       </div>
-      {state === 'invalid' && <p className="mt-2 text-sm text-white">Enter a valid email address.</p>}
+      {state === 'invalid' && <p className="mt-2 text-sm text-white">Enter a valid email address, like name@example.com.</p>}
       {state === 'error' && <p className="mt-2 text-sm text-white">Subscription failed. Try again in a moment.</p>}
     </form>
   );

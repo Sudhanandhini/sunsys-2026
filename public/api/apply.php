@@ -5,16 +5,21 @@ require __DIR__ . '/_lib/bootstrap.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') json_out(['error' => 'Method not allowed'], 405);
 if (!empty($_POST['website'])) json_out(['ok' => true]); // honeypot
 
-$name = clean($_POST['name'] ?? '', 120);
+$name = preg_replace('/\s+/u', ' ', clean($_POST['name'] ?? '', 120));
 $email = strtolower(clean($_POST['email'] ?? '', 190));
 $phone = clean($_POST['phone'] ?? '', 30);
 $message = clean($_POST['message'] ?? '', 5000);
 $jobId = (int) ($_POST['job_id'] ?? 0);
 
-$errors = [];
-if ($name === '') $errors['name'] = 'Enter your name.';
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = 'Enter a valid email address.';
-if (!preg_match('/^[+\d\s-]{7,20}$/', $phone)) $errors['phone'] = 'Enter a valid phone number.';
+$experience = clean($_POST['experience'] ?? '', 60);
+
+// Same rules as the form (src/lib/validate.js)
+$errors = array_filter([
+    'name' => name_error($name),
+    'email' => email_error($email),
+    'phone' => phone_error($phone),
+    'experience' => $experience === '' || (preg_match('/^\d{1,2}(\.\d)?$/', $experience) && (float) $experience <= 50) ? '' : 'Enter years as a number, like 2 or 3.5.',
+]);
 if ($errors) json_out(['error' => 'Check the highlighted fields.', 'fields' => $errors], 422);
 
 try {
@@ -41,7 +46,7 @@ try {
     }
 
     q('INSERT INTO applications (job_id, job_title, name, email, phone, experience, message, cv_file, cv_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-        $job['id'] ?? null, $jobTitle, $name, $email, $phone, clean($_POST['experience'] ?? '', 60), $message, $cvFile, $cvName,
+        $job['id'] ?? null, $jobTitle, $name, $email, $phone, $experience, $message, $cvFile, $cvName,
     ]);
     if (!empty($CONFIG['notify_email'])) {
         @mail($CONFIG['notify_email'], "New application: $jobTitle", "From: $name <$email>\nPhone: $phone\n\nSee the admin dashboard for details.");

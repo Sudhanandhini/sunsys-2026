@@ -34,7 +34,7 @@ function MegaLink({ href, children }) {
   );
 }
 
-export default function Header({ path = '/' }) {
+export default function Header({ path = '/', promoImg = '' }) {
   const [mega, setMega] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [mobServices, setMobServices] = useState(false);
@@ -164,7 +164,7 @@ export default function Header({ path = '/' }) {
             </div>
             {/* feature card */}
             <a href="/contact?type=quote" className="mega-col group relative block overflow-hidden rounded-t-[999px] bg-navy" style={{ '--i': 3 }}>
-              <img src="/images/cta-team.jpg" alt="" loading="lazy" className="absolute inset-0 size-full object-cover opacity-45 transition-transform duration-[1.2s] group-hover:scale-110" />
+              <img src={promoImg} alt="" loading="lazy" className="absolute inset-0 size-full object-cover opacity-45 transition-transform duration-[1.2s] group-hover:scale-110" />
               <span className="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent" />
               <span className="relative flex h-full min-h-[15rem] flex-col justify-end p-6 text-white">
                 <span className="text-[11px] font-bold uppercase tracking-[.2em] text-gold-soft">Free consultation</span>

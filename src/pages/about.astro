@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
 import aboutTeam from '../images/about.png';
 import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Stats from '../components/Stats.jsx';
 import Icon from '../components/Icon.jsx';
@@ -118,7 +119,7 @@ const btnDark = 'group relative inline-flex items-center gap-3 overflow-hidden r
         ].map((c, i) => (
           <article class="vm-card group relative overflow-hidden border border-white/10 bg-white/[.03] transition-colors duration-500 hover:border-gold-soft/40" data-reveal style={`--d:${i * 0.15}s`}>
             <div class="relative aspect-[2/1] overflow-hidden">
-              <img src={c.img} alt={c.alt} width="685" height="343" loading="lazy" class="size-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-110" />
+              <Photo src={c.img} alt={c.alt} sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" class="size-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-110" />
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent"></span>
               <span class="absolute bottom-4 left-8 font-serif text-[56px] font-light italic leading-none text-gold-soft/90">{c.n}</span>
             </div>
@@ -148,7 +149,7 @@ const btnDark = 'group relative inline-flex items-center gap-3 overflow-hidden r
         {offer.map((o, i) => (
           <li class={`offer-panel group relative min-h-[15rem] overflow-hidden bg-navy lg:min-h-0 ${i === 0 ? 'is-open' : ''}`} data-reveal style={`--d:${i * 0.1}s`}>
             <a href={o.href} class="absolute inset-0 block" aria-label={o.label}>
-              <img src={o.img} alt="" width="600" height="800" loading="lazy" class="offer-img absolute inset-0 size-full object-cover" />
+              <Photo src={o.img} alt="" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" class="offer-img absolute inset-0 size-full object-cover" />
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/20"></span>
               <span aria-hidden="true" class="pointer-events-none absolute inset-3 border border-gold-soft/30"></span>
 

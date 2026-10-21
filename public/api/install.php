@@ -17,6 +17,11 @@ $schema = [
         title VARCHAR(200) NOT NULL,
         excerpt VARCHAR(400) NOT NULL DEFAULT '',
         body MEDIUMTEXT NOT NULL,
+        blocks MEDIUMTEXT NULL,
+        meta_title VARCHAR(200) NOT NULL DEFAULT '',
+        meta_description VARCHAR(400) NOT NULL DEFAULT '',
+        noindex TINYINT(1) NOT NULL DEFAULT 0,
+        nofollow TINYINT(1) NOT NULL DEFAULT 0,
         cover VARCHAR(255) NULL,
         category_id INT UNSIGNED NULL,
         status ENUM('draft','published') NOT NULL DEFAULT 'draft',
@@ -24,6 +29,28 @@ $schema = [
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         INDEX (status, published_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+    "CREATE TABLE IF NOT EXISTS seo_pages (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        path VARCHAR(255) NOT NULL UNIQUE,
+        name VARCHAR(120) NOT NULL DEFAULT '',
+        type VARCHAR(30) NOT NULL DEFAULT 'Page',
+        custom TINYINT(1) NOT NULL DEFAULT 0,
+        title VARCHAR(200) NOT NULL DEFAULT '',
+        description VARCHAR(400) NOT NULL DEFAULT '',
+        keywords VARCHAR(300) NOT NULL DEFAULT '',
+        canonical VARCHAR(500) NOT NULL DEFAULT '',
+        og_title VARCHAR(200) NOT NULL DEFAULT '',
+        og_description VARCHAR(400) NOT NULL DEFAULT '',
+        og_image VARCHAR(500) NOT NULL DEFAULT '',
+        schema_json MEDIUMTEXT NULL,
+        noindex TINYINT(1) NOT NULL DEFAULT 0,
+        nofollow TINYINT(1) NOT NULL DEFAULT 0,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+    "CREATE TABLE IF NOT EXISTS settings (
+        k VARCHAR(60) NOT NULL PRIMARY KEY,
+        v MEDIUMTEXT NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
     "CREATE TABLE IF NOT EXISTS categories (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

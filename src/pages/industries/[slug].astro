@@ -1,11 +1,12 @@
 ---
-import fs from 'node:fs';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ProcessSteps from '../../components/ProcessSteps.astro';
 import Faq from '../../components/Faq.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.jsx';
+import Photo from '../../components/Photo.astro';
+import { photoPath } from '../../lib/photos';
 import { industries, services } from '../../data/site';
 import { industryDetails } from '../../data/details';
 
@@ -14,9 +15,8 @@ export function getStaticPaths() {
 }
 const { industry } = Astro.props;
 const detail = industryDetails[industry.slug];
-const exists = (p: string) => fs.existsSync(`public${p}`);
-const indPhoto = (slug: string) => (exists(`/images/industries/${slug}.jpg`) ? `/images/industries/${slug}.jpg` : undefined);
-const svcPhoto = (slug: string) => (exists(`/images/services/${slug}.jpg`) ? `/images/services/${slug}.jpg` : undefined);
+const indPhoto = (slug: string) => photoPath(`/images/industries/${slug}.jpg`);
+const svcPhoto = (slug: string) => photoPath(`/images/services/${slug}.jpg`);
 const fit = (detail?.services ?? ['website-development', 'responsive-web-design', 'cms-web-development', 'website-maintenance'])
   .map((s) => services.find((x) => x.slug === s)!)
   .filter(Boolean);
@@ -90,7 +90,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
               <span class="relative block w-[70%] max-w-[190px]">
                 <span aria-hidden="true" class="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-t-full border border-gold/70 transition-[translate] duration-700 group-hover:translate-x-0 group-hover:translate-y-0"></span>
                 <span class="relative block aspect-[3/4] overflow-hidden rounded-t-full bg-navy">
-                  {svcPhoto(s.slug) && <img src={svcPhoto(s.slug)} alt="" width="600" height="800" loading="lazy" class="rel-img size-full object-cover" />}
+                  {svcPhoto(s.slug) && <Photo src={svcPhoto(s.slug)!} alt="" sizes="(min-width: 1024px) 25vw, 50vw" loading="lazy" class="rel-img size-full object-cover" />}
                 </span>
               </span>
               <span class="mt-8 block font-serif text-[22px] leading-snug text-ink transition-colors group-hover:text-gold">{s.title}</span>
@@ -121,7 +121,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
         {others.map((o, i) => (
           <li data-reveal style={`--d:${i * 0.1}s`}>
             <a href={`/industries/${o.slug}`} class="rel-card group relative block aspect-[3/4] overflow-hidden rounded-t-[999px] bg-[#0b3a6e] ring-1 ring-white/10">
-              {indPhoto(o.slug) && <img src={indPhoto(o.slug)} alt="" width="900" height="1100" loading="lazy" class="rel-img absolute inset-0 size-full object-cover" />}
+              {indPhoto(o.slug) && <Photo src={indPhoto(o.slug)!} alt="" sizes="(min-width: 1024px) 25vw, 50vw" loading="lazy" class="rel-img absolute inset-0 size-full object-cover" />}
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></span>
               <span class="absolute inset-x-0 bottom-0 p-5 text-center">
                 <span class="mx-auto grid size-10 place-items-center rounded-full border border-gold-soft/50 text-gold-soft transition-colors duration-500 group-hover:bg-gold-soft group-hover:text-navy"><Icon name={o.icon} size={18} strokeWidth={1.5} /></span>

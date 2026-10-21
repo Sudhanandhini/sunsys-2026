@@ -10,7 +10,7 @@ const columns = [
   },
   {
     title: 'Other links',
-    links: [['Domain registration', '#'], ['Whois lookup', '#'], ['Customer login', '#'], ['Reseller login', '#']],
+    links: [['Domain registration', 'https://sunsys.supersite2.myorderbox.com/'], ['Whois lookup', 'https://sunsys.supersite2.myorderbox.com/domain-registration/domain-whois-lookup.php'], ['Customer login', 'https://sunsys.myorderbox.com/servlet/LoginServlet?role=customer&currenturl=https://sunsys.myorderbox.com'], ['Reseller login', 'https://sunsys.myorderbox.com/servlet/AuthServlet?validatenow=false&role=reseller&currenturl=https://sunsys.myorderbox.com'], ['Sitemap', '/sitemap']],
   },
 ];
 
@@ -65,7 +65,9 @@ const social = [
           <span aria-hidden="true" class="mt-3 flex items-center gap-1.5"><span class="h-px w-8 bg-gold"></span><span class="size-1 rotate-45 bg-gold"></span></span>
           <ul class="mt-6 space-y-3 text-[15px]">
             {col.links.map(([label, href]) => (
-              <li><a href={href} class="ft-link hover:text-gold-soft">{label}</a></li>
+              <li>{href.startsWith('http')
+                ? <a href={href} target="_blank" rel="noopener noreferrer" class="ft-link hover:text-gold-soft">{label}<span class="sr-only"> (opens in a new tab)</span></a>
+                : <a href={href} class="ft-link hover:text-gold-soft">{label}</a>}</li>
             ))}
           </ul>
         </nav>

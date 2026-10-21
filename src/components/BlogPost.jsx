@@ -11,13 +11,15 @@ export default function BlogPost({ api = '/api/posts.php' }) {
   useEffect(() => {
     const slug = new URLSearchParams(location.search).get('slug');
     if (!slug) return setState({ status: 'missing' });
-    fetch(`${api}?slug=${encodeURIComponent(slug)}`, { headers: { Accept: 'application/json' } })
-      .then((r) => (r.status === 404 ? r.json().then((d) => ({ ...d, missing: true })) : r.ok ? r.json() : Promise.reject()))
+    // On the live site blog/post/index.php embeds the post (and its SEO tags); fetch it only when it didn't
+    const embedded = window.__BLOG_POST__;
+    (embedded ? Promise.resolve(embedded) : fetch(`${api}?slug=${encodeURIComponent(slug)}`, { headers: { Accept: 'application/json' } })
+      .then((r) => (r.status === 404 ? r.json().then((d) => ({ ...d, missing: true })) : r.ok ? r.json() : Promise.reject())))
       .then((d) => {
         if (d.missing) return setState({ status: 'missing', side: d });
         setState({ status: 'ok', post: d.post, side: d });
-        document.title = `${d.post.title} | Sunsys Technologies`;
-        document.querySelector('meta[name="description"]')?.setAttribute('content', d.post.excerpt);
+        document.title = d.post.seo?.title ?? `${d.post.title} | Sunsys Technologies`;
+        document.querySelector('meta[name="description"]')?.setAttribute('content', d.post.seo?.description ?? d.post.excerpt);
       })
       .catch(() => setState({ status: 'error' }));
   }, [api]);

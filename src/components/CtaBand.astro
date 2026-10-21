@@ -2,6 +2,7 @@
 // Closing call to action used across inner pages: copy and buttons on navy beside an arch photo.
 // `accent` (optional) is a word or phrase inside `title` shown in gold italics.
 import { company, stats, footprints } from '../data/site';
+import Photo from './Photo.astro';
 
 interface Props { title?: string; text?: string; accent?: string }
 const {
@@ -63,7 +64,7 @@ const facts = [
         <div class="relative mx-auto hidden w-full max-w-[330px] lg:block">
           <div aria-hidden="true" class="cta-outline absolute inset-0 translate-x-4 translate-y-4 rounded-t-full border border-gold-soft/60"></div>
           <div class="arch-reveal relative overflow-hidden rounded-t-full">
-            <img src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" width="900" height="1100" loading="lazy" class="aspect-[4/5] w-full object-cover" />
+            <Photo src="/images/cta-team.jpg" alt="Sunsys developers working together at laptops" sizes="(min-width: 1024px) 400px, 100vw" loading="lazy" class="aspect-[4/5] w-full object-cover" />
             <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent"></span>
           </div>
           <!-- floating badge -->

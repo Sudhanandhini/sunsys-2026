@@ -24,6 +24,7 @@ function icon(string $name): string
         'mail' => 'M3 5h18v14H3zM3 6l9 7 9-7',
         'user' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-8 9a8 8 0 0 1 16 0',
         'out' => 'M15 4h4v16h-4M10 8l-4 4 4 4M6 12h11',
+        'seo' => 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4M8 11h6M11 8v6',
         'site' => 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18',
     ][$name] ?? '';
     return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' . $p . '"/></svg>';
@@ -38,6 +39,7 @@ function admin_head(string $title, string $active, array $user): void
         ['jobs.php', 'jobs', 'Job openings', 0],
         ['applications.php', 'apps', 'Applications', $c['apps']],
         ['enquiries.php', 'mail', 'Enquiries', $c['enq']],
+        ['seo.php', 'seo', 'SEO', 0],
         ['account.php', 'user', 'Account', 0],
     ];
     $f = flash();
@@ -55,7 +57,7 @@ function admin_head(string $title, string $active, array $user): void
     <?php endforeach; ?>
   </nav>
   <div class="side-foot">
-    <a href="/" target="_blank" rel="noopener"><?= icon('site') ?><span>View website</span></a>
+    <!-- <a href="/" target="_blank" rel="noopener"><?= icon('site') ?><span>View website</span></a> -->
     <form method="post" action="logout.php"><?= csrf_field() ?><button type="submit"><?= icon('out') ?><span>Log out</span></button></form>
   </div>
 </aside>

@@ -2,6 +2,7 @@
 // Inner-page banner: navy with gold accents and serif title, matching the home page.
 // `accent` (optional) is a word or phrase inside `title` shown in gold italics.
 // `image` (optional) shows a photo in an arch on the right instead of the outline motif.
+import Photo from './Photo.astro';
 interface Props { title: string; intro?: string; eyebrow?: string; accent?: string; image?: string; crumbs?: { label: string; href?: string }[] }
 const { title, intro, eyebrow, accent, image, crumbs = [] } = Astro.props;
 const parts = accent && title.includes(accent) ? title.split(accent) : null;
@@ -45,7 +46,7 @@ const parts = accent && title.includes(accent) ? title.split(accent) : null;
       <div class="relative mx-auto hidden w-full max-w-[300px] lg:block">
         <div aria-hidden="true" class="ph-outline absolute inset-0 translate-x-4 translate-y-4 rounded-t-full border border-gold-soft/60"></div>
         <div class="ph-arch relative overflow-hidden rounded-t-full shadow-2xl shadow-black/30">
-          <img src={image} alt="" width="600" height="800" class="ph-img aspect-[4/5] w-full object-cover" />
+          <Photo src={image} alt="" sizes="300px" class="ph-img aspect-[4/5] w-full object-cover" />
           <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent"></span>
         </div>
       </div>

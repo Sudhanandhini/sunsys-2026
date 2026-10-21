@@ -61,6 +61,37 @@ function migrate(PDO $pdo): void
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     $col = $pdo->query("SHOW COLUMNS FROM posts LIKE 'category_id'")->fetchColumn();
     if (!$col) $pdo->exec('ALTER TABLE posts ADD category_id INT UNSIGNED NULL AFTER cover, ADD INDEX (category_id)');
+    $col = $pdo->query("SHOW COLUMNS FROM posts LIKE 'meta_title'")->fetchColumn();
+    if (!$col) $pdo->exec("ALTER TABLE posts ADD meta_title VARCHAR(200) NOT NULL DEFAULT '' AFTER body, ADD meta_description VARCHAR(400) NOT NULL DEFAULT '' AFTER meta_title");
+    $col = $pdo->query("SHOW COLUMNS FROM posts LIKE 'blocks'")->fetchColumn();
+    if (!$col) $pdo->exec('ALTER TABLE posts ADD blocks MEDIUMTEXT NULL AFTER body');
+    // SEO manager (Admin > SEO)
+    if (!$pdo->query("SHOW TABLES LIKE 'seo_pages'")->fetchColumn()) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS seo_pages (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        path VARCHAR(255) NOT NULL UNIQUE,
+        name VARCHAR(120) NOT NULL DEFAULT '',
+        type VARCHAR(30) NOT NULL DEFAULT 'Page',
+        custom TINYINT(1) NOT NULL DEFAULT 0,
+        title VARCHAR(200) NOT NULL DEFAULT '',
+        description VARCHAR(400) NOT NULL DEFAULT '',
+        keywords VARCHAR(300) NOT NULL DEFAULT '',
+        canonical VARCHAR(500) NOT NULL DEFAULT '',
+        og_title VARCHAR(200) NOT NULL DEFAULT '',
+        og_description VARCHAR(400) NOT NULL DEFAULT '',
+        og_image VARCHAR(500) NOT NULL DEFAULT '',
+        schema_json MEDIUMTEXT NULL,
+        noindex TINYINT(1) NOT NULL DEFAULT 0,
+        nofollow TINYINT(1) NOT NULL DEFAULT 0,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        $pdo->exec("CREATE TABLE IF NOT EXISTS settings (
+        k VARCHAR(60) NOT NULL PRIMARY KEY,
+        v MEDIUMTEXT NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    }
+    $col = $pdo->query("SHOW COLUMNS FROM posts LIKE 'noindex'")->fetchColumn();
+    if (!$col) $pdo->exec('ALTER TABLE posts ADD noindex TINYINT(1) NOT NULL DEFAULT 0 AFTER meta_description, ADD nofollow TINYINT(1) NOT NULL DEFAULT 0 AFTER noindex');
 }
 
 function q(string $sql, array $params = []): PDOStatement
@@ -197,4 +228,43 @@ function save_image(array $file): string
     $name = date('Ym') . '-' . bin2hex(random_bytes(8)) . '.' . $ext;
     if (!move_uploaded_file($file['tmp_name'], public_upload_dir('blog') . '/' . $name)) throw new RuntimeException('Could not save the image.');
     return '/uploads/blog/' . $name;
+}
+
+// ---------- form rules (same as src/lib/validate.js) ----------
+
+/** Error message for a person's name, or '' if it is fine: letters, spaces and . ' - only. */
+function name_error(string $s): string
+{
+    if ($s === '') return 'Enter your name.';
+    if (preg_match_all('/\p{L}/u', $s) < 2) return 'Enter your full name.';
+    if (!preg_match("/^\p{L}[\p{L}\p{M}]*(?:[ .'-]+\p{L}[\p{L}\p{M}]*)*\.?$/u", $s)) return 'Use letters only (no numbers or symbols).';
+    return '';
+}
+
+/** Error message for a 10-digit phone number ('' if fine, or if empty and not required). */
+function phone_error(string $s, bool $required = true): string
+{
+    if ($s === '') return $required ? 'Enter your phone number.' : '';
+    if (!preg_match('/^\d{10}$/', $s)) return 'Enter a 10-digit phone number.';
+    if ($s[0] === '0' || preg_match('/^(\d)\1{9}$/', $s)) return 'Enter a valid phone number.';
+    return '';
+}
+
+/** Error message for an email address, or '' if it is fine. */
+function email_error(string $s): string
+{
+    if ($s === '') return 'Enter your email address.';
+    $ok = filter_var($s, FILTER_VALIDATE_EMAIL)
+        && !str_contains($s, '..')
+        && preg_match('/^[a-z0-9](?:[a-z0-9._%+-]{0,62}[a-z0-9])?@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$/i', $s);
+    return $ok ? '' : 'Enter a valid email address, like name@example.com.';
+}
+
+/** Error message for free text (message, subject): long enough and containing words. */
+function text_error(string $s, int $min, string $label): string
+{
+    if ($s === '') return "Enter $label.";
+    if (mb_strlen($s) < $min) return "Please write at least $min characters.";
+    if (preg_match_all('/\p{L}/u', $s) < min($min, 3)) return 'Please describe it in words.';
+    return '';
 }

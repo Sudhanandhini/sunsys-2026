@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { services } from '../data/site';
+import { nameInput, phoneInput, emailInput, nameError, phoneError, emailError, textError } from '../lib/validate';
 
 const initial = { name: '', email: '', phone: '', service: '', message: '' };
 
@@ -18,14 +19,23 @@ export default function ContactForm({ endpoint = '' }) {
     else if (p.get('type') === 'quote') setForm((f) => ({ ...f, message: 'I would like a quote for ' }));
   }, []);
 
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const clean = { name: nameInput, phone: phoneInput, email: emailInput };
+  const rules = {
+    name: nameError,
+    email: emailError,
+    phone: (v) => phoneError(v, { required: false }),
+    message: (v) => textError(v, { min: 10, label: 'how we can help' }),
+  };
+  // Typing filters out characters a field can't contain; a field already showing an error re-checks live
+  const set = (k) => (e) => {
+    const v = clean[k] ? clean[k](e.target.value) : e.target.value;
+    setForm((f) => ({ ...f, [k]: v }));
+    if (errors[k] && rules[k]) setErrors((er) => ({ ...er, [k]: rules[k](v) }));
+  };
+  const check = (k) => () => rules[k] && form[k] && setErrors((er) => ({ ...er, [k]: rules[k](form[k]) }));
 
   const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Enter your name.';
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Enter a valid email address.';
-    if (form.phone && !/^[+\d\s-]{7,15}$/.test(form.phone)) e.phone = 'Enter a valid phone number.';
-    if (form.message.trim().length < 10) e.message = 'Tell us a little more (at least 10 characters).';
+    const e = Object.fromEntries(Object.entries(rules).map(([k, r]) => [k, r(form[k])]).filter(([, m]) => m));
     setErrors(e);
     return !Object.keys(e).length;
   };
@@ -41,6 +51,11 @@ export default function ContactForm({ endpoint = '' }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
+      if (res.status === 422) {
+        const d = await res.json().catch(() => ({}));
+        setErrors(d.fields ?? {});
+        return setStatus('idle');
+      }
       if (!res.ok) throw new Error();
       setStatus('sent');
       setForm(initial);
@@ -76,19 +91,19 @@ export default function ContactForm({ endpoint = '' }) {
   return (
     <form onSubmit={submit} noValidate className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
       <div className="cf-field relative" style={{ '--i': 0 }}>
-        <input id="cf-name" className={line('name')} value={form.name} onChange={set('name')} autoComplete="name" placeholder=" " {...aria('name')} />
+        <input id="cf-name" className={line('name')} value={form.name} onChange={set('name')} onBlur={check('name')} autoComplete="name" maxLength={60} placeholder=" " {...aria('name')} />
         <label htmlFor="cf-name" className={label}>Your name</label>
         {underline}
         {err('name')}
       </div>
       <div className="cf-field relative" style={{ '--i': 1 }}>
-        <input id="cf-email" type="email" className={line('email')} value={form.email} onChange={set('email')} autoComplete="email" placeholder=" " {...aria('email')} />
+        <input id="cf-email" type="email" className={line('email')} value={form.email} onChange={set('email')} onBlur={check('email')} autoComplete="email" inputMode="email" placeholder=" " {...aria('email')} />
         <label htmlFor="cf-email" className={label}>Email address</label>
         {underline}
         {err('email')}
       </div>
       <div className="cf-field relative" style={{ '--i': 2 }}>
-        <input id="cf-phone" type="tel" className={line('phone')} value={form.phone} onChange={set('phone')} autoComplete="tel" placeholder=" " {...aria('phone')} />
+        <input id="cf-phone" type="tel" className={line('phone')} value={form.phone} onChange={set('phone')} onBlur={check('phone')} autoComplete="tel-national" inputMode="numeric" maxLength={10} placeholder=" " {...aria('phone')} />
         <label htmlFor="cf-phone" className={label}>Phone number <span className="text-body/50">(optional)</span></label>
         {underline}
         {err('phone')}
@@ -104,7 +119,7 @@ export default function ContactForm({ endpoint = '' }) {
         {underline}
       </div>
       <div className="cf-field relative sm:col-span-2" style={{ '--i': 4 }}>
-        <textarea id="cf-message" rows={4} className={`${line('message')} resize-none`} value={form.message} onChange={set('message')} placeholder=" " {...aria('message')} />
+        <textarea id="cf-message" rows={4} className={`${line('message')} resize-none`} value={form.message} onChange={set('message')} onBlur={check('message')} placeholder=" " {...aria('message')} />
         <label htmlFor="cf-message" className={label}>How can we help?</label>
         {underline}
         {err('message')}

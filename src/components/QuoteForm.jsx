@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { nameInput, phoneInput, emailInput, nameError, phoneError, emailError, textError } from '../lib/validate';
 
 const initial = { name: '', phone: '', email: '', subject: '' };
 
 const fields = [
-  { k: 'name', label: 'Your name', type: 'text', auto: 'name' },
-  { k: 'phone', label: 'Phone number', type: 'tel', auto: 'tel' },
-  { k: 'email', label: 'Email address', type: 'email', auto: 'email' },
+  { k: 'name', label: 'Your name', type: 'text', auto: 'name', max: 60 },
+  { k: 'phone', label: 'Phone number', type: 'tel', auto: 'tel-national', mode: 'numeric', max: 10, hint: '10-digit mobile number' },
+  { k: 'email', label: 'Email address', type: 'email', auto: 'email', mode: 'email' },
   { k: 'subject', label: 'Subject', type: 'text', auto: 'off', hint: 'e.g. New website, online store, hosting' },
 ];
 
@@ -15,14 +16,23 @@ export default function QuoteForm({ endpoint = '' }) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const clean = { name: nameInput, phone: phoneInput, email: emailInput };
+  const rules = {
+    name: nameError,
+    phone: (v) => phoneError(v),
+    email: emailError,
+    subject: (v) => textError(v, { min: 3, label: 'what it is about' }),
+  };
+  // Typing filters out characters a field can't contain; a field already showing an error re-checks live
+  const set = (k) => (e) => {
+    const v = clean[k] ? clean[k](e.target.value) : e.target.value;
+    setForm((f) => ({ ...f, [k]: v }));
+    if (errors[k]) setErrors((er) => ({ ...er, [k]: rules[k](v) }));
+  };
+  const check = (k) => () => form[k] && setErrors((er) => ({ ...er, [k]: rules[k](form[k]) }));
 
   const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Enter your name.';
-    if (!/^[+\d\s-]{7,15}$/.test(form.phone.trim())) e.phone = 'Enter a valid phone number.';
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Enter a valid email address.';
-    if (form.subject.trim().length < 3) e.subject = 'Tell us what it is about.';
+    const e = Object.fromEntries(Object.entries(rules).map(([k, r]) => [k, r(form[k])]).filter(([, m]) => m));
     setErrors(e);
     return !Object.keys(e).length;
   };
@@ -38,6 +48,11 @@ export default function QuoteForm({ endpoint = '' }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, message: form.subject, source: 'home-quote' }),
       });
+      if (res.status === 422) {
+        const d = await res.json().catch(() => ({}));
+        setErrors(d.fields ?? {});
+        return setStatus('idle');
+      }
       if (!res.ok) throw new Error();
       setStatus('sent');
       setForm(initial);
@@ -71,7 +86,10 @@ export default function QuoteForm({ endpoint = '' }) {
             type={f.type}
             value={form[f.k]}
             onChange={set(f.k)}
+            onBlur={check(f.k)}
             autoComplete={f.auto}
+            inputMode={f.mode}
+            maxLength={f.max}
             placeholder=" "
             aria-invalid={!!errors[f.k]}
             aria-describedby={errors[f.k] ? `qf-${f.k}-err` : f.hint ? `qf-${f.k}-hint` : undefined}
