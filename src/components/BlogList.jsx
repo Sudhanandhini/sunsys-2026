@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import BlogSidebar, { postHref } from './BlogSidebar.jsx';
+import { url } from '../lib/url';
 
 const fmt = (d) => (d ? new Date(d.replace(' ', 'T')).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
 const placeholder = {
@@ -37,7 +38,7 @@ function Card({ p, i }) {
 }
 
 // Blog index: post grid + sidebar (search, categories, recent). Filters live in the URL (?q=, ?category=).
-export default function BlogList({ api = '/api/posts.php' }) {
+export default function BlogList({ api = url('/api/posts.php') }) {
   const [data, setData] = useState(null); // { posts, categories, recent }
   const [failed, setFailed] = useState(false);
   const [filter, setFilter] = useState({ q: '', category: '' });
@@ -63,7 +64,7 @@ export default function BlogList({ api = '/api/posts.php' }) {
   const apply = (f) => {
     setFilter(f);
     const qs = new URLSearchParams(Object.entries(f).filter(([, v]) => v)).toString();
-    history.replaceState(null, '', `/blog${qs ? `?${qs}` : ''}`);
+    history.replaceState(null, '', url(`/blog${qs ? `?${qs}` : ''}`));
     load(f);
   };
 

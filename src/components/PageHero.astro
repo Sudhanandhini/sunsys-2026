@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 // Inner-page banner: navy with gold accents and serif title, matching the home page.
 // `accent` (optional) is a word or phrase inside `title` shown in gold italics.
 // `image` (optional) shows a photo in an arch on the right instead of the outline motif.
@@ -25,11 +26,11 @@ const parts = accent && title.includes(accent) ? title.split(accent) : null;
     {crumbs.length > 0 && (
       <nav aria-label="Breadcrumb" class="mb-6 text-[12px] font-semibold uppercase tracking-[.16em] text-white/55 anim-rise">
         <ol class="flex flex-wrap items-center gap-3">
-          <li><a href="/" class="hover:text-gold-soft">Home</a></li>
+          <li><a href={url('/')} class="hover:text-gold-soft">Home</a></li>
           {crumbs.map((c) => (
             <li class="flex items-center gap-3">
               <span aria-hidden="true" class="size-1 rotate-45 bg-gold-soft/70"></span>
-              {c.href ? <a href={c.href} class="hover:text-gold-soft">{c.label}</a> : <span class="text-gold-soft" aria-current="page">{c.label}</span>}
+              {c.href ? <a href={url(c.href)} class="hover:text-gold-soft">{c.label}</a> : <span class="text-gold-soft" aria-current="page">{c.label}</span>}
             </li>
           ))}
         </ol>

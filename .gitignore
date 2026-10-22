@@ -9,3 +9,4 @@ public/uploads/blog/*
 !public/uploads/blog/.gitkeep
 config.local.php
 .local-private
+*-deploy.zip

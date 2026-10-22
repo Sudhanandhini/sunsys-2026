@@ -165,7 +165,7 @@ function block_widget_render(array $w): string
             $t = $w['ordered'] ? 'ol' : 'ul';
             return "<$t>" . implode('', array_map(fn ($i) => "<li>$i</li>", $w['items'])) . "</$t>";
         case 'image':
-            $img = '<img src="' . e($w['src']) . '" alt="' . e($w['alt']) . '" loading="lazy" decoding="async">';
+            $img = '<img src="' . e(public_url($w['src'])) . '" alt="' . e($w['alt']) . '" loading="lazy" decoding="async">';
             if ($w['href']) $img = block_link($w['href'], $img);
             return '<figure class="pb-img">' . $img . ($w['caption'] !== '' ? '<figcaption>' . e($w['caption']) . '</figcaption>' : '') . '</figure>';
         case 'button':

@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 // Classic FAQ accordion (native <details>, so it works without JS). The first item starts open.
 interface Props { items: { q: string; a: string }[]; title?: string; accent?: string }
 const { items, title = 'Questions we often hear', accent = 'often' } = Astro.props;
@@ -9,7 +10,7 @@ const parts = title.includes(accent) ? title.split(accent) : null;
     <div data-reveal="left">
       <p class="eyebrow">FAQ</p>
       <h2 class="h-classic mt-4">{parts ? <>{parts[0]}<em class="text-gold">{accent}</em>{parts.slice(1).join(accent)}</> : title}</h2>
-      <p class="lead mt-5">Can’t find your answer? <a href="/contact" class="border-b border-gold text-navy hover:text-gold">Ask us directly</a>.</p>
+      <p class="lead mt-5">Can’t find your answer? <a href={url('/contact')} class="border-b border-gold text-navy hover:text-gold">Ask us directly</a>.</p>
     </div>
     <div class="border-t border-gold/30">
       {items.map((f, i) => (

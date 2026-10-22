@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import BlogSidebar from './BlogSidebar.jsx';
+import { url } from '../lib/url';
 
 const fmt = (d) => (d ? new Date(d.replace(' ', 'T')).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : '');
 
 // One article, by ?slug=, from GET /api/posts.php?slug=. The body HTML is produced server-side from a
 // restricted Markdown subset with all text escaped, so it is safe to insert.
-export default function BlogPost({ api = '/api/posts.php' }) {
+export default function BlogPost({ api = url('/api/posts.php') }) {
   const [state, setState] = useState({ status: 'loading' });
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function BlogPost({ api = '/api/posts.php' }) {
       <div className="mx-auto max-w-xl px-5 py-28 text-center">
         <p className="font-serif text-[34px] text-ink">{state.status === 'error' ? 'This article could not be loaded' : 'Article not found'}</p>
         <p className="mt-3">{state.status === 'error' ? 'Please refresh the page in a moment.' : 'It may have been moved or unpublished.'}</p>
-        <a href="/blog" className="mt-8 inline-block border-b border-gold pb-1 text-[13px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">← All articles</a>
+        <a href={url('/blog')} className="mt-8 inline-block border-b border-gold pb-1 text-[13px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">← All articles</a>
       </div>
     );
   }
@@ -52,10 +53,10 @@ export default function BlogPost({ api = '/api/posts.php' }) {
         <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-40 size-[34rem] rounded-full bg-gold/15 blur-3xl" />
         <div className="container-x relative py-16 md:py-20">
           <nav aria-label="Breadcrumb" className="post-in flex flex-wrap items-center gap-3 text-[12px] font-semibold uppercase tracking-[.16em] text-white/55">
-            <a href="/" className="hover:text-gold-soft">Home</a>
+            <a href={url('/')} className="hover:text-gold-soft">Home</a>
             <span aria-hidden="true" className="size-1 rotate-45 bg-gold-soft/70" />
-            <a href="/blog" className="hover:text-gold-soft">Blog</a>
-            {p.category && <><span aria-hidden="true" className="size-1 rotate-45 bg-gold-soft/70" /><a href={`/blog?category=${encodeURIComponent(p.category_slug)}`} className="text-gold-soft hover:text-white">{p.category}</a></>}
+            <a href={url('/blog')} className="hover:text-gold-soft">Blog</a>
+            {p.category && <><span aria-hidden="true" className="size-1 rotate-45 bg-gold-soft/70" /><a href={url(`/blog?category=${encodeURIComponent(p.category_slug)}`)} className="text-gold-soft hover:text-white">{p.category}</a></>}
           </nav>
           <h1 className="post-in mt-6 max-w-4xl font-serif text-[34px] font-light leading-[1.08] tracking-[-0.03em] !text-white md:text-[54px]" style={{ '--d': '.12s' }}>{p.title}</h1>
           <p className="post-in mt-6 flex flex-wrap items-center gap-4 text-[13px] font-semibold uppercase tracking-[.16em] text-white/60" style={{ '--d': '.22s' }}>
@@ -77,8 +78,8 @@ export default function BlogPost({ api = '/api/posts.php' }) {
               </div>
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-              <a href="/blog" className="border-b border-gold pb-1 text-[13px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">← All articles</a>
-              <a href="/contact?type=quote" className="rounded-[2px] bg-navy px-6 py-3 text-[12px] font-bold uppercase tracking-[.14em] text-white transition-colors hover:bg-gold hover:text-navy">Talk to our team</a>
+              <a href={url('/blog')} className="border-b border-gold pb-1 text-[13px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">← All articles</a>
+              <a href={url('/contact?type=quote')} className="rounded-[2px] bg-navy px-6 py-3 text-[12px] font-bold uppercase tracking-[.14em] text-white transition-colors hover:bg-gold hover:text-navy">Talk to our team</a>
             </div>
           </div>
           <BlogSidebar categories={state.side?.categories ?? []} recent={(state.side?.recent ?? []).filter((r) => r.slug !== p.slug).slice(0, 4)} category={p.category_slug ?? ''} />

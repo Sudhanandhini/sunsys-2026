@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { nameInput, phoneInput, emailInput, experienceInput, nameError, phoneError, emailError, experienceError } from '../lib/validate';
+import { url } from '../lib/url';
 
 const pad = (n) => String(n).padStart(2, '0');
 const Arrow = ({ className = '' }) => (
@@ -8,7 +9,7 @@ const Arrow = ({ className = '' }) => (
 
 // Open roles from the admin (GET /api/jobs.php), with an application dialog posting to /api/apply.php.
 // `initial` is the build-time list, shown until live data arrives (and if the API is unreachable).
-export default function JobBoard({ initial = [], api = '/api/jobs.php', applyUrl = '/api/apply.php' }) {
+export default function JobBoard({ initial = [], api = url('/api/jobs.php'), applyUrl = url('/api/apply.php') }) {
   const [jobs, setJobs] = useState(initial);
   const [open, setOpen] = useState(null); // job object, or { id: 0, title: 'General application' }
   const [detail, setDetail] = useState(null); // expanded job id

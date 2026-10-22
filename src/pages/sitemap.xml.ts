@@ -3,6 +3,7 @@
 // lists blog posts and leaves out pages hidden in Admin > SEO; this file is the fallback.
 import type { APIRoute } from 'astro';
 import { services, industries } from '../data/site';
+import { url } from '../lib/url';
 
 const pages: [string, number][] = [
   ['/', 1.0],
@@ -20,7 +21,7 @@ export const GET: APIRoute = ({ site }) => {
   const origin = (site ?? new URL('https://sunsys.in')).origin;
   const today = new Date().toISOString().slice(0, 10);
   const urls = pages
-    .map(([path, priority]) => `  <url><loc>${origin}${path}</loc><lastmod>${today}</lastmod><priority>${priority.toFixed(1)}</priority></url>`)
+    .map(([path, priority]) => `  <url><loc>${origin}${url(path)}</loc><lastmod>${today}</lastmod><priority>${priority.toFixed(1)}</priority></url>`)
     .join('\n');
   return new Response(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, {
     headers: { 'Content-Type': 'application/xml; charset=utf-8' },

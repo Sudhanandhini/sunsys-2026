@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
 import aboutTeam from '../images/about.png';
@@ -76,7 +77,7 @@ const btnDark = 'btn !rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold up
         </blockquote>
         <p class="lead mt-6 !text-white/75">Founded by {company.founder} in May {company.founded}, Sunsys Technologies started as a web services provider and was registered as {company.legalName} in May {company.registered}.</p>
         <p class="lead mt-4 !text-white/75">Today we design, build and host websites for businesses in India, Dubai, the UK, the USA and beyond.</p>
-        <a href="/about" class="btn mt-9 !rounded-[2px] bg-gold px-7 py-3.5 text-[13px] font-bold uppercase tracking-[.14em] text-navy shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-white">About our company</a>
+        <a href={url('/about')} class="btn mt-9 !rounded-[2px] bg-gold px-7 py-3.5 text-[13px] font-bold uppercase tracking-[.14em] text-navy shadow-lg shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-white">About our company</a>
       </div>
     </div>
     <div class="container-x relative mt-24" data-reveal>
@@ -133,7 +134,7 @@ const btnDark = 'btn !rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold up
           {hosting.map((s) => (
             <li class="relative" data-host-row>
               <span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px origin-left bg-line" data-host-line></span>
-              <a href={`/services/${s.slug}`} class="group relative grid grid-cols-[auto_1fr_auto] items-start gap-5 py-6 pr-2 transition-[padding] duration-500 hover:pl-3 md:gap-6">
+              <a href={url(`/services/${s.slug}`)} class="group relative grid grid-cols-[auto_1fr_auto] items-start gap-5 py-6 pr-2 transition-[padding] duration-500 hover:pl-3 md:gap-6">
                 <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-ivory transition-transform duration-500 group-hover:scale-x-100"></span>
                 <span class="relative grid size-14 place-items-center rounded-full border border-gold/50 text-navy transition-colors duration-500 group-hover:border-navy group-hover:bg-navy group-hover:text-gold-soft" data-host-icon>
                   <Icon name={s.icon} size={24} strokeWidth={1.4} />
@@ -156,8 +157,8 @@ const btnDark = 'btn !rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold up
         </ul>
 
         <div class="mt-9 flex flex-wrap items-center gap-6" data-host-fade>
-          <a href="/services/website-maintenance" class={btnDark}>See maintenance plans</a>
-          <a href="/contact?type=quote" class="inline-flex items-center gap-2 border-b border-gold pb-1 text-[13px] font-semibold uppercase tracking-[.15em] text-navy hover:text-gold">Ask about hosting <Icon name="ArrowRight" size={14} strokeWidth={2} /></a>
+          <a href={url('/services/website-maintenance')} class={btnDark}>See maintenance plans</a>
+          <a href={url('/contact?type=quote')} class="inline-flex items-center gap-2 border-b border-gold pb-1 text-[13px] font-semibold uppercase tracking-[.15em] text-navy hover:text-gold">Ask about hosting <Icon name="ArrowRight" size={14} strokeWidth={2} /></a>
         </div>
       </div>
     </div>

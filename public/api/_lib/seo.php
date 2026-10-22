@@ -41,15 +41,18 @@ function seo_settings(): array
     return $s;
 }
 
-/** https://domain of the live site: the setting, else the canonical the build wrote, else this request's host. */
+/**
+ * URL of the live site's home page without the trailing slash, e.g. https://sunsys.in or
+ * https://sunsysweb.co.in/sunsys-2026: the setting, else the home canonical the build wrote, else this request.
+ */
 function seo_origin(): string
 {
     $set = rtrim(seo_settings()['site_url'], '/');
     if ($set !== '') return $set;
     $home = @file_get_contents(site_root() . '/index.html', false, null, 0, 65536);
-    if ($home && preg_match('#<link rel="canonical" href="(https?://[^/"]+)#', $home, $m)) return $m[1];
+    if ($home && preg_match('#<link rel="canonical" href="(https?://[^"]+)"#', $home, $m)) return rtrim($m[1], '/');
     $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-    return ($https ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    return ($https ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost') . base_path();
 }
 
 /** A site path like /services/web-hosting/ (lowercase letters, digits, - _ / only), or null. */

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "astro build",
+    "build:staging": "astro build --site https://sunsysweb.co.in --base /sunsys-2026",
     "preview": "astro preview",
+    "perf": "astro build && node scripts/serve-dist.mjs",
     "dev:astro": "astro dev",
     "dev:php": "node scripts/dev-php.mjs"
   },

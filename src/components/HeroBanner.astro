@@ -1,6 +1,7 @@
 ---
 // Home banner: full-bleed background video (Vimeo) with a single headline over it.
-// The poster frame shows first; the video loads once the page is idle (skipped for reduced motion / data saver).
+// The poster frame shows first; the video loads once the page is idle (skipped on phones/tablets, slow
+// connections, reduced motion and data saver).
 import Photo from './Photo.astro';
 
 const VIDEO = 'https://player.vimeo.com/video/1150019487?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&api=1';
@@ -38,8 +39,11 @@ const VIDEO = 'https://player.vimeo.com/video/1150019487?background=1&autoplay=1
 <script>
   const frame = document.querySelector<HTMLIFrameElement>('[data-hero] [data-video]');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-  if (frame && !reduced && !saveData) {
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const slowNet = conn?.saveData || /2g|3g/.test(conn?.effectiveType ?? '');
+  // The stream is ~15 MB, so phones and small tablets keep the poster frame
+  const wide = matchMedia('(min-width: 1024px)').matches;
+  if (frame && !reduced && !slowNet && wide) {
     // Reveal it only once Vimeo reports playback (its player postMessage API), so a slow, blocked or
     // failed embed never covers the poster frame with a black box or an error page
     const onMessage = (e: MessageEvent) => {

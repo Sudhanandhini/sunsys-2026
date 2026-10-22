@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 // "What we do": bento grid of photo tiles. One large featured service, eight smaller ones.
 // Photos live at src/assets/photos/services/<slug>.jpg (Unsplash, free licence).
 import Icon from './Icon.jsx';
@@ -29,7 +30,7 @@ const btnLine = 'btn !rounded-[2px] border border-navy/30 px-7 py-3.5 text-[13px
         const big = i === 0;
         return (
           <li class={big ? 'sm:col-span-2 lg:row-span-2' : ''} data-svc-card>
-            <a href={`/services/${s.slug}`} class={`svc-tile group relative block h-full overflow-hidden rounded-2xl bg-navy ${big ? 'min-h-[22rem]' : 'min-h-[15rem]'}`}>
+            <a href={url(`/services/${s.slug}`)} class={`svc-tile group relative block h-full overflow-hidden rounded-2xl bg-navy ${big ? 'min-h-[22rem]' : 'min-h-[15rem]'}`}>
               {s.img && <Photo src={s.img} alt="" sizes={big ? '(min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw'} loading="lazy" class="svc-img absolute inset-0 size-full object-cover" data-svc-img />}
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-navy/5"></span>
               <span aria-hidden="true" class="absolute inset-0 bg-navy/40 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
@@ -55,7 +56,7 @@ const btnLine = 'btn !rounded-[2px] border border-navy/30 px-7 py-3.5 text-[13px
       })}
     </ul>
 
-    <div class="mt-14 text-center" data-reveal><a href="/services" class={btnLine}>View all services</a></div>
+    <div class="mt-14 text-center" data-reveal><a href={url('/services')} class={btnLine}>View all services</a></div>
   </div>
 </section>
 

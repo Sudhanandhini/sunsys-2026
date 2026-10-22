@@ -28,6 +28,15 @@ function blog_post(string $slug): ?array
     return $p;
 }
 
+/** Response data with every cover as a browser URL (the site may sit in a subfolder); the database keeps /uploads/... */
+function blog_public(array $data): array
+{
+    array_walk_recursive($data, function (&$v, $k) {
+        if ($k === 'cover' && is_string($v)) $v = public_url($v);
+    });
+    return $data;
+}
+
 /** Title and description for search results and link previews, falling back to the post's own text. */
 function blog_seo(array $p): array
 {

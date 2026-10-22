@@ -29,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title>Log in · Sunsys admin</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/admin/assets/admin.css"></head>
+<title>Log in · Sunsys admin</title><link rel="icon" href="../favicon.svg"><link rel="stylesheet" href="assets/admin.css"></head>
 <body class="auth">
   <div class="auth-art" aria-hidden="true"><span></span><span></span></div>
   <main class="auth-card">
-    <img src="/logo-dark.png" alt="Sunsys Technologies" width="170" height="35" class="auth-logo">
+    <img src="../logo-dark.png" alt="Sunsys Technologies" width="170" height="35" class="auth-logo">
     <p class="eyebrow">Admin dashboard</p>
     <h1>Welcome <em>back</em></h1>
     <?php if ($error): ?><p class="alert err" role="alert"><?= e($error) ?></p><?php endif; ?>
@@ -43,6 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <label>Password<input name="password" type="password" required autocomplete="current-password"></label>
       <button class="btn btn-block" type="submit">Log in</button>
     </form>
-    <a class="back" href="/">← Back to website</a>
+    <a class="back" href="../">← Back to website</a>
   </main>
 </body></html>

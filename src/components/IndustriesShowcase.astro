@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 // Industries: tall photo cards in a staggered three-column grid.
 // Photos live at src/assets/photos/industries/<slug>.jpg (Unsplash, free licence); a tinted
 // gradient stands in for any sector without one.
@@ -28,7 +29,7 @@ const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photoPat
             <p class="font-serif text-[48px] font-light leading-none text-gold-soft tabular-nums" data-ind-count={items.length}>{pad(items.length)}</p>
             <p class="text-[12px] font-semibold uppercase leading-relaxed tracking-[.16em] text-white/60">Sectors we<br />specialise in</p>
           </div>
-          <a href="/contact?type=quote" class="btn !rounded-[2px] bg-gold px-6 py-3 text-[12px] font-bold uppercase tracking-[.14em] text-navy transition-colors hover:bg-white">Discuss your project</a>
+          <a href={url('/contact?type=quote')} class="btn !rounded-[2px] bg-gold px-6 py-3 text-[12px] font-bold uppercase tracking-[.14em] text-navy transition-colors hover:bg-white">Discuss your project</a>
         </div>
       </div>
     </div>
@@ -37,9 +38,9 @@ const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photoPat
     <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:pb-16">
       {items.map((ind, i) => (
         <li class={i % 3 === 1 ? 'lg:translate-y-16' : ''} data-ind-col={i % 3}>
-          <a href={`/industries/${ind.slug}`} class="ind-card group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0b3a6e] ring-1 ring-white/10" data-ind-card>
+          <a href={url(`/industries/${ind.slug}`)} class="ind-card group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0b3a6e] ring-1 ring-white/10" data-ind-card>
             {ind.img
-              ? <Photo src={ind.img} alt="" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" loading="lazy" class="ind-img absolute inset-0 size-full object-cover" data-ind-img />
+              ? <Photo src={ind.img} alt="" sizes="(min-width: 1200px) 370px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" loading="lazy" class="ind-img absolute inset-0 size-full object-cover" data-ind-img />
               : <span class="ind-img absolute inset-0 bg-[linear-gradient(150deg,#0b3a6e,#062a52)]" data-ind-img></span>}
             <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-navy/5 transition-opacity duration-500"></span>
             <span aria-hidden="true" class="ind-tint absolute inset-0 bg-navy/55 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>

@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
 import aboutTeam from '../images/about.png';
@@ -71,7 +72,7 @@ const btnDark = 'group relative inline-flex items-center gap-3 overflow-hidden r
         <p class="lead mt-6">{company.name} was founded in Bengaluru by {company.founder} in May {company.founded}. We began as a web services company and registered as {company.legalName} in May {company.registered}.</p>
         <p class="lead mt-4">Over {years} years we have built a reputation for quality work at a fair price, for clients in {footprints.slice(0, 6).join(', ')} and more.</p>
         <div class="mt-9 flex flex-wrap items-center gap-6">
-          <a href="/contact" class={btnDark}>
+          <a href={url('/contact')} class={btnDark}>
             <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100"></span>
             <span class="relative">Contact us</span>
             <Icon name="ArrowRight" size={15} strokeWidth={2} className="relative transition-transform duration-300 group-hover:translate-x-1" />
@@ -148,7 +149,7 @@ const btnDark = 'group relative inline-flex items-center gap-3 overflow-hidden r
       <ul class="offer mt-14 flex flex-col gap-3 lg:h-[30rem] lg:flex-row" data-offer>
         {offer.map((o, i) => (
           <li class={`offer-panel group relative min-h-[15rem] overflow-hidden bg-navy lg:min-h-0 ${i === 0 ? 'is-open' : ''}`} data-reveal style={`--d:${i * 0.1}s`}>
-            <a href={o.href} class="absolute inset-0 block" aria-label={o.label}>
+            <a href={url(o.href)} class="absolute inset-0 block" aria-label={o.label}>
               <Photo src={o.img} alt="" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" class="offer-img absolute inset-0 size-full object-cover" />
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/20"></span>
               <span aria-hidden="true" class="pointer-events-none absolute inset-3 border border-gold-soft/30"></span>

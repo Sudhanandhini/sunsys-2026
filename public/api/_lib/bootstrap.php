@@ -14,6 +14,28 @@ ini_set('display_errors', $CONFIG['debug'] ?? false ? '1' : '0');
 error_reporting(E_ALL);
 date_default_timezone_set($CONFIG['timezone'] ?? 'Asia/Kolkata');
 
+/**
+ * URL path the site is served under: '' at a domain root, '/sunsys-2026' when it sits in public_html/sunsys-2026.
+ * Worked out from where the site's files are relative to the web root; config 'base_path' overrides it.
+ */
+function base_path(): string
+{
+    global $CONFIG;
+    static $base = null;
+    if ($base !== null) return $base;
+    if (isset($CONFIG['base_path'])) return $base = rtrim('/' . trim((string) $CONFIG['base_path'], '/'), '/');
+    $norm = fn (string $p) => rtrim(str_replace('\\', '/', realpath($p) ?: $p), '/');
+    $site = $norm(dirname(__DIR__, 2));
+    $docRoot = $norm($_SERVER['DOCUMENT_ROOT'] ?? '');
+    return $base = ($docRoot !== '' && str_starts_with($site, $docRoot . '/')) ? substr($site, strlen($docRoot)) : '';
+}
+
+/** Browser URL for a site path stored root-relative (e.g. '/uploads/blog/x.jpg'); other values pass through. */
+function public_url(?string $path): ?string
+{
+    return $path !== null && str_starts_with($path, '/') && !str_starts_with($path, '//') ? base_path() . $path : $path;
+}
+
 /** Private storage (CVs). Defaults to api/_private, which is blocked by .htaccess. */
 function storage_dir(string $sub): string
 {
@@ -149,7 +171,7 @@ function start_session(): void
     if (session_status() === PHP_SESSION_ACTIVE) return;
     $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
     session_name('sunsys_admin');
-    session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => $https, 'httponly' => true, 'samesite' => 'Strict']);
+    session_set_cookie_params(['lifetime' => 0, 'path' => base_path() . '/', 'secure' => $https, 'httponly' => true, 'samesite' => 'Strict']);
     session_start();
     // Idle timeout: 2 hours
     if (isset($_SESSION['seen']) && time() - $_SESSION['seen'] > 7200) {

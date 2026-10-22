@@ -60,5 +60,5 @@ if ($post) {
     $data = ['missing' => true] + $side;
 }
 
-$meta['extra_head'] = ($meta['extra_head'] ?? '') . '<script>window.__BLOG_POST__=' . $json($data) . '</script>';
+$meta['extra_head'] = ($meta['extra_head'] ?? '') . '<script>window.__BLOG_POST__=' . $json(blog_public($data)) . '</script>';
 echo seo_apply($html, $meta);

@@ -129,11 +129,11 @@ admin_head($post['id'] ? 'Edit post' : 'New post', 'posts.php', $user);
         <a href="categories.php" class="small" style="font-weight:600">Manage categories</a>
       </label>
       <button class="btn btn-block" type="submit">Save</button>
-      <?php if ($post['id'] && $post['status'] === 'published'): ?><a class="btn btn-line btn-block" href="/blog/post/?slug=<?= e(urlencode($post['slug'])) ?>" target="_blank" rel="noopener">View on website</a><?php endif; ?>
+      <?php if ($post['id'] && $post['status'] === 'published'): ?><a class="btn btn-line btn-block" href="../blog/post/?slug=<?= e(urlencode($post['slug'])) ?>" target="_blank" rel="noopener">View on website</a><?php endif; ?>
     </div>
     <div class="card stack">
       <h2>Cover image</h2>
-      <?php if ($post['cover']): ?><img src="<?= e($post['cover']) ?>" alt="" class="cover-prev"><label class="check"><input type="checkbox" name="remove_cover" value="1"> Remove image</label><?php endif; ?>
+      <?php if ($post['cover']): ?><img src="<?= e(public_url($post['cover'])) ?>" alt="" class="cover-prev"><label class="check"><input type="checkbox" name="remove_cover" value="1"> Remove image</label><?php endif; ?>
       <label class="file">JPG, PNG or WebP, up to 4 MB<input type="file" name="cover" accept="image/jpeg,image/png,image/webp"></label>
     </div>
   </aside>

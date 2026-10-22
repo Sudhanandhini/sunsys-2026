@@ -79,7 +79,7 @@ admin_head('SEO settings', 'seo.php', $user);
     </div>
 
     <div class="card stack">
-      <div class="card-head"><h2>robots.txt</h2><a href="/robots.txt" target="_blank" rel="noopener">View live file</a></div>
+      <div class="card-head"><h2>robots.txt</h2><a href="../robots.txt" target="_blank" rel="noopener">View live file</a></div>
       <label>robots.txt contents <span class="muted">(the sitemap line is added automatically)</span>
         <textarea name="robots_txt" rows="8" class="mono" spellcheck="false"><?= e($s['robots_txt']) ?></textarea>
       </label>
@@ -90,7 +90,7 @@ admin_head('SEO settings', 'seo.php', $user);
     <div class="card stack">
       <h2>Sitemap</h2>
       <label class="check"><input type="checkbox" name="sitemap_enabled" value="1" <?= $s['sitemap_enabled'] === '1' ? 'checked' : '' ?>> Publish sitemap.xml</label>
-      <p class="muted small">Lists every page and published blog post, except ones hidden from search engines. Submit <a href="/sitemap.xml" target="_blank" rel="noopener"><?= e($detected) ?>/sitemap.xml</a> in Google Search Console.</p>
+      <p class="muted small">Lists every page and published blog post, except ones hidden from search engines. Submit <a href="../sitemap.xml" target="_blank" rel="noopener"><?= e($detected) ?>/sitemap.xml</a> in Google Search Console.</p>
       <button class="btn btn-block" type="submit">Save settings</button>
     </div>
   </aside>

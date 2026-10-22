@@ -9,6 +9,9 @@
   const state = JSON.parse(document.getElementById('blocks-data').textContent || '{}');
   if (!state.rows?.length) state.rows = [{ cols: [{ widgets: [] }] }];
   const MAX_COLS = 4;
+  // Uploads are stored as /uploads/...; when the site sits in a subfolder, previews need that folder in front
+  const siteBase = location.pathname.replace(/\/admin\/[^/]*$/, '');
+  const preview = (src) => (src.startsWith('/') && !src.startsWith('//') ? siteBase + src : src);
 
   const TYPES = {
     heading: { label: 'Heading', make: () => ({ type: 'heading', level: 2, html: '' }) },
@@ -167,7 +170,7 @@
           },
         });
         const body = h('div', { class: 'pb-image' },
-          w.src ? h('img', { src: w.src, alt: '', class: 'pb-image-prev' }) : h('div', { class: 'pb-image-empty' }, 'No image yet'),
+          w.src ? h('img', { src: preview(w.src), alt: '', class: 'pb-image-prev' }) : h('div', { class: 'pb-image-empty' }, 'No image yet'),
           h('div', { class: 'pb-fields' },
             field(w.src ? 'Replace image (JPG, PNG or WebP, up to 4 MB)' : 'Upload image (JPG, PNG or WebP, up to 4 MB)', file),
             status,

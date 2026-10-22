@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import '../styles/global.css';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
@@ -7,10 +8,13 @@ import { company } from '../data/site';
 import { photo } from '../lib/photos';
 import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
+// Hero headings put their accent words in italic, so this face is needed for the first paint too
+import frauncesItalicLatin from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-italic.woff2?url';
 interface Props { title: string; description?: string }
 const { title, description = 'Sunsys Technologies is a Bengaluru website design and development company offering custom websites, e-commerce, hosting and maintenance since 2006.' } = Astro.props;
 const fullTitle = title === 'Home' ? 'Sunsys Technologies | Website Design & Development Company in Bangalore' : `${title} | Sunsys Technologies`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// Every page URL ends in "/" (a subfolder build's home page comes through as "/sunsys-2026" without it)
+const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site);
 // Mega-menu promo photo (React can't use astro:assets, so it gets a pre-built URL)
 const promo = await getImage({ src: photo('/images/cta-team.jpg')!, width: 480, format: 'webp', quality: 70 });
 ---
@@ -22,9 +26,10 @@ const promo = await getImage({ src: photo('/images/cta-team.jpg')!, width: 480, 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={frauncesItalicLatin} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#062a52" />
     <!-- Scroll reveal: content is only hidden once JS is known to be running -->
     <script is:inline>document.documentElement.classList.add('reveal-on');</script>
@@ -41,7 +46,7 @@ const promo = await getImage({ src: photo('/images/cta-team.jpg')!, width: 480, 
         <p class="flex items-center gap-3">
           <span class="hidden sm:inline">Build your business identity with our consultancy</span>
           <span class="hidden h-3 w-px bg-gold-soft/40 sm:block"></span>
-          <a href="/contact?type=quote" class="group inline-flex items-center gap-1.5 font-bold uppercase tracking-[.14em] text-gold-soft hover:text-white">
+          <a href={url('/contact?type=quote')} class="group inline-flex items-center gap-1.5 font-bold uppercase tracking-[.14em] text-gold-soft hover:text-white">
             Get started now<span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
           </a>
         </p>

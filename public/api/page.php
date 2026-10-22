@@ -5,6 +5,9 @@ require __DIR__ . '/_lib/bootstrap.php';
 require __DIR__ . '/_lib/seo.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+// Site in a subfolder (e.g. /sunsys-2026/about/): page paths are relative to it
+$base = base_path();
+if ($base !== '' && ($uri === $base || str_starts_with($uri, "$base/"))) $uri = substr($uri, strlen($base)) ?: '/';
 $path = seo_path(rawurldecode($uri));
 $file = $path ? site_root() . $path . 'index.html' : null;
 if (!$file || !is_file($file)) {
@@ -15,7 +18,7 @@ if (!$file || !is_file($file)) {
 // Same URL style as the build (and its canonicals): /about → /about/
 if (!str_ends_with($uri, '/')) {
     $qs = $_SERVER['QUERY_STRING'] ?? '';
-    header('Location: ' . $path . ($qs !== '' ? "?$qs" : ''), true, 301);
+    header('Location: ' . $base . $path . ($qs !== '' ? "?$qs" : ''), true, 301);
     exit;
 }
 

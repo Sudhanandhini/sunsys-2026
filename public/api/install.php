@@ -149,7 +149,7 @@ if (!$error && !$hasAdmin && $_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title>Install · Sunsys admin</title><link rel="stylesheet" href="/admin/assets/admin.css"></head>
+<title>Install · Sunsys admin</title><link rel="stylesheet" href="../admin/assets/admin.css"></head>
 <body class="auth">
   <main class="auth-card">
     <p class="eyebrow">Sunsys admin</p>
@@ -158,11 +158,11 @@ if (!$error && !$hasAdmin && $_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($done): ?>
       <p class="alert ok">All set. Your admin account is ready.</p>
       <p>For safety, delete <code>api/install.php</code> from the server now.</p>
-      <a class="btn" href="/admin/login.php">Go to login</a>
+      <a class="btn" href="../admin/login.php">Go to login</a>
     <?php elseif ($hasAdmin): ?>
       <p class="alert ok">Setup is already complete.</p>
       <p>Delete <code>api/install.php</code> from the server if it is still there.</p>
-      <a class="btn" href="/admin/login.php">Go to login</a>
+      <a class="btn" href="../admin/login.php">Go to login</a>
     <?php elseif (!$error || $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
       <p class="muted">Create the first admin account. The database tables have been created.</p>
       <form method="post" class="stack">

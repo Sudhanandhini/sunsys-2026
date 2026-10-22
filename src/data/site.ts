@@ -1,3 +1,5 @@
+import { url } from '../lib/url';
+
 // Single source of truth for site content. Edit here; pages update automatically.
 
 export const company = {
@@ -15,7 +17,7 @@ export const company = {
     linkedin: '#',
   },
   // Contact / quote / newsletter forms POST here. Defaults to the PHP API in public/api.
-  formEndpoint: import.meta.env.PUBLIC_FORM_ENDPOINT || '/api/contact.php',
+  formEndpoint: import.meta.env.PUBLIC_FORM_ENDPOINT || url('/api/contact.php'),
 };
 
 export const nav = [

@@ -1,6 +1,8 @@
-# Site root (public_html). Caching + compression only; folder rules live in admin/, api/ and uploads/.
-# If cPanel added lines here (e.g. a PHP version handler), keep them when redeploying.
+# Site root (public_html, or a subfolder of it). Caching + compression only; folder rules live in admin/,
+# api/ and uploads/. If cPanel added lines here (e.g. a PHP version handler), keep them when redeploying.
+# The rules below are relative to this folder, so they work at a domain root and in a subfolder alike.
 
+# For a subfolder build (npm run build:staging) the build writes the folder into this path
 ErrorDocument 404 /404.html
 
 # blog/post/ has both: index.php adds each article's SEO tags to the built index.html
@@ -12,28 +14,30 @@ DirectoryIndex index.php index.html
   RewriteEngine On
   RewriteRule ^robots\.txt$ api/robots.php [L]
   RewriteRule ^sitemap\.xml$ api/sitemap.php [L]
-  RewriteCond %{REQUEST_URI} !^/(api|admin|uploads|_astro|blog/post)(/|$)
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteCond %{REQUEST_FILENAME}/index.html -f
-  RewriteRule ^ api/page.php [L]
+  RewriteRule ^(?!(?:api|admin|uploads|_astro|blog/post)(?:/|$)) api/page.php [L]
 </IfModule>
 
-# Compress text responses
+# Compress text responses (Brotli where the host has it, gzip otherwise)
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json image/svg+xml image/x-icon
+</IfModule>
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json image/svg+xml image/x-icon
 </IfModule>
 
 <IfModule mod_headers.c>
   # Astro build output has content hashes in the file names, so it never changes: cache for a year
-  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+  <If "%{REQUEST_URI} =~ m#/_astro/#">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </If>
   # Pages: always revalidate so a redeploy shows up straight away
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
-  # Un-hashed static files (logos, favicon)
-  <FilesMatch "\.(png|svg|ico)$">
+  # Un-hashed static files (logos, favicon, blog uploads, fonts)
+  <FilesMatch "\.(png|svg|ico|jpe?g|webp|avif|gif|woff2?)$">
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
 </IfModule>

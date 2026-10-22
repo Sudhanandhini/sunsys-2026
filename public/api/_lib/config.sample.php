@@ -15,5 +15,7 @@ return [
     // Optional: email address that receives a notice for each new enquiry or application (uses PHP mail()).
     'notify_email' => null,
     'timezone' => 'Asia/Kolkata',
+    // URL folder the site lives in, e.g. '/sunsys-2026'. Leave null: it is detected automatically.
+    'base_path' => null,
     'debug' => false,
 ];

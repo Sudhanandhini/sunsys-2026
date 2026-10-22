@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { url } from '../lib/url';
 
 const fmt = (d) => (d ? new Date(d.replace(' ', 'T')).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
-export const postHref = (p) => `/blog/post/?slug=${encodeURIComponent(p.slug)}`;
+export const postHref = (p) => url(`/blog/post/?slug=${encodeURIComponent(p.slug)}`);
 
 function Box({ title, children, i = 0 }) {
   return (
@@ -25,7 +26,7 @@ export default function BlogSidebar({ categories = [], recent = [], query = '', 
   const submit = (e) => {
     e.preventDefault();
     if (onSearch) onSearch(q.trim());
-    else location.href = `/blog${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ''}`;
+    else location.href = url(`/blog${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ''}`);
   };
   const pick = (slug) => (e) => {
     if (!onCategory) return; // plain link navigation
@@ -59,7 +60,7 @@ export default function BlogSidebar({ categories = [], recent = [], query = '', 
               return (
                 <li key={c.slug || 'all'} className="border-b border-gold/15 last:border-0">
                   <a
-                    href={c.slug ? `/blog?category=${encodeURIComponent(c.slug)}` : '/blog'}
+                    href={url(c.slug ? `/blog?category=${encodeURIComponent(c.slug)}` : '/blog')}
                     onClick={pick(c.slug)}
                     aria-current={on ? 'true' : undefined}
                     className={`group flex items-center justify-between py-3 text-[15px] transition-colors ${on ? 'font-semibold text-gold' : 'text-body hover:text-navy'}`}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 import { nav, services, industries } from '../data/site';
+import { url } from '../lib/url';
 
 const web = services.filter((s) => s.group === 'web');
 const hosting = services.filter((s) => s.group === 'hosting');
@@ -59,7 +60,7 @@ export default function Header({ path = '/', promoImg = '' }) {
 
   const open = () => { clearTimeout(closeTimer.current); setMega(true); };
   const close = () => { closeTimer.current = setTimeout(() => setMega(false), 140); };
-  const isActive = (href) => (href === '/' ? path === '/' : path.startsWith(href));
+  const isActive = (href) => (href === '/' ? path === url('/') : path.startsWith(url(href)));
 
   const linkCls = (on) =>
     `hdr-nav relative flex items-center gap-1 whitespace-nowrap px-2.5 py-2 font-head text-[13px] font-semibold uppercase tracking-[.1em] transition-colors xl:px-3.5 xl:text-[14px] xl:tracking-[.12em] ${
@@ -79,9 +80,9 @@ export default function Header({ path = '/', promoImg = '' }) {
           className={`container-x flex items-center justify-between gap-6 transition-[height] duration-500 ${scrolled ? 'h-[68px]' : 'h-[84px]'}`}
           aria-label="Main"
         >
-          <a href="/" className="shrink-0" aria-label="Sunsys Technologies home">
+          <a href={url('/')} className="shrink-0" aria-label="Sunsys Technologies home">
             <img
-              src="/logo-dark.png"
+              src={url('/logo-dark.png')}
               alt="Sunsys Technologies"
               width="429"
               height="89"
@@ -106,7 +107,7 @@ export default function Header({ path = '/', promoImg = '' }) {
                 </li>
               ) : (
                 <li key={item.href}>
-                  <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} className={linkCls(isActive(item.href))}>
+                  <a href={url(item.href)} aria-current={isActive(item.href) ? 'page' : undefined} className={linkCls(isActive(item.href))}>
                     {item.label}
                   </a>
                 </li>
@@ -116,7 +117,7 @@ export default function Header({ path = '/', promoImg = '' }) {
 
           <div className="flex items-center gap-3">
             <a
-              href="/contact?type=quote"
+              href={url('/contact?type=quote')}
               className="hdr-cta group relative hidden items-center gap-2.5 overflow-hidden rounded-[2px] bg-navy px-6 py-3 whitespace-nowrap text-[12px] font-bold uppercase tracking-[.16em] text-white shadow-lg shadow-navy/15 sm:inline-flex lg:hidden xl:inline-flex"
             >
               <span aria-hidden="true" className="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" />
@@ -148,22 +149,22 @@ export default function Header({ path = '/', promoImg = '' }) {
             <div className="mega-col" style={{ '--i': 0 }}>
               <ColHead>Web development</ColHead>
               <ul className="grid grid-flow-col grid-rows-[repeat(5,auto)] content-start gap-x-8">
-                {web.map((s) => <MegaLink key={s.slug} href={`/services/${s.slug}`}>{s.title}</MegaLink>)}
+                {web.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}
               </ul>
             </div>
             <div className="mega-col" style={{ '--i': 1 }}>
               <ColHead>Hosting &amp; care</ColHead>
-              <ul>{hosting.map((s) => <MegaLink key={s.slug} href={`/services/${s.slug}`}>{s.title}</MegaLink>)}</ul>
-              <a href="/services" className="mt-5 inline-flex items-center gap-2 border-b border-gold pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">
+              <ul>{hosting.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}</ul>
+              <a href={url('/services')} className="mt-5 inline-flex items-center gap-2 border-b border-gold pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">
                 All services <ArrowRight size={13} strokeWidth={2.2} />
               </a>
             </div>
             <div className="mega-col" style={{ '--i': 2 }}>
               <ColHead>Industries</ColHead>
-              <ul>{industries.map((s) => <MegaLink key={s.slug} href={`/industries/${s.slug}`}>{s.title}</MegaLink>)}</ul>
+              <ul>{industries.map((s) => <MegaLink key={s.slug} href={url(`/industries/${s.slug}`)}>{s.title}</MegaLink>)}</ul>
             </div>
             {/* feature card */}
-            <a href="/contact?type=quote" className="mega-col group relative block overflow-hidden rounded-t-[999px] bg-navy" style={{ '--i': 3 }}>
+            <a href={url('/contact?type=quote')} className="mega-col group relative block overflow-hidden rounded-t-[999px] bg-navy" style={{ '--i': 3 }}>
               <img src={promoImg} alt="" loading="lazy" className="absolute inset-0 size-full object-cover opacity-45 transition-transform duration-[1.2s] group-hover:scale-110" />
               <span className="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent" />
               <span className="relative flex h-full min-h-[15rem] flex-col justify-end p-6 text-white">
@@ -191,7 +192,7 @@ export default function Header({ path = '/', promoImg = '' }) {
           aria-label="Mobile menu"
         >
           <div className="flex h-[76px] items-center justify-between border-b border-gold/25 px-6">
-            <img src="/logo-dark.png" alt="Sunsys Technologies" width="429" height="89" className="h-8 w-auto" />
+            <img src={url('/logo-dark.png')} alt="Sunsys Technologies" width="429" height="89" className="h-8 w-auto" />
             <button
               type="button"
               className="grid size-10 place-items-center rounded-full border border-gold/40 text-navy"
@@ -216,16 +217,16 @@ export default function Header({ path = '/', promoImg = '' }) {
                   </button>
                   {mobServices && (
                     <div className="space-y-6 pb-5">
-                      <div><ColHead>Web development</ColHead><ul>{web.map((s) => <MegaLink key={s.slug} href={`/services/${s.slug}`}>{s.title}</MegaLink>)}</ul></div>
-                      <div><ColHead>Hosting &amp; care</ColHead><ul>{hosting.map((s) => <MegaLink key={s.slug} href={`/services/${s.slug}`}>{s.title}</MegaLink>)}</ul></div>
-                      <div><ColHead>Industries</ColHead><ul>{industries.map((s) => <MegaLink key={s.slug} href={`/industries/${s.slug}`}>{s.title}</MegaLink>)}</ul></div>
+                      <div><ColHead>Web development</ColHead><ul>{web.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}</ul></div>
+                      <div><ColHead>Hosting &amp; care</ColHead><ul>{hosting.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}</ul></div>
+                      <div><ColHead>Industries</ColHead><ul>{industries.map((s) => <MegaLink key={s.slug} href={url(`/industries/${s.slug}`)}>{s.title}</MegaLink>)}</ul></div>
                     </div>
                   )}
                 </li>
               ) : (
                 <li key={item.href} className="drawer-item border-b border-gold/20" style={{ '--i': i }}>
                   <a
-                    href={item.href}
+                    href={url(item.href)}
                     className={`flex items-center justify-between py-4 font-serif text-[22px] ${isActive(item.href) ? 'text-gold' : 'text-ink'}`}
                   >
                     {item.label}
@@ -236,7 +237,7 @@ export default function Header({ path = '/', promoImg = '' }) {
             )}
           </ul>
           <div className="border-t border-gold/25 p-6">
-            <a href="/contact?type=quote" className="flex w-full items-center justify-center gap-2 rounded-[2px] bg-navy px-6 py-4 text-[13px] font-bold uppercase tracking-[.16em] text-white">
+            <a href={url('/contact?type=quote')} className="flex w-full items-center justify-center gap-2 rounded-[2px] bg-navy px-6 py-4 text-[13px] font-bold uppercase tracking-[.16em] text-white">
               Get a free quote <ArrowRight size={14} strokeWidth={2.2} />
             </a>
           </div>

@@ -1,4 +1,5 @@
 ---
+import { url } from '../../lib/url';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ProcessSteps from '../../components/ProcessSteps.astro';
@@ -67,7 +68,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
             <p class="mt-1 text-white/70">Tell us about your business and we will suggest the right pages and features.</p>
           </div>
         </div>
-        <a href="/contact?type=quote" class="group relative inline-flex shrink-0 items-center gap-3 overflow-hidden rounded-[2px] bg-gold px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-navy">
+        <a href={url('/contact?type=quote')} class="group relative inline-flex shrink-0 items-center gap-3 overflow-hidden rounded-[2px] bg-gold px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-navy">
           <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-white transition-transform duration-500 group-hover:scale-x-100"></span>
           <span class="relative">Request a quote</span>
           <Icon name="ArrowRight" size={15} strokeWidth={2} className="relative transition-transform group-hover:translate-x-1" />
@@ -86,7 +87,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
       <ul class="mt-14 grid border-t border-gold/30 sm:grid-cols-2 lg:grid-cols-4">
         {fit.map((s, i) => (
           <li class="border-b border-gold/30 sm:odd:border-r lg:border-r lg:last:border-r-0" data-reveal style={`--d:${i * 0.12}s`}>
-            <a href={`/services/${s.slug}`} class="rel-card group flex h-full flex-col items-center px-6 pb-10 pt-12 text-center transition-colors duration-500 hover:bg-ivory">
+            <a href={url(`/services/${s.slug}`)} class="rel-card group flex h-full flex-col items-center px-6 pb-10 pt-12 text-center transition-colors duration-500 hover:bg-ivory">
               <span class="relative block w-[70%] max-w-[190px]">
                 <span aria-hidden="true" class="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-t-full border border-gold/70 transition-[translate] duration-700 group-hover:translate-x-0 group-hover:translate-y-0"></span>
                 <span class="relative block aspect-[3/4] overflow-hidden rounded-t-full bg-navy">
@@ -120,7 +121,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
       <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {others.map((o, i) => (
           <li data-reveal style={`--d:${i * 0.1}s`}>
-            <a href={`/industries/${o.slug}`} class="rel-card group relative block aspect-[3/4] overflow-hidden rounded-t-[999px] bg-[#0b3a6e] ring-1 ring-white/10">
+            <a href={url(`/industries/${o.slug}`)} class="rel-card group relative block aspect-[3/4] overflow-hidden rounded-t-[999px] bg-[#0b3a6e] ring-1 ring-white/10">
               {indPhoto(o.slug) && <Photo src={indPhoto(o.slug)!} alt="" sizes="(min-width: 1024px) 25vw, 50vw" loading="lazy" class="rel-img absolute inset-0 size-full object-cover" />}
               <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></span>
               <span class="absolute inset-x-0 bottom-0 p-5 text-center">

@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 // Closing call to action used across inner pages: copy and buttons on navy beside an arch photo.
 // `accent` (optional) is a word or phrase inside `title` shown in gold italics.
 import { company, stats, footprints } from '../data/site';
@@ -40,12 +41,12 @@ const facts = [
           <p class="lead cta-in mt-6 max-w-lg !text-white/75" style="--i:2">{text}</p>
 
           <div class="cta-in mt-9 flex flex-wrap items-center gap-4" style="--i:3">
-            <a href="/contact?type=quote" class="group relative inline-flex items-center gap-3 overflow-hidden rounded-[2px] bg-gold px-8 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-navy shadow-lg shadow-black/20">
+            <a href={url('/contact?type=quote')} class="group relative inline-flex items-center gap-3 overflow-hidden rounded-[2px] bg-gold px-8 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-navy shadow-lg shadow-black/20">
               <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-white transition-transform duration-500 group-hover:scale-x-100"></span>
               <span class="relative">Request a quote</span>
               <svg class="relative transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </a>
-            <a href="/services" class="inline-flex items-center gap-2 rounded-[2px] border border-white/30 px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-white transition-colors hover:border-gold-soft hover:text-gold-soft">
+            <a href={url('/services')} class="inline-flex items-center gap-2 rounded-[2px] border border-white/30 px-7 py-4 text-[13px] font-bold uppercase tracking-[.14em] text-white transition-colors hover:border-gold-soft hover:text-gold-soft">
               Explore services
             </a>
           </div>

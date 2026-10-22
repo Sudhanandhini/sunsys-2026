@@ -46,18 +46,18 @@ function admin_head(string $title, string $active, array $user): void
     ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title><?= e($title) ?> · Sunsys admin</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/admin/assets/admin.css"></head>
+<title><?= e($title) ?> · Sunsys admin</title><link rel="icon" href="../favicon.svg"><link rel="stylesheet" href="assets/admin.css"></head>
 <body>
 <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">
 <aside class="side">
-  <a class="brand" href="index.php"><img src="/logo-white.png" alt="Sunsys Technologies" width="140" height="29"><span>Admin</span></a>
+  <a class="brand" href="index.php"><img src="../logo-white.png" alt="Sunsys Technologies" width="140" height="29"><span>Admin</span></a>
   <nav>
     <?php foreach ($nav as [$href, $ic, $label, $badge]): ?>
       <a href="<?= $href ?>" class="<?= $active === $href ? 'on' : '' ?>"><?= icon($ic) ?><span><?= e($label) ?></span><?php if ($badge): ?><b class="badge"><?= $badge ?></b><?php endif; ?></a>
     <?php endforeach; ?>
   </nav>
   <div class="side-foot">
-    <!-- <a href="/" target="_blank" rel="noopener"><?= icon('site') ?><span>View website</span></a> -->
+    <!-- <a href="../" target="_blank" rel="noopener"><?= icon('site') ?><span>View website</span></a> -->
     <form method="post" action="logout.php"><?= csrf_field() ?><button type="submit"><?= icon('out') ?><span>Log out</span></button></form>
   </div>
 </aside>

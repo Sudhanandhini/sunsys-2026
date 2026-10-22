@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { company } from '../data/site';
 import Icon from './Icon.jsx';
 const year = new Date().getFullYear();
@@ -34,7 +35,7 @@ const social = [
         <p class="mt-4 font-serif text-[30px] font-light leading-tight tracking-[-0.02em] text-white md:text-[42px]">Have a project in <em class="text-gold-soft">mind</em>?</p>
       </div>
       <div class="flex flex-wrap items-center gap-6">
-        <a href="/contact?type=quote" class="group inline-flex items-center gap-3 rounded-[2px] border border-gold-soft/60 px-7 py-3.5 text-[13px] font-bold uppercase tracking-[.14em] text-gold-soft transition-colors hover:border-gold-soft hover:bg-gold-soft hover:text-navy">
+        <a href={url('/contact?type=quote')} class="group inline-flex items-center gap-3 rounded-[2px] border border-gold-soft/60 px-7 py-3.5 text-[13px] font-bold uppercase tracking-[.14em] text-gold-soft transition-colors hover:border-gold-soft hover:bg-gold-soft hover:text-navy">
           Get a free quote
           <Icon name="ArrowRight" size={15} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
         </a>
@@ -44,7 +45,7 @@ const social = [
     <!-- main -->
     <div class="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.1fr_1.3fr] lg:gap-10">
       <div>
-        <img src="/logo-white.png" alt="Sunsys Technologies" width="429" height="89" class="h-10 w-auto" loading="lazy" />
+        <img src={url('/logo-white.png')} alt="Sunsys Technologies" width="429" height="89" class="h-10 w-auto" loading="lazy" />
         <p class="mt-6 max-w-xs text-[15px] leading-relaxed">
           Website design, development and hosting from Bengaluru since {company.founded}.
         </p>
@@ -67,7 +68,7 @@ const social = [
             {col.links.map(([label, href]) => (
               <li>{href.startsWith('http')
                 ? <a href={href} target="_blank" rel="noopener noreferrer" class="ft-link hover:text-gold-soft">{label}<span class="sr-only"> (opens in a new tab)</span></a>
-                : <a href={href} class="ft-link hover:text-gold-soft">{label}</a>}</li>
+                : <a href={url(href)} class="ft-link hover:text-gold-soft">{label}</a>}</li>
             ))}
           </ul>
         </nav>
@@ -79,7 +80,7 @@ const social = [
         <ul class="mt-6 space-y-5 text-[15px]">
           <li class="flex gap-3">
             <Icon name="MapPin" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-gold-soft" />
-            <a href="/contact" class="leading-relaxed hover:text-white">{company.address}</a>
+            <a href={url('/contact')} class="leading-relaxed hover:text-white">{company.address}</a>
           </li>
           <li class="flex gap-3">
             <Icon name="Clock" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-gold-soft" />

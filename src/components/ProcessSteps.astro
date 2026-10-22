@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 // "How we work": a gold track fills as you scroll, and each step lights up when the fill reaches it.
 // Horizontal on desktop, vertical on smaller screens.
 import Icon from './Icon.jsx';
@@ -48,7 +49,7 @@ const icons = ['Search', 'PenTool', 'CodeXml', 'Rocket'];
 
     <div class="mt-14 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center" data-proc-fade>
       <p class="font-serif text-lg text-ink">Ready to start with step one?</p>
-      <a href="/contact?type=quote" class="inline-flex items-center gap-2 border-b border-gold pb-1 text-[13px] font-semibold uppercase tracking-[.15em] text-navy hover:text-gold">Book a free consultation <Icon name="ArrowRight" size={14} strokeWidth={2} /></a>
+      <a href={url('/contact?type=quote')} class="inline-flex items-center gap-2 border-b border-gold pb-1 text-[13px] font-semibold uppercase tracking-[.15em] text-navy hover:text-gold">Book a free consultation <Icon name="ArrowRight" size={14} strokeWidth={2} /></a>
     </div>
   </div>
 </section>

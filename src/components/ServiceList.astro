@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Icon from './Icon.jsx';
 interface Props { items: { slug: string; title: string; icon: string; summary: string }[]; base?: string }
 const { items, base = '/services' } = Astro.props;
@@ -10,7 +11,7 @@ const { items, base = '/services' } = Astro.props;
       <Icon name={s.icon} size={34} className="text-brand" />
       <h3 class="h-card mt-5">{s.title}</h3>
       <p class="mt-2 text-[16px] leading-6">{s.summary}</p>
-      <a href={`${base}/${s.slug}`} class="link-more mt-5 after:absolute after:inset-0">
+      <a href={url(`${base}/${s.slug}`)} class="link-more mt-5 after:absolute after:inset-0">
         Learn more<span class="sr-only"> about {s.title}</span>
         <Icon name="ArrowRight" size={16} strokeWidth={2} />
       </a>

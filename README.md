@@ -5,7 +5,11 @@ Astro 5 + React 19 islands + Tailwind CSS 4. Static output; JS ships only for th
 ## Run
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # static site in dist/
+npm run build      # static site in dist/ for https://sunsys.in (domain root)
+npm run build:staging  # same, for https://sunsysweb.co.in/sunsys-2026/ (upload dist/ into public_html/sunsys-2026)
+npm run perf       # production build on http://localhost:4400 (use this for Lighthouse, not npm run dev)
+
+Internal links go through `url()` (src/lib/url.ts) so they work in a subfolder; the PHP side detects the folder itself.
 
 ## Edit content
 All text, services, industries, stats, clients, jobs and contact details: `src/data/site.ts`.
