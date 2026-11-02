@@ -40,3 +40,9 @@ Job applications POST multipart to `/api/apply.php`.
 
 ## Theme
 Brand #0266cb | Headings Montserrat 700 | Body Lato 400 | Card titles Raleway 600 (self-hosted via @fontsource).
+
+## Photos
+Stock photos in `src/assets/photos/` are from Unsplash (free for commercial use, no credit required; only plain
+`images.unsplash.com/photo-…` images, not Unsplash+ `premium_photo-…`). `src/images/about.png` is our own team photo,
+`src/images/logo/` are client logos. Unsplash IDs: hero-video 1581291518857-4e27b48ff24e, mission 1454165804606-c3d57bc86b40,
+vision 1552581234-26160f608093, cta-team 1522071820081-009f0129c71c.
