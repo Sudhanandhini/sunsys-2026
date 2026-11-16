@@ -51,7 +51,7 @@ export default function BlogPost({ api = url('/api/posts.php') }) {
     <article>
       <header className="relative overflow-hidden bg-navy text-white">
         <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-40 size-[34rem] rounded-full bg-gold/15 blur-3xl" />
-        <div className="container-x relative py-16 md:py-20">
+        <div className="container-x !max-w-[1440px] relative py-16 md:py-20">
           <nav aria-label="Breadcrumb" className="post-in flex flex-wrap items-center gap-3 text-[12px] font-semibold uppercase tracking-[.16em] text-white/55">
             <a href={url('/')} className="hover:text-gold-soft">Home</a>
             <span aria-hidden="true" className="size-1 rotate-45 bg-gold-soft/70" />
@@ -68,7 +68,7 @@ export default function BlogPost({ api = url('/api/posts.php') }) {
       </header>
 
       <div className="bg-ivory py-14 md:py-20">
-        <div className="container-x grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
+        <div className="container-x !max-w-[1440px] grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
           <div className="min-w-0">
             <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-gold/20">
               {p.cover && <img src={p.cover} alt="" className="post-cover w-full object-cover" />}

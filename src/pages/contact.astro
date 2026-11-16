@@ -9,9 +9,10 @@ const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(company.addre
 const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(company.address)}`;
 
 const cards = [
-  { icon: 'MapPin', title: 'Visit our office', text: company.address },
+
+  { icon: 'Phone', title: 'Quick response', text: 'A free quote and consultation within one working hour.', links: [[company.phone, company.phoneHref], [company.email, `mailto:${company.email}`]] },
+   { icon: 'MapPin', title: 'Visit our office', text: company.address },
   { icon: 'Clock', title: 'Office hours', text: company.hours },
-  { icon: 'Check', title: 'Quick response', text: 'A free quote and consultation within one working hour.' },
 ];
 ---
 <Base title="Contact Us" description="Contact Sunsys Technologies in Vijayanagar, Bengaluru for a free website quote and consultation.">
@@ -36,6 +37,7 @@ const cards = [
             <span class="block font-serif text-[20px] text-ink">{c.title}</span>
             <span aria-hidden="true" class="mt-2 flex items-center gap-1.5"><span class="h-px w-6 bg-gold transition-all duration-500 group-hover:w-10"></span><span class="size-1 rotate-45 bg-gold"></span></span>
             <span class="mt-3 block text-[15px] leading-relaxed">{c.text}</span>
+            {c.links && <span class="mt-3 block space-y-1 text-[15px] font-semibold leading-relaxed text-navy">{c.links.map(([label, href]) => <a href={href} class="block break-all hover:text-gold">{label}</a>)}</span>}
           </span>
         </li>
       ))}
@@ -94,6 +96,10 @@ const cards = [
             <div class="pointer-events-auto bg-navy p-6 text-white shadow-2xl">
               <p class="text-[11px] font-bold uppercase tracking-[.2em] text-gold-soft">Sunsys Technologies</p>
               <p class="mt-3 text-[15px] leading-relaxed text-white/85">{company.address}</p>
+              <p class="mt-3 text-[15px] leading-relaxed text-white/85">
+                <a href={company.phoneHref} class="block hover:text-white">{company.phone}</a>
+                <a href={`mailto:${company.email}`} class="block hover:text-white">{company.email}</a>
+              </p>
               <a href={directions} target="_blank" rel="noopener" class="group mt-5 inline-flex items-center gap-2 border-b border-gold-soft/60 pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-gold-soft hover:border-gold-soft">
                 Get directions <Icon name="ArrowRight" size={13} strokeWidth={2.2} className="transition-transform group-hover:translate-x-1" />
               </a>

@@ -9,7 +9,10 @@ export const company = {
   founded: 2006,
   registered: 2009,
   address: '4, 2nd Floor, 8th Main Road, CHBS Layout, Vijayanagar, Bengaluru 560040',
-  hours: 'Mon to Sat, 9:00 am to 6:00 pm',
+  hours: 'Mon to Fri, 9:00 am to 5:00 pm',
+  email: 'info@sunsys.in',
+  phone: '+91 9845244232',
+  phoneHref: 'tel:+919845244232',
   social: {
     facebook: '#',
     instagram: '#',

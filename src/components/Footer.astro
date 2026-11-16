@@ -83,6 +83,14 @@ const social = [
             <a href={url('/contact')} class="leading-relaxed hover:text-white">{company.address}</a>
           </li>
           <li class="flex gap-3">
+            <Icon name="Phone" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-gold-soft" />
+            <a href={company.phoneHref} class="hover:text-white">{company.phone}</a>
+          </li>
+          <li class="flex gap-3">
+            <Icon name="Mail" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-gold-soft" />
+            <a href={`mailto:${company.email}`} class="hover:text-white">{company.email}</a>
+          </li>
+          <li class="flex gap-3">
             <Icon name="Clock" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-gold-soft" />
             <span>{company.hours}</span>
           </li>
