@@ -2,6 +2,8 @@
 require __DIR__ . '/_inc/layout.php';
 require dirname(__DIR__) . '/api/_lib/markdown.php';
 require dirname(__DIR__) . '/api/_lib/blocks.php';
+require_once dirname(__DIR__) . '/api/_lib/seo.php';
+require_once dirname(__DIR__) . '/api/_lib/redirects.php';
 $user = require_admin();
 
 $id = (int) ($_GET['id'] ?? 0);
@@ -11,6 +13,7 @@ $post = $post ?: ['id' => 0, 'slug' => '', 'title' => '', 'excerpt' => '', 'body
 $cats = q('SELECT id, name FROM categories ORDER BY sort_order, name')->fetchAll();
 $error = '';
 // Images in the saved version, so ones removed in the builder can be deleted from disk
+$oldSlug = $post['status'] === 'published' ? $post['slug'] : ''; // live address before this save
 $oldImages = $post['blocks'] ? blocks_images(json_decode($post['blocks'], true) ?: []) : [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -59,8 +62,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             q('INSERT INTO posts (slug, title, excerpt, body, blocks, meta_title, meta_description, noindex, nofollow, cover, category_id, status, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $vals);
             $post['id'] = (int) db()->lastInsertId();
         }
+        // SEO: the article's address changed, so the old one 301s to the new one (and the new address must not redirect)
+        $moved = '';
+        try {
+            $newSrc = redirect_split('/blog/post/?slug=' . rawurlencode($post['slug']));
+            q('DELETE FROM seo_redirects WHERE source_path = ? AND source_query = ?', [$newSrc[0], $newSrc[1]]);
+            if ($oldSlug !== '' && $oldSlug !== $post['slug']) {
+                $oldSrc = redirect_split('/blog/post/?slug=' . rawurlencode($oldSlug));
+                $exists = q('SELECT id FROM seo_redirects WHERE source_path = ? AND source_query = ?', [$oldSrc[0], $oldSrc[1]])->fetchColumn();
+                $moved = redirect_save('/blog/post/?slug=' . rawurlencode($oldSlug), '/blog/post/?slug=' . rawurlencode($post['slug']), 301, 'Post address changed', 1, (int) $exists) === '' ? ' The old address now redirects here (301).' : '';
+            }
+        } catch (Throwable $ex) {
+        }
         foreach (array_diff($oldImages, blocks_images($blocks), [$post['cover']]) as $gone) @unlink(dirname(__DIR__) . $gone);
-        flash($post['status'] === 'published' ? 'Post saved and published.' : 'Draft saved.');
+        flash(($post['status'] === 'published' ? 'Post saved and published.' : 'Draft saved.') . $moved);
         redirect('post-edit.php?id=' . $post['id']);
     }
 }

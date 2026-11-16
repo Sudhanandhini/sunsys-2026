@@ -13,6 +13,8 @@ elseif ($path === '/sitemap.xml') $script = "$root/api/sitemap.php";
 elseif (is_dir($root . $path) && is_file("$dir/index.php")) $script = "$dir/index.php";
 // Built pages (when serving dist/) go through api/page.php so Admin > SEO applies
 elseif (!preg_match('#^/(api|admin|uploads|_astro)(/|$)#', $path) && is_dir($root . $path) && is_file("$dir/index.html")) $script = "$root/api/page.php";
+// Missing addresses: Admin > SEO > Redirects, else the 404 page (as the root .htaccess does)
+elseif (!preg_match('#^/(api|admin|_astro)(/|$)#', $path) && !file_exists($root . $path)) $script = "$root/api/redirect.php";
 if (!$script) return false;
 // Required here at the top level, not inside a function, so the script's globals (e.g. $CONFIG) stay global
 chdir(dirname($script));

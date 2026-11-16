@@ -4,6 +4,13 @@
 // requested post (via seo_apply), and embeds the post so the browser doesn't fetch it a second time.
 require dirname(__DIR__, 2) . '/api/_lib/bootstrap.php';
 require dirname(__DIR__, 2) . '/api/_lib/blog.php';
+require dirname(__DIR__, 2) . '/api/_lib/redirects.php';
+
+// Old article addresses (e.g. /blog/post/?slug=old-slug) set in Admin > SEO > Redirects
+redirect_serve(function () {
+    header('Content-Type: text/html; charset=utf-8');
+    @readfile(dirname(__DIR__, 2) . '/404.html');
+});
 
 header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: no-cache');

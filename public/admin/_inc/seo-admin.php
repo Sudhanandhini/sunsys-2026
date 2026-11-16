@@ -6,7 +6,7 @@ const SEO_TYPES = ['Home', 'Page', 'Service', 'Industry', 'Blog', 'Landing page'
 
 function seo_tabs(string $on): string
 {
-    $tabs = ['seo.php' => 'All pages', 'seo-edit.php?new=1' => 'Add page', 'seo-settings.php' => 'Site settings'];
+    $tabs = ['seo.php' => 'All pages', 'seo-edit.php?new=1' => 'Add page', 'redirects.php' => 'Redirects', 'seo-settings.php' => 'Site settings'];
     $h = '<nav class="tabs">';
     foreach ($tabs as $href => $label) $h .= '<a href="' . $href . '" class="' . ($on === $href ? 'on' : '') . '">' . $label . '</a>';
     return $h . '</nav>';

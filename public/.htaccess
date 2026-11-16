@@ -17,6 +17,10 @@ DirectoryIndex index.php index.html
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^(?!(?:api|admin|uploads|_astro|blog/post)(?:/|$)) api/page.php [L]
+  # Addresses that don't exist: api/redirect.php applies Admin > SEO > Redirects, else shows the 404 page
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(?!(?:api|admin|_astro)(?:/|$)) api/redirect.php [L]
 </IfModule>
 
 # Compress text responses (Brotli where the host has it, gzip otherwise)

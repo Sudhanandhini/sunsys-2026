@@ -3,6 +3,13 @@
 // here (folders containing an index.html); everything else is served by Apache as usual.
 require __DIR__ . '/_lib/bootstrap.php';
 require __DIR__ . '/_lib/seo.php';
+require __DIR__ . '/_lib/redirects.php';
+
+// Admin > SEO > Redirects can send a built page elsewhere (or mark it gone)
+redirect_serve(function () {
+    header('Content-Type: text/html; charset=utf-8');
+    readfile(site_root() . '/404.html');
+});
 
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 // Site in a subfolder (e.g. /sunsys-2026/about/): page paths are relative to it

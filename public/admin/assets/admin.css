@@ -274,3 +274,14 @@ code.path { background: none; padding: 0; font-size: 12.5px; color: #b42357; whi
 .seo-act.no { color: var(--err); border-color: rgb(180 35 24 / .35); } .seo-act.no:hover { background: var(--err); color: #fff; }
 .pill-btn { border: 0; cursor: pointer; font-family: var(--sans); transition: filter .2s, box-shadow .2s; }
 .pill-btn:hover { filter: brightness(.95); box-shadow: 0 0 0 2px currentColor inset; }
+
+/* SEO > Redirects */
+.redirect-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+.redirect-layout .table td { vertical-align: top; }
+.redirect-layout code.path { white-space: normal; word-break: break-all; }
+.redirect-to code.path { color: var(--navy); }
+.table tr.off td { opacity: .55; }
+.redirect-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.redirect-help h2 { margin-bottom: 0; }
+.redirect-help p { margin: 0; line-height: 1.55; }
+@media (max-width: 1100px) { .redirect-layout { grid-template-columns: 1fr; } }

@@ -114,6 +114,21 @@ function migrate(PDO $pdo): void
     }
     $col = $pdo->query("SHOW COLUMNS FROM posts LIKE 'noindex'")->fetchColumn();
     if (!$col) $pdo->exec('ALTER TABLE posts ADD noindex TINYINT(1) NOT NULL DEFAULT 0 AFTER meta_description, ADD nofollow TINYINT(1) NOT NULL DEFAULT 0 AFTER noindex');
+    // Redirects (Admin > SEO > Redirects)
+    if (!$pdo->query("SHOW TABLES LIKE 'seo_redirects'")->fetchColumn()) $pdo->exec("CREATE TABLE IF NOT EXISTS seo_redirects (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        source_path VARCHAR(255) NOT NULL,
+        source_query VARCHAR(255) NOT NULL DEFAULT '',
+        target VARCHAR(500) NOT NULL DEFAULT '',
+        code SMALLINT UNSIGNED NOT NULL DEFAULT 301,
+        note VARCHAR(200) NOT NULL DEFAULT '',
+        active TINYINT(1) NOT NULL DEFAULT 1,
+        hits INT UNSIGNED NOT NULL DEFAULT 0,
+        last_hit DATETIME NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE KEY source (source_path, source_query)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }
 
 function q(string $sql, array $params = []): PDOStatement
