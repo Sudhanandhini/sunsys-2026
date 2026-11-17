@@ -1,0 +1,400 @@
+- generic [active] [ref=f6e1]:
+  - complementary [ref=f6e2]:
+    - link "Sunsys Technologies Admin" [ref=f6e3] [cursor=pointer]:
+      - /url: index.php
+      - img "Sunsys Technologies" [ref=f6e4]
+      - generic [ref=f6e5]: Admin
+    - navigation [ref=f6e6]:
+      - link "Dashboard" [ref=f6e7] [cursor=pointer]:
+        - /url: index.php
+      - link "Blog posts" [ref=f6e11] [cursor=pointer]:
+        - /url: posts.php
+      - link "Job openings" [ref=f6e15] [cursor=pointer]:
+        - /url: jobs.php
+      - link "Applications" [ref=f6e19] [cursor=pointer]:
+        - /url: applications.php
+      - link "Enquiries 1" [ref=f6e23] [cursor=pointer]:
+        - /url: enquiries.php
+        - generic [ref=f6e26]: Enquiries
+        - generic [ref=f6e27]: "1"
+      - link "SEO" [ref=f6e28] [cursor=pointer]:
+        - /url: seo.php
+      - link "Redirects" [ref=f6e32] [cursor=pointer]:
+        - /url: redirects.php
+      - link "Account" [ref=f6e36] [cursor=pointer]:
+        - /url: account.php
+    - button "Log out" [ref=f6e42] [cursor=pointer]
+  - generic [ref=f6e46]:
+    - banner [ref=f6e47]:
+      - heading "Redirects" [level=1] [ref=f6e48]
+      - generic [ref=f6e49]:
+        - generic [ref=f6e50]: S
+        - generic [ref=f6e51]: Sudha Admin
+    - generic [ref=f6e52]:
+      - paragraph [ref=f6e53]: "Redirect updated: /old-offer → /contact."
+      - generic [ref=f6e54]:
+        - generic [ref=f6e55]:
+          - generic [ref=f6e56]:
+            - searchbox "Search redirects" [ref=f6e57]
+            - button "Search" [ref=f6e58] [cursor=pointer]
+          - table [ref=f6e59]:
+            - rowgroup [ref=f6e60]:
+              - row [ref=f6e61]:
+                - columnheader "Old address" [ref=f6e62]
+                - columnheader "Sends to" [ref=f6e63]
+                - columnheader "Type" [ref=f6e64]
+                - columnheader "Visits" [ref=f6e65]
+                - columnheader "Actions" [ref=f6e66]
+            - rowgroup [ref=f6e67]:
+              - row [ref=f6e68]:
+                - cell [ref=f6e69]:
+                  - link "/404-2" [ref=f6e70] [cursor=pointer]:
+                    - /url: /sunsys-urltest/404-2
+                - cell "/" [ref=f6e71]
+                - cell "301" [ref=f6e72]
+                - cell "0" [ref=f6e74]
+                - cell [ref=f6e75]:
+                  - link "Edit" [ref=f6e76] [cursor=pointer]:
+                    - /url: "?edit=3"
+                  - button "Delete" [ref=f6e78] [cursor=pointer]
+              - row [ref=f6e79]:
+                - cell [ref=f6e80]:
+                  - link "/chennai" [ref=f6e81] [cursor=pointer]:
+                    - /url: /sunsys-urltest/chennai
+                - cell "/website-development" [ref=f6e82]
+                - cell "301" [ref=f6e83]
+                - cell "2 last 2 Nov 2026" [ref=f6e85]:
+                  - text: "2"
+                  - generic [ref=f6e86]: last 2 Nov 2026
+                - cell [ref=f6e87]:
+                  - link "Edit" [ref=f6e88] [cursor=pointer]:
+                    - /url: "?edit=19"
+                  - button "Delete" [ref=f6e90] [cursor=pointer]
+              - row [ref=f6e91]:
+                - cell [ref=f6e92]:
+                  - link "/ecommerce-bangalore" [ref=f6e93] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ecommerce-bangalore
+                - cell "/ecommerce-web-development-india" [ref=f6e94]
+                - cell "301" [ref=f6e95]
+                - cell "0" [ref=f6e97]
+                - cell [ref=f6e98]:
+                  - link "Edit" [ref=f6e99] [cursor=pointer]:
+                    - /url: "?edit=6"
+                  - button "Delete" [ref=f6e101] [cursor=pointer]
+              - row [ref=f6e102]:
+                - cell [ref=f6e103]:
+                  - link "/ecommerce-web-development-india/ahmedabad" [ref=f6e104] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ecommerce-web-development-india/ahmedabad
+                - cell "/ecommerce-web-development-india" [ref=f6e105]
+                - cell "301" [ref=f6e106]
+                - cell "0" [ref=f6e108]
+                - cell [ref=f6e109]:
+                  - link "Edit" [ref=f6e110] [cursor=pointer]:
+                    - /url: "?edit=7"
+                  - button "Delete" [ref=f6e112] [cursor=pointer]
+              - row [ref=f6e113]:
+                - cell [ref=f6e114]:
+                  - link "/ecommerce-web-development-india/bangalore" [ref=f6e115] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ecommerce-web-development-india/bangalore
+                - cell "/ecommerce-web-development-india" [ref=f6e116]
+                - cell "301" [ref=f6e117]
+                - cell "0" [ref=f6e119]
+                - cell [ref=f6e120]:
+                  - link "Edit" [ref=f6e121] [cursor=pointer]:
+                    - /url: "?edit=8"
+                  - button "Delete" [ref=f6e123] [cursor=pointer]
+              - row [ref=f6e124]:
+                - cell [ref=f6e125]:
+                  - link "/ecommerce-web-development-india/chennai" [ref=f6e126] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ecommerce-web-development-india/chennai
+                - cell "/ecommerce-web-development-india" [ref=f6e127]
+                - cell "301" [ref=f6e128]
+                - cell "0" [ref=f6e130]
+                - cell [ref=f6e131]:
+                  - link "Edit" [ref=f6e132] [cursor=pointer]:
+                    - /url: "?edit=9"
+                  - button "Delete" [ref=f6e134] [cursor=pointer]
+              - row [ref=f6e135]:
+                - cell [ref=f6e136]:
+                  - link "/ecommerce-web-development-india/kolkata" [ref=f6e137] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ecommerce-web-development-india/kolkata
+                - cell "/ecommerce-web-development-india" [ref=f6e138]
+                - cell "301" [ref=f6e139]
+                - cell "0" [ref=f6e141]
+                - cell [ref=f6e142]:
+                  - link "Edit" [ref=f6e143] [cursor=pointer]:
+                    - /url: "?edit=10"
+                  - button "Delete" [ref=f6e145] [cursor=pointer]
+              - row [ref=f6e146]:
+                - cell [ref=f6e147]:
+                  - link "/ecommerce-web-development-india/mumbai" [ref=f6e148] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ecommerce-web-development-india/mumbai
+                - cell "/ecommerce-web-development-india" [ref=f6e149]
+                - cell "301" [ref=f6e150]
+                - cell "1 last 2 Nov 2026" [ref=f6e152]:
+                  - text: "1"
+                  - generic [ref=f6e153]: last 2 Nov 2026
+                - cell [ref=f6e154]:
+                  - link "Edit" [ref=f6e155] [cursor=pointer]:
+                    - /url: "?edit=11"
+                  - button "Delete" [ref=f6e157] [cursor=pointer]
+              - row [ref=f6e158]:
+                - cell [ref=f6e159]:
+                  - link "/home" [ref=f6e160] [cursor=pointer]:
+                    - /url: /sunsys-urltest/home
+                - cell "/" [ref=f6e161]
+                - cell "301" [ref=f6e162]
+                - cell "1 last 2 Nov 2026" [ref=f6e164]:
+                  - text: "1"
+                  - generic [ref=f6e165]: last 2 Nov 2026
+                - cell [ref=f6e166]:
+                  - link "Edit" [ref=f6e167] [cursor=pointer]:
+                    - /url: "?edit=1"
+                  - button "Delete" [ref=f6e169] [cursor=pointer]
+              - row [ref=f6e170]:
+                - cell [ref=f6e171]:
+                  - link "/html-website-development-company" [ref=f6e172] [cursor=pointer]:
+                    - /url: /sunsys-urltest/html-website-development-company
+                - cell "/php-web-development-company" [ref=f6e173]
+                - cell "301" [ref=f6e174]
+                - cell "1 last 2 Nov 2026" [ref=f6e176]:
+                  - text: "1"
+                  - generic [ref=f6e177]: last 2 Nov 2026
+                - cell [ref=f6e178]:
+                  - link "Edit" [ref=f6e179] [cursor=pointer]:
+                    - /url: "?edit=4"
+                  - button "Delete" [ref=f6e181] [cursor=pointer]
+              - row [ref=f6e182]:
+                - cell [ref=f6e183]:
+                  - link "/hyderabad" [ref=f6e184] [cursor=pointer]:
+                    - /url: /sunsys-urltest/hyderabad
+                - cell "/website-development" [ref=f6e185]
+                - cell "301" [ref=f6e186]
+                - cell "0" [ref=f6e188]
+                - cell [ref=f6e189]:
+                  - link "Edit" [ref=f6e190] [cursor=pointer]:
+                    - /url: "?edit=20"
+                  - button "Delete" [ref=f6e192] [cursor=pointer]
+              - row [ref=f6e193]:
+                - cell [ref=f6e194]:
+                  - link "/india" [ref=f6e195] [cursor=pointer]:
+                    - /url: /sunsys-urltest/india
+                - cell "/website-development" [ref=f6e196]
+                - cell "301" [ref=f6e197]
+                - cell "0" [ref=f6e199]
+                - cell [ref=f6e200]:
+                  - link "Edit" [ref=f6e201] [cursor=pointer]:
+                    - /url: "?edit=21"
+                  - button "Delete" [ref=f6e203] [cursor=pointer]
+              - row [ref=f6e204]:
+                - cell [ref=f6e205]:
+                  - link "/kolkata" [ref=f6e206] [cursor=pointer]:
+                    - /url: /sunsys-urltest/kolkata
+                - cell "/website-development" [ref=f6e207]
+                - cell "301" [ref=f6e208]
+                - cell "0" [ref=f6e210]
+                - cell [ref=f6e211]:
+                  - link "Edit" [ref=f6e212] [cursor=pointer]:
+                    - /url: "?edit=22"
+                  - button "Delete" [ref=f6e214] [cursor=pointer]
+              - row [ref=f6e215]:
+                - cell [ref=f6e216]:
+                  - link "/manufacturing-industrial" [ref=f6e217] [cursor=pointer]:
+                    - /url: /sunsys-urltest/manufacturing-industrial
+                - cell "/service" [ref=f6e218]
+                - cell "301" [ref=f6e219]
+                - cell "0" [ref=f6e221]
+                - cell [ref=f6e222]:
+                  - link "Edit" [ref=f6e223] [cursor=pointer]:
+                    - /url: "?edit=26"
+                  - button "Delete" [ref=f6e225] [cursor=pointer]
+              - row [ref=f6e226]:
+                - cell [ref=f6e227]:
+                  - link "/mumbai" [ref=f6e228] [cursor=pointer]:
+                    - /url: /sunsys-urltest/mumbai
+                - cell "/website-development" [ref=f6e229]
+                - cell "301" [ref=f6e230]
+                - cell "0" [ref=f6e232]
+                - cell [ref=f6e233]:
+                  - link "Edit" [ref=f6e234] [cursor=pointer]:
+                    - /url: "?edit=23"
+                  - button "Delete" [ref=f6e236] [cursor=pointer]
+              - row [ref=f6e237]:
+                - cell [ref=f6e238]:
+                  - link "/ngo" [ref=f6e239] [cursor=pointer]:
+                    - /url: /sunsys-urltest/ngo
+                - cell "/service" [ref=f6e240]
+                - cell "301" [ref=f6e241]
+                - cell "1 last 2 Nov 2026" [ref=f6e243]:
+                  - text: "1"
+                  - generic [ref=f6e244]: last 2 Nov 2026
+                - cell [ref=f6e245]:
+                  - link "Edit" [ref=f6e246] [cursor=pointer]:
+                    - /url: "?edit=27"
+                  - button "Delete" [ref=f6e248] [cursor=pointer]
+              - row [ref=f6e249]:
+                - cell [ref=f6e250]:
+                  - link "/old-offer" [ref=f6e251] [cursor=pointer]:
+                    - /url: /sunsys-urltest/old-offer
+                - cell "/contact" [ref=f6e252]
+                - cell "302" [ref=f6e253]
+                - cell "1 last 2 Nov 2026" [ref=f6e255]:
+                  - text: "1"
+                  - generic [ref=f6e256]: last 2 Nov 2026
+                - cell [ref=f6e257]:
+                  - link "Edit" [ref=f6e258] [cursor=pointer]:
+                    - /url: "?edit=29"
+                  - button "Delete" [ref=f6e260] [cursor=pointer]
+              - row [ref=f6e261]:
+                - cell [ref=f6e262]:
+                  - link "/redesign-new" [ref=f6e263] [cursor=pointer]:
+                    - /url: /sunsys-urltest/redesign-new
+                - cell "/website-redesign-services" [ref=f6e264]
+                - cell "301" [ref=f6e265]
+                - cell "0" [ref=f6e267]
+                - cell [ref=f6e268]:
+                  - link "Edit" [ref=f6e269] [cursor=pointer]:
+                    - /url: "?edit=18"
+                  - button "Delete" [ref=f6e271] [cursor=pointer]
+              - row [ref=f6e272]:
+                - cell [ref=f6e273]:
+                  - link "/retail" [ref=f6e274] [cursor=pointer]:
+                    - /url: /sunsys-urltest/retail
+                - cell "/service" [ref=f6e275]
+                - cell "301" [ref=f6e276]
+                - cell "0" [ref=f6e278]
+                - cell [ref=f6e279]:
+                  - link "Edit" [ref=f6e280] [cursor=pointer]:
+                    - /url: "?edit=28"
+                  - button "Delete" [ref=f6e282] [cursor=pointer]
+              - row [ref=f6e283]:
+                - cell [ref=f6e284]:
+                  - link "/thank-you" [ref=f6e285] [cursor=pointer]:
+                    - /url: /sunsys-urltest/thank-you
+                - cell "/" [ref=f6e286]
+                - cell "301" [ref=f6e287]
+                - cell "0" [ref=f6e289]
+                - cell [ref=f6e290]:
+                  - link "Edit" [ref=f6e291] [cursor=pointer]:
+                    - /url: "?edit=2"
+                  - button "Delete" [ref=f6e293] [cursor=pointer]
+              - row [ref=f6e294]:
+                - cell [ref=f6e295]:
+                  - link "/uk" [ref=f6e296] [cursor=pointer]:
+                    - /url: /sunsys-urltest/uk
+                - cell "/website-development" [ref=f6e297]
+                - cell "301" [ref=f6e298]
+                - cell "0" [ref=f6e300]
+                - cell [ref=f6e301]:
+                  - link "Edit" [ref=f6e302] [cursor=pointer]:
+                    - /url: "?edit=24"
+                  - button "Delete" [ref=f6e304] [cursor=pointer]
+              - row [ref=f6e305]:
+                - cell [ref=f6e306]:
+                  - link "/usa" [ref=f6e307] [cursor=pointer]:
+                    - /url: /sunsys-urltest/usa
+                - cell "/website-development" [ref=f6e308]
+                - cell "301" [ref=f6e309]
+                - cell "0" [ref=f6e311]
+                - cell [ref=f6e312]:
+                  - link "Edit" [ref=f6e313] [cursor=pointer]:
+                    - /url: "?edit=25"
+                  - button "Delete" [ref=f6e315] [cursor=pointer]
+              - row [ref=f6e316]:
+                - cell [ref=f6e317]:
+                  - link "/web-portal-development-company-bangalore" [ref=f6e318] [cursor=pointer]:
+                    - /url: /sunsys-urltest/web-portal-development-company-bangalore
+                - cell "/php-web-development-company" [ref=f6e319]
+                - cell "301" [ref=f6e320]
+                - cell "0" [ref=f6e322]
+                - cell [ref=f6e323]:
+                  - link "Edit" [ref=f6e324] [cursor=pointer]:
+                    - /url: "?edit=5"
+                  - button "Delete" [ref=f6e326] [cursor=pointer]
+              - row [ref=f6e327]:
+                - cell [ref=f6e328]:
+                  - link "/website-maintenance-india/bangalore" [ref=f6e329] [cursor=pointer]:
+                    - /url: /sunsys-urltest/website-maintenance-india/bangalore
+                - cell "/website-maintenance-india" [ref=f6e330]
+                - cell "301" [ref=f6e331]
+                - cell "1 last 2 Nov 2026" [ref=f6e333]:
+                  - text: "1"
+                  - generic [ref=f6e334]: last 2 Nov 2026
+                - cell [ref=f6e335]:
+                  - link "Edit" [ref=f6e336] [cursor=pointer]:
+                    - /url: "?edit=17"
+                  - button "Delete" [ref=f6e338] [cursor=pointer]
+              - row [ref=f6e339]:
+                - cell [ref=f6e340]:
+                  - link "/wordpress-development-company-india/bangalore" [ref=f6e341] [cursor=pointer]:
+                    - /url: /sunsys-urltest/wordpress-development-company-india/bangalore
+                - cell "/wordpress-development-company-india" [ref=f6e342]
+                - cell "301" [ref=f6e343]
+                - cell "0" [ref=f6e345]
+                - cell [ref=f6e346]:
+                  - link "Edit" [ref=f6e347] [cursor=pointer]:
+                    - /url: "?edit=13"
+                  - button "Delete" [ref=f6e349] [cursor=pointer]
+              - row [ref=f6e350]:
+                - cell [ref=f6e351]:
+                  - link "/wordpress-development-company-india/chennai" [ref=f6e352] [cursor=pointer]:
+                    - /url: /sunsys-urltest/wordpress-development-company-india/chennai
+                - cell "/wordpress-development-company-india" [ref=f6e353]
+                - cell "301" [ref=f6e354]
+                - cell "0" [ref=f6e356]
+                - cell [ref=f6e357]:
+                  - link "Edit" [ref=f6e358] [cursor=pointer]:
+                    - /url: "?edit=14"
+                  - button "Delete" [ref=f6e360] [cursor=pointer]
+              - row [ref=f6e361]:
+                - cell [ref=f6e362]:
+                  - link "/wordpress-development-company-india/delhi" [ref=f6e363] [cursor=pointer]:
+                    - /url: /sunsys-urltest/wordpress-development-company-india/delhi
+                - cell "/wordpress-development-company-india" [ref=f6e364]
+                - cell "301" [ref=f6e365]
+                - cell "1 last 2 Nov 2026" [ref=f6e367]:
+                  - text: "1"
+                  - generic [ref=f6e368]: last 2 Nov 2026
+                - cell [ref=f6e369]:
+                  - link "Edit" [ref=f6e370] [cursor=pointer]:
+                    - /url: "?edit=15"
+                  - button "Delete" [ref=f6e372] [cursor=pointer]
+              - row [ref=f6e373]:
+                - cell [ref=f6e374]:
+                  - link "/wordpress-development-company-india/hyderabad" [ref=f6e375] [cursor=pointer]:
+                    - /url: /sunsys-urltest/wordpress-development-company-india/hyderabad
+                - cell "/wordpress-development-company-india" [ref=f6e376]
+                - cell "301" [ref=f6e377]
+                - cell "0" [ref=f6e379]
+                - cell [ref=f6e380]:
+                  - link "Edit" [ref=f6e381] [cursor=pointer]:
+                    - /url: "?edit=16"
+                  - button "Delete" [ref=f6e383] [cursor=pointer]
+              - row [ref=f6e384]:
+                - cell [ref=f6e385]:
+                  - link "/wordpress-development-new" [ref=f6e386] [cursor=pointer]:
+                    - /url: /sunsys-urltest/wordpress-development-new
+                - cell "/wordpress-development-company-india" [ref=f6e387]
+                - cell "301" [ref=f6e388]
+                - cell "0" [ref=f6e390]
+                - cell [ref=f6e391]:
+                  - link "Edit" [ref=f6e392] [cursor=pointer]:
+                    - /url: "?edit=12"
+                  - button "Delete" [ref=f6e394] [cursor=pointer]
+        - generic [ref=f6e395]:
+          - heading "Add a redirect" [level=2] [ref=f6e396]
+          - generic [ref=f6e397]:
+            - text: Old address
+            - textbox "Old address" [ref=f6e398]:
+              - /placeholder: /old-page
+          - generic [ref=f6e399]:
+            - text: Send visitors to
+            - textbox "Send visitors to" [ref=f6e400]:
+              - /placeholder: /contact or https://…
+          - generic [ref=f6e401]:
+            - text: Type
+            - combobox "Type" [ref=f6e402]:
+              - option "301 Permanent (moved for good; search engines update)" [selected]
+              - option "302 Temporary (coming back later)"
+          - button "Add redirect" [ref=f6e403] [cursor=pointer]
+          - paragraph [ref=f6e404]: Use paths on this site, like /old-page, without the domain. A redirect also works on an address that is still a page or article, and takes it over. Use 301 for pages that have moved for good, so search engines move their ranking across.

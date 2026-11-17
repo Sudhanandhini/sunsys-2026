@@ -37,22 +37,25 @@ function seo_admin_rows(): array
     foreach (seo_discover() as $path => $b) {
         $r = $db[$path] ?? null;
         unset($db[$path]);
+        $public = $r && $r['url_path'] !== '' ? $r['url_path'] : $path;
         $rows[] = [
-            'key' => 'page:' . $path, 'path' => $path, 'built' => true,
+            'key' => 'page:' . $path, 'path' => seo_url_path($public), 'built_path' => $public !== $path ? seo_url_path($path) : '', 'built' => true,
             'name' => $r && $r['name'] !== '' ? $r['name'] : seo_name($path, $b['title']),
             'type' => $r['type'] ?? seo_type($path),
             'title' => $r && $r['title'] !== '' ? seo_title($r['title']) : $b['title'],
             'noindex' => (int) ($r['noindex'] ?? 0), 'nofollow' => (int) ($r['nofollow'] ?? 0),
             'edited' => seo_has_overrides($r),
-            'edit' => 'seo-edit.php?path=' . rawurlencode($path), 'view' => $path,
+            'edit' => 'seo-edit.php?path=' . rawurlencode($path), 'view' => seo_url_path($public),
         ];
     }
     foreach ($db as $path => $r) {
+        // settings left at a service/industry page's old address (its new address has its own): not a page any more
+        if (isset(SEO_SITE_MOVES[$path])) continue;
         $rows[] = [
-            'key' => 'page:' . $path, 'path' => $path, 'built' => false,
+            'key' => 'page:' . $path, 'path' => seo_url_path($path), 'built_path' => '', 'built' => false,
             'name' => $r['name'] ?: $path, 'type' => $r['type'], 'title' => seo_title($r['title']),
             'noindex' => (int) $r['noindex'], 'nofollow' => (int) $r['nofollow'], 'edited' => true,
-            'edit' => 'seo-edit.php?path=' . rawurlencode($path), 'view' => $path,
+            'edit' => 'seo-edit.php?path=' . rawurlencode($path), 'view' => seo_url_path($path),
         ];
     }
     return $rows;

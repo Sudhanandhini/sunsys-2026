@@ -5,9 +5,9 @@ return [
     'db' => [
         'host' => 'localhost',
         'port' => 3306,
-        'name' => 'cpaneluser_sunsys',   // database created in cPanel > MySQL Databases
-        'user' => 'cpaneluser_sunsys',
-        'pass' => 'CHANGE-ME',
+        'name' => 'newsunsys',   // database created in cPanel > MySQL Databases
+        'user' => 'root',
+        'pass' => '',
     ],
     // Where uploaded CVs are stored. Best outside public_html, e.g. '/home/cpaneluser/sunsys-private'.
     // Leave null to use api/_private (blocked from the web by .htaccess).

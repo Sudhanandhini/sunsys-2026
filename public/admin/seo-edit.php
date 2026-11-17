@@ -2,6 +2,7 @@
 // Admin > SEO: edit one page's SEO (?path=/about/), or add a page by hand (?new=1).
 require __DIR__ . '/_inc/layout.php';
 require __DIR__ . '/_inc/seo-admin.php';
+require_once dirname(__DIR__) . '/api/_lib/redirects.php';
 $user = require_admin();
 
 $isNew = !empty($_GET['new']);
@@ -11,15 +12,19 @@ if (!$isNew && $path === '') { flash('Choose a page to edit.', 'err'); redirect(
 $built = $path !== '' ? (seo_discover()[$path] ?? null) : null;
 $row = $path !== '' ? seo_page($path) : null;
 if (!$isNew && !$built && !$row) { flash('That page was not found.', 'err'); redirect('seo.php'); }
-$blank = ['name' => '', 'type' => $path !== '' ? seo_type($path) : 'Page', 'title' => '', 'description' => '', 'keywords' => '', 'canonical' => '', 'og_title' => '', 'og_description' => '', 'og_image' => '', 'schema_json' => '', 'noindex' => 0, 'nofollow' => 0];
+$blank = ['url_path' => '', 'name' => '', 'type' => $path !== '' ? seo_type($path) : 'Page', 'title' => '', 'description' => '', 'keywords' => '', 'canonical' => '', 'og_title' => '', 'og_description' => '', 'og_image' => '', 'schema_json' => '', 'noindex' => 0, 'nofollow' => 0];
 $p = array_merge($blank, $row ?: []);
 if ($p['name'] === '' && $built) $p['name'] = seo_name($path, $built['title']);
+// Address the page is shown at: a built page can be given a custom one, which its build address redirects to
+$public = $built && $p['url_path'] !== '' ? $p['url_path'] : $path;
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     if (($_POST['action'] ?? '') === 'reset' && $path !== '') {
         q('DELETE FROM seo_pages WHERE path = ?', [$path]);
+        // A custom address goes too: send it back to the build's address so links to it keep working
+        if ($built && $public !== $path) redirect_page_moved($path, $public, $path);
         flash($built ? 'SEO reset: the page uses the website\'s own tags again.' : 'Page removed.');
         redirect($built ? 'seo-edit.php?path=' . rawurlencode($path) : 'seo.php');
     }
@@ -32,13 +37,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $p['nofollow'] = empty($_POST['nofollow']) ? 0 : 1;
     $p['schema_json'] = trim((string) ($_POST['schema_json'] ?? ''));
 
-    // A page added by hand can have its address set or changed; built pages keep theirs
+    // A page added by hand can have its address set or changed. A built page keeps its row key (the build's
+    // address) and gets a custom address in url_path; the build's address then redirects to it.
     $newPath = $path;
-    if ($isNew || !$built) {
+    $newPublic = $public;
+    if ($built) {
+        $want = seo_path((string) ($_POST['path'] ?? ''));
+        $taken = $want !== null ? seo_alias_target($want) : null;
+        if ($want === null) $errors['path'] = 'Enter an address like /web-design (letters, numbers, - and _ only).';
+        elseif ($path === '/' && $want !== '/') $errors['path'] = "The home page address can't be changed.";
+        elseif ($want !== $path && preg_match(SEO_RESERVED, $want)) $errors['path'] = 'That folder is used by the system. Choose another address.';
+        elseif ($want !== $path && isset(seo_discover()[$want])) $errors['path'] = 'Another page of the website already uses that address.';
+        elseif ($want !== $path && seo_page($want)) $errors['path'] = 'A page added under All pages already uses that address.';
+        elseif ($taken !== null && $taken !== $path) $errors['path'] = 'Another page has already been given that address.';
+        // blog articles share the site root (/<slug>, the old WordPress addresses)
+        elseif ($want !== $path && preg_match('#^/[a-z0-9-]+/$#', $want) && q('SELECT 1 FROM posts WHERE slug = ?', [trim($want, '/')])->fetchColumn()) $errors['path'] = 'A blog article already uses that address. Choose another.';
+        else $newPublic = $want;
+        $p['url_path'] = $newPublic === $path ? '' : $newPublic;
+    } elseif ($isNew || !$built) {
         $newPath = seo_path((string) ($_POST['path'] ?? '')) ?? '';
-        if ($newPath === '') $errors['path'] = 'Enter an address like /landing/offer/ (letters, numbers, - and _ only).';
+        if ($newPath === '') $errors['path'] = 'Enter an address like /landing/offer (letters, numbers, - and _ only).';
         elseif ($newPath !== $path && seo_page($newPath)) $errors['path'] = 'That page already has SEO settings. Edit it from All pages.';
         elseif ($newPath !== $path && isset(seo_discover()[$newPath])) $errors['path'] = 'That page is already listed under All pages.';
+        elseif ($newPath !== $path && seo_alias_target($newPath) !== null) $errors['path'] = 'A website page has been given that address. Choose another.';
+        elseif ($newPath !== $path && preg_match('#^/[a-z0-9-]+/$#', $newPath) && q('SELECT 1 FROM posts WHERE slug = ?', [trim($newPath, '/')])->fetchColumn()) $errors['path'] = 'A blog article already uses that address. Choose another.';
     }
     foreach (['canonical' => 'Canonical URL', 'og_image' => 'Open Graph image'] as $k => $label) {
         $v = seo_url_field((string) ($_POST[$k] ?? ''));
@@ -59,17 +81,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errors) {
-        $cols = ['name', 'type', 'title', 'description', 'keywords', 'canonical', 'og_title', 'og_description', 'og_image', 'schema_json', 'noindex', 'nofollow'];
+        $cols = ['url_path', 'name', 'type', 'title', 'description', 'keywords', 'canonical', 'og_title', 'og_description', 'og_image', 'schema_json', 'noindex', 'nofollow'];
         $vals = array_map(fn ($c) => $c === 'schema_json' && $p[$c] === '' ? null : $p[$c], $cols);
         if ($row) {
             q('UPDATE seo_pages SET path = ?, custom = ?, ' . implode(', ', array_map(fn ($c) => "$c = ?", $cols)) . ' WHERE path = ?', [$newPath, $built ? 0 : 1, ...$vals, $path]);
         } else {
             q('INSERT INTO seo_pages (path, custom, ' . implode(', ', $cols) . ') VALUES (?, ?, ' . implode(', ', array_fill(0, count($cols), '?')) . ')', [$newPath, $built ? 0 : 1, ...$vals]);
         }
-        flash('SEO saved. It is live on the website now.');
+        $moved = '';
+        if ($built && $newPublic !== $public) {
+            // Old addresses (the build's and any previous custom one) get a 301, listed under Redirects
+            redirect_page_moved($path, $public, $newPublic);
+            $moved = ' The page is now at ' . seo_url_path($newPublic) . ' and ' . seo_url_path($public) . ' redirects there (301, listed under Redirects).';
+        }
+        flash('SEO saved. It is live on the website now.' . $moved);
         redirect('seo-edit.php?path=' . rawurlencode($newPath));
     }
     if ($isNew || !$built) $path = (string) ($_POST['path'] ?? $path);
+    else $public = (string) ($_POST['path'] ?? $public);
 }
 
 $s = seo_settings();
@@ -87,7 +116,7 @@ admin_head($isNew ? 'Add page' : 'SEO: ' . ($p['name'] ?: $path), 'seo.php', $us
   <?= csrf_field() ?>
   <div class="stack">
     <div class="card stack">
-      <div class="card-head"><h2><?= $isNew ? 'New page' : e($p['name'] ?: $path) ?> <span class="seo-path"><?= e($path) ?></span></h2><?php if ($built): ?><a href="<?= e($path) ?>" target="_blank" rel="noopener">View page</a><?php endif; ?></div>
+      <div class="card-head"><h2><?= $isNew ? 'New page' : e($p['name'] ?: $path) ?> <span class="seo-path"><?= e($isNew ? '' : seo_url_path($public)) ?></span></h2><?php if ($built): ?><a href="<?= e(seo_url_path($p['url_path'] ?: $path)) ?>" target="_blank" rel="noopener">View page</a><?php endif; ?></div>
       <div class="grid2">
         <label>Page name <span class="muted">(only shown in the admin)</span><input name="name" maxlength="120" value="<?= e($p['name']) ?>"></label>
         <label>Type
@@ -95,11 +124,15 @@ admin_head($isNew ? 'Add page' : 'SEO: ' . ($p['name'] ?: $path), 'seo.php', $us
         </label>
       </div>
       <label>Address (path)
-        <input name="path" id="seo-path" value="<?= e($path) ?>" placeholder="/landing/offer/" <?= $built ? 'readonly' : 'required' ?>>
+        <input name="path" id="seo-path" value="<?= e($path === '' ? '' : seo_url_path($built ? $public : $path)) ?>" placeholder="<?= $built ? e(seo_url_path($path)) : '/landing/offer' ?>" required<?= $path === '/' ? ' readonly' : '' ?>>
         <?= $fieldErr('path') ?>
       </label>
       <?php if ($built): ?>
-        <p class="note">This address comes from the website build, so it can't be changed here. Everything below is applied to the live page straight away, with no rebuild needed.</p>
+        <?php if ($path === '/'): ?>
+        <p class="note">The home page address can't be changed. Everything below is applied to the live page straight away, with no rebuild needed.</p>
+        <?php else: ?>
+        <p class="note">Change this to move the page to a new address, e.g. <code>/web-design</code>. The old address redirects to the new one (301) and links across the website point to the new one, with no rebuild needed.<?php if ($p['url_path'] !== ''): ?> The website build has it at <code><?= e(seo_url_path($path)) ?></code>; put that back to undo.<?php endif; ?></p>
+        <?php endif; ?>
       <?php else: ?>
         <p class="note">Use this for a page that will be added to the website later: its SEO applies as soon as a page exists at this address.</p>
       <?php endif; ?>
@@ -124,7 +157,7 @@ admin_head($isNew ? 'Add page' : 'SEO: ' . ($p['name'] ?: $path), 'seo.php', $us
         <input name="keywords" maxlength="300" value="<?= e($p['keywords']) ?>" placeholder="website design bangalore, web development">
       </label>
       <label>Canonical URL <span class="muted">(leave empty to use this page's own address)</span>
-        <input name="canonical" maxlength="500" value="<?= e($p['canonical']) ?>" placeholder="<?= e($origin . ($path ?: '/')) ?>">
+        <input name="canonical" maxlength="500" value="<?= e($p['canonical']) ?>" placeholder="<?= e($origin . seo_url_path($built ? $public : ($path ?: '/'))) ?>">
         <?= $fieldErr('canonical') ?>
       </label>
     </div>

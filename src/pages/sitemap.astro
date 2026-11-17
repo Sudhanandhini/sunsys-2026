@@ -5,7 +5,7 @@ import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.jsx';
-import { services, industries } from '../data/site';
+import { services, industries, pageHref } from '../data/site';
 
 const groups = [
   {
@@ -16,17 +16,17 @@ const groups = [
   {
     title: 'Web development',
     icon: 'CodeXml',
-    links: [['All services', '/services'], ...services.filter((s) => s.group === 'web').map((s) => [s.title, `/services/${s.slug}`])],
+    links: [['All services', '/service'], ...services.filter((s) => s.group === 'web').map((s) => [s.title, pageHref(s)])],
   },
   {
     title: 'Hosting & care',
     icon: 'Server',
-    links: services.filter((s) => s.group === 'hosting').map((s) => [s.title, `/services/${s.slug}`]),
+    links: services.filter((s) => s.group === 'hosting').map((s) => [s.title, pageHref(s)]),
   },
   {
     title: 'Industries',
     icon: 'Briefcase',
-    links: industries.map((i) => [`${i.title} websites`, `/industries/${i.slug}`]),
+    links: industries.map((i) => [`${i.title} websites`, pageHref(i)]),
   },
 ];
 ---
@@ -80,7 +80,7 @@ const groups = [
       for (const p of d.posts ?? []) {
         const li = document.createElement('li');
         const a = document.createElement('a');
-        a.href = url(`/blog/post/?slug=${encodeURIComponent(p.slug)}`);
+        a.href = url(`/blog/${encodeURIComponent(p.slug)}`);
         a.className = 'sm-link group inline-flex items-start gap-2 text-body hover:text-navy';
         a.innerHTML = '<span aria-hidden="true" class="mt-2 size-1.5 shrink-0 rotate-45 bg-gold"></span>';
         a.append(p.title);

@@ -9,7 +9,7 @@ import CtaBand from '../components/CtaBand.astro';
 import Stats from '../components/Stats.jsx';
 import Icon from '../components/Icon.jsx';
 import ClientLogos from '../components/ClientLogos.astro';
-import { company, stats, footprints, services } from '../data/site';
+import { company, stats, footprints, services, pageHref } from '../data/site';
 
 const years = new Date().getFullYear() - company.founded;
 const projects = stats.find((s) => s.label === 'Projects completed');
@@ -23,11 +23,12 @@ const milestones = [
 
 // Text for the first four comes from the matching service summaries in site data
 const summary = (slug: string) => services.find((s) => s.slug === slug)?.summary ?? '';
+const serviceUrl = (slug: string) => pageHref(services.find((s) => s.slug === slug)!);
 const offer = [
-  { icon: 'MonitorSmartphone', label: 'Web design', img: '/images/services/website-redesign.jpg', text: summary('responsive-web-design'), href: '/services/responsive-web-design' },
-  { icon: 'CodeXml', label: 'Web development', img: '/images/services/custom-web-development.jpg', text: summary('custom-web-development'), href: '/services/custom-web-development' },
-  { icon: 'Server', label: 'Windows & Linux hosting', img: '/images/services/website-maintenance.jpg', text: summary('web-hosting'), href: '/services/web-hosting' },
-  { icon: 'Wrench', label: 'Website maintenance', img: '/images/services/cms-web-development.jpg', text: summary('website-maintenance'), href: '/services/website-maintenance' },
+  { icon: 'MonitorSmartphone', label: 'Web design', img: '/images/services/website-redesign.jpg', text: summary('responsive-web-design'), href: serviceUrl('responsive-web-design') },
+  { icon: 'CodeXml', label: 'Web development', img: '/images/services/custom-web-development.jpg', text: summary('custom-web-development'), href: serviceUrl('custom-web-development') },
+  { icon: 'Server', label: 'Windows & Linux hosting', img: '/images/services/website-maintenance.jpg', text: summary('web-hosting'), href: serviceUrl('web-hosting') },
+  { icon: 'Wrench', label: 'Website maintenance', img: '/images/services/cms-web-development.jpg', text: summary('website-maintenance'), href: serviceUrl('website-maintenance') },
   { icon: 'Globe', label: 'Domain registration', img: '/images/services/domain-registration.jpg', text: 'Register the right name for your business and keep it renewed alongside your hosting.', href: '/contact' },
 ];
 

@@ -24,6 +24,7 @@ $schema = [
         nofollow TINYINT(1) NOT NULL DEFAULT 0,
         cover VARCHAR(255) NULL,
         category_id INT UNSIGNED NULL,
+        author_id INT UNSIGNED NULL,
         status ENUM('draft','published') NOT NULL DEFAULT 'draft',
         published_at DATETIME NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -36,6 +37,7 @@ $schema = [
         name VARCHAR(120) NOT NULL DEFAULT '',
         type VARCHAR(30) NOT NULL DEFAULT 'Page',
         custom TINYINT(1) NOT NULL DEFAULT 0,
+        url_path VARCHAR(255) NOT NULL DEFAULT '',
         title VARCHAR(200) NOT NULL DEFAULT '',
         description VARCHAR(400) NOT NULL DEFAULT '',
         keywords VARCHAR(300) NOT NULL DEFAULT '',
@@ -65,6 +67,16 @@ $schema = [
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         UNIQUE KEY source (source_path, source_query)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+    "CREATE TABLE IF NOT EXISTS authors (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        designation VARCHAR(120) NOT NULL DEFAULT '',
+        bio VARCHAR(600) NOT NULL DEFAULT '',
+        linkedin VARCHAR(255) NOT NULL DEFAULT '',
+        photo VARCHAR(255) NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
     "CREATE TABLE IF NOT EXISTS categories (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

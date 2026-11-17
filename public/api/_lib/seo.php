@@ -63,8 +63,39 @@ function seo_path(string $p): ?string
     return preg_match('#^/(?:[a-z0-9_-]+/)*$#i', $p) && strlen($p) <= 255 ? strtolower($p) : null;
 }
 
+/**
+ * Where this site's service and industry pages moved when they took the old WordPress site's addresses (the
+ * `path` of each in src/data/site.ts; keep the two in step): old page => [new page, type]. Used to label pages
+ * in the admin, and once (bootstrap.php migrate) to move their SEO settings and add 301s from the old addresses.
+ */
+const SEO_SITE_MOVES = [
+    '/services/' => ['/service/', 'Page'],
+    '/services/website-development/' => ['/website-development/', 'Service'],
+    '/services/wordpress-development/' => ['/wordpress-development-company-india/', 'Service'],
+    '/services/ecommerce-development/' => ['/ecommerce-web-development-india/', 'Service'],
+    '/services/custom-web-development/' => ['/php-web-development-company/', 'Service'],
+    '/services/woocommerce-development/' => ['/woocommerce-web-development-company/', 'Service'],
+    '/services/landing-page/' => ['/website-development-landing-page/', 'Service'],
+    '/services/cms-web-development/' => ['/cms-development-company-bangalore/', 'Service'],
+    '/services/website-maintenance/' => ['/website-maintenance-india/', 'Service'],
+    '/services/website-redesign/' => ['/website-redesign-services/', 'Service'],
+    '/services/responsive-web-design/' => ['/responsive-web-design/', 'Service'],
+    '/services/linux-hosting/' => ['/linux-hosting-company-bangalore/', 'Service'],
+    '/services/web-hosting/' => ['/web-hosting-services-company-in-bangalore/', 'Service'],
+    '/services/email-hosting/' => ['/email-hosting-service-provider/', 'Service'],
+    '/industries/tours-and-travels/' => ['/travel-hospitality/', 'Industry'],
+    '/industries/hotel-and-resort/' => ['/hotel/', 'Industry'],
+    '/industries/healthcare/' => ['/healthcare/', 'Industry'],
+    '/industries/corporate/' => ['/b2b-business/', 'Industry'],
+    '/industries/education/' => ['/education/', 'Industry'],
+    '/industries/real-estate-and-construction/' => ['/real-estate/', 'Industry'],
+];
+
 function seo_type(string $path): string
 {
+    static $types = null;
+    $types ??= array_column(SEO_SITE_MOVES, 1, 0);
+    if (isset($types[$path])) return $types[$path]; // service and industry pages sit at the site root
     return match (true) {
         $path === '/' => 'Home',
         str_starts_with($path, '/services/') && $path !== '/services/' => 'Service',
@@ -97,7 +128,9 @@ function seo_discover(): array
     $root = seo_pages_root();
     $pages = [];
     $walk = function (string $dir, string $path, int $depth) use (&$walk, &$pages, $root) {
-        if (is_file("$dir/index.html") && $path !== '/blog/post/') $pages[$path] = ['file' => "$dir/index.html"] + seo_read_head("$dir/index.html");
+        // Old /services/… and /industries/… folders can be left on the server by an earlier upload: those pages
+        // moved (SEO_SITE_MOVES) and their addresses redirect, so they aren't pages of the site any more
+        if (is_file("$dir/index.html") && $path !== '/blog/post/' && !isset(SEO_SITE_MOVES[$path])) $pages[$path] = ['file' => "$dir/index.html"] + seo_read_head("$dir/index.html");
         if ($depth > 4) return;
         foreach (scandir($dir) ?: [] as $f) {
             if ($f[0] === '.' || ($depth === 0 && in_array($f, SEO_SKIP, true)) || !is_dir("$dir/$f") || !preg_match('/^[a-z0-9_-]+$/i', $f)) continue;
@@ -160,6 +193,9 @@ function seo_apply(string $html, array $m): string
     $title = ($m['title'] ?? '') !== '' ? $m['title'] : $current('#<title>([^<]*)</title>#');
     $desc = ($m['description'] ?? '') !== '' ? $m['description'] : ($current('#<meta name="description" content="([^"]*)"#') ?: $s['default_description']);
     $canonical = ($m['canonical'] ?? '') !== '' ? seo_abs($m['canonical']) : $current('#<link rel="canonical" href="([^"]*)"#');
+    // Page addresses have no trailing slash: https://sunsys.in/about/ (older builds) → https://sunsys.in/about
+    $origin = seo_origin();
+    if (stripos($canonical, $origin . '/') === 0 && strlen($canonical) > strlen($origin) + 1 && !str_contains($canonical, '?')) $canonical = rtrim($canonical, '/');
     $ogTitle = ($m['og_title'] ?? '') !== '' ? $m['og_title'] : $title;
     $ogDesc = ($m['og_description'] ?? '') !== '' ? $m['og_description'] : $desc;
     $image = seo_abs(($m['og_image'] ?? '') !== '' ? $m['og_image'] : $s['default_og_image']);
@@ -194,6 +230,89 @@ function seo_apply(string $html, array $m): string
     $head .= $m['extra_head'] ?? '';
     if ($head !== '') $html = preg_replace_callback('#</head>#', fn () => $head . '</head>', $html, 1);
     return $html;
+}
+
+/**
+ * Address of a blog article: /blog/<slug>. The one place it is defined in PHP (src/components/BlogSidebar.jsx
+ * postHref is the front end's); the old /<slug> (WordPress) and /blog/post/?slug= forms 301 here.
+ */
+function blog_path(string $slug): string
+{
+    return '/blog/' . rawurlencode($slug);
+}
+
+/** Folders a page's custom address may not use: they belong to the system, or the blog article template. */
+const SEO_RESERVED = '#^/(admin|api|uploads|_astro|images|blog/post)(/|$)#i';
+
+/** Custom addresses set in Admin > SEO for built pages: built path => address the page is served at. */
+function seo_aliases(): array
+{
+    static $a = null;
+    if ($a === null) {
+        $a = [];
+        try {
+            foreach (q("SELECT path, url_path FROM seo_pages WHERE url_path <> '' AND custom = 0")->fetchAll() as $r) $a[$r['path']] = $r['url_path'];
+        } catch (Throwable $ex) {
+            // not installed yet / database unavailable: pages keep their built addresses
+        }
+    }
+    return $a;
+}
+
+/** How a page path is written in URLs: without the trailing slash (/about), except the home page (/). */
+function seo_url_path(string $path): string
+{
+    return $path === '/' ? '/' : (rtrim($path, '/') ?: '/');
+}
+
+/** Address a built page is shown at: its custom address, else the one from the build. */
+function seo_public_path(string $path): string
+{
+    return seo_aliases()[$path] ?? $path;
+}
+
+/** Built page served at this custom address (path like /web-design/), or null. */
+function seo_alias_target(string $public): ?string
+{
+    $built = array_search($public, seo_aliases(), true);
+    return $built === false ? null : (string) $built;
+}
+
+/**
+ * Point links in a built page at the custom addresses set in the admin: href="/services/x", href="/services/x/#a",
+ * the canonical (full URL), island props (&quot;…&quot;) and JSON-LD strings. Links are written with the base
+ * path (subfolder builds) or as full URLs on the site's own address.
+ */
+function seo_rewrite_links(string $html): string
+{
+    $map = seo_aliases();
+    if (!$map) return $html;
+    $olds = [];
+    foreach ($map as $old => $new) if ($old !== '/') $olds[rtrim($old, '/')] = seo_url_path($new);
+    if (!$olds) return $html;
+    uksort($olds, fn ($a, $b) => strlen($b) <=> strlen($a));
+    $base = base_path();
+    $prefix = '(' . preg_quote(seo_origin(), '#') . ($base !== '' ? '|' . preg_quote($base, '#') . ')' : ')?');
+    $paths = implode('|', array_map(fn ($p) => preg_quote($p, '#'), array_keys($olds)));
+    $byLower = array_change_key_case($olds, CASE_LOWER);
+    return preg_replace_callback(
+        '#(?<=href="|href=\'|&quot;|")' . $prefix . '(' . $paths . ')/?(?=["\'\#?&])#i',
+        fn ($m) => $m[1] . $byLower[strtolower($m[2])], // keeps the origin or base it matched with
+        $html
+    ) ?? $html;
+}
+
+/** Send a built page (path like /about/) with its SEO from the admin applied and links at custom addresses. */
+function seo_serve(string $path): void
+{
+    header('Content-Type: text/html; charset=utf-8');
+    header('Cache-Control: no-cache');
+    $html = (string) file_get_contents(site_root() . $path . 'index.html');
+    try {
+        echo seo_apply(seo_rewrite_links($html), seo_meta_for(seo_page($path)));
+    } catch (Throwable $ex) {
+        echo $html; // database unavailable: the page as built
+    }
 }
 
 /** Tags for a page from its seo_pages row. */

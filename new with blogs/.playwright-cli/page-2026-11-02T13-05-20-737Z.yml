@@ -1,0 +1,223 @@
+- generic [active] [ref=f1e1]:
+  - link "Skip to content" [ref=f1e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f1e4]:
+    - paragraph [ref=f1e5]: Est. 2006 · Bengaluru
+    - paragraph [ref=f1e7]:
+      - generic [ref=f1e8]: Build your business identity with our consultancy
+      - link "Get started now" [ref=f1e10] [cursor=pointer]:
+        - /url: /sunsys-urltest/contact?type=quote
+        - text: Get started now
+        - generic [aria-hidden] [ref=f1e11]: →
+    - paragraph [ref=f1e12]: Mon to Fri, 9:00 am to 5:00 pm
+  - banner [ref=f1e14]:
+    - navigation "Main" [ref=f1e16]:
+      - link "Sunsys Technologies home" [ref=f1e17] [cursor=pointer]:
+        - /url: /sunsys-urltest/
+        - img "Sunsys Technologies" [ref=f1e18]
+      - list [ref=f1e19]:
+        - listitem [ref=f1e20]:
+          - link "Home" [ref=f1e21] [cursor=pointer]:
+            - /url: /sunsys-urltest/
+        - listitem [ref=f1e22]:
+          - link "About Us" [ref=f1e23] [cursor=pointer]:
+            - /url: /sunsys-urltest/about
+        - listitem [ref=f1e24]:
+          - button "Services" [ref=f1e25]
+        - listitem [ref=f1e28]:
+          - link "Blog" [ref=f1e29] [cursor=pointer]:
+            - /url: /sunsys-urltest/blog
+        - listitem [ref=f1e30]:
+          - link "Career" [ref=f1e31] [cursor=pointer]:
+            - /url: /sunsys-urltest/career
+        - listitem [ref=f1e32]:
+          - link "Contact Us" [ref=f1e33] [cursor=pointer]:
+            - /url: /sunsys-urltest/contact
+      - link "Get a quote" [ref=f1e35] [cursor=pointer]:
+        - /url: /sunsys-urltest/contact?type=quote
+  - main [ref=f1e39]:
+    - article [ref=f1e41]:
+      - generic [ref=f1e43]:
+        - navigation "Breadcrumb" [ref=f1e44]:
+          - link "Home" [ref=f1e45] [cursor=pointer]:
+            - /url: /sunsys-urltest/
+          - link "Blog" [ref=f1e47] [cursor=pointer]:
+            - /url: /sunsys-urltest/blog
+          - link "E-commerce" [ref=f1e49] [cursor=pointer]:
+            - /url: /sunsys-urltest/blog?category=e-commerce
+        - heading "Best 6 Tips To Hire Best Ecommerce Web Design Company" [level=1] [ref=f1e50]
+        - paragraph [ref=f1e51]:
+          - generic [ref=f1e52]: 16 October 2024
+          - generic [ref=f1e54]: Sunsys Technologies
+      - generic [ref=f1e56]:
+        - complementary [ref=f1e57]:
+          - navigation "Table of contents" [ref=f1e58]:
+            - heading "Table of contents" [level=2] [ref=f1e59]
+            - list [ref=f1e64]:
+              - listitem [ref=f1e65]:
+                - link "Introduction" [ref=f1e66] [cursor=pointer]:
+                  - /url: "#introduction"
+              - listitem [ref=f1e67]:
+                - link "Best 6 Tips To Hire The Best Ecommerce Development Company" [ref=f1e68] [cursor=pointer]:
+                  - /url: "#best-6-tips-to-hire-the-best-ecommerce-development-company"
+              - listitem [ref=f1e69]:
+                - link "Conclusion" [ref=f1e70] [cursor=pointer]:
+                  - /url: "#conclusion"
+        - generic [ref=f1e71]:
+          - generic [ref=f1e72]:
+            - img "Best 6 Tips To Hire Best Ecommerce Web Design Company" [ref=f1e73]
+            - generic [ref=f1e74]:
+              - paragraph [ref=f1e75]: Whether you own a brick-and-mortar shop or already sell products online, you need to have an impeccable eCommerce website to target online shoppers. Even if you are selling products through a marketp…
+              - generic [ref=f1e76]:
+                - heading "Introduction" [level=2] [ref=f1e77]
+                - paragraph [ref=f1e78]: Whether you own a brick-and-mortar shop or already sell products online, you need to have an impeccable eCommerce website to target online shoppers. Even if you are selling products through a marketplace such as Amazon, Flipkart, and others, still you need to have your online store to take your business to the next level. Even if you own an online store but are not performing well, you need to develop an online store.
+                - paragraph [ref=f1e79]:
+                  - text: In all cases, you need to hire an
+                  - link "eCommerce website development company" [ref=f1e80] [cursor=pointer]:
+                    - /url: https://www.sunsys.in/ecommerce-web-development-india/bangalore/
+                  - text: that possesses enough experience to build an awesome online store with high-grade functionalities.
+                - heading [level=3] [ref=f1e81]:
+                  - strong [ref=f1e82]: "Related Links:"
+                - paragraph [ref=f1e83]:
+                  - strong [ref=f1e84]:
+                    - link "Impact of Covid-19 on eCommerce" [ref=f1e85] [cursor=pointer]:
+                      - /url: https://www.sunsys.in/impact-of-covid-19-on-ecommerce/
+                - heading "Best 6 Tips To Hire The Best Ecommerce Development Company" [level=2] [ref=f1e86]
+                - paragraph [ref=f1e87]: So, you might be seeking to know about the way to find the right eCommerce website development company. Well, you need to understand the fact that the process of selecting the best eCommerce website development company is tough. Meanwhile, we are here to make your task easy by letting you explore certain tips and tricks.
+                - heading "1. Look at Portfolio" [level=3] [ref=f1e88]
+                - paragraph [ref=f1e89]: While searching for an eCommerce website development company, you need to look at their portfolio first. All you need to do is to access the website of your service provider and take a look at the projects that they accomplished in the past. It’s advisable to even look beyond the screenshot of the portfolio.
+                - paragraph [ref=f1e90]: You should also click on the links and then head over to that actual website that they developed and also see how they feel. It’s good to look at those projects that are similar to your concept. If you already found the same, you need to go through every detail, which will give you an idea in terms of whether the eCommerce development provider will cater to your needs or not.
+                - paragraph [ref=f1e91]: Getting a look at the portfolio of the company also enables you to make a complete assessment of both the quality and the diversity of the company’s projects. It gives you a rough idea in terms of the specialization of the company.So, if you come across an eCommerce website development company that claims better services, it’s good to have a look at their portfolio.
+                - heading "2. Read Client Reviews" [level=3] [ref=f1e92]
+                - paragraph [ref=f1e93]: The next thing that you can do is to go through the client reviews of the service provider that you are seeking to hire. You can find various websites that are dedicated to client reviews – Clutch, Yelp, Trust Pilot, etc. are one of those. You can access all of these websites to read clients’ feedback.
+                - paragraph [ref=f1e94]: Well, when it comes to Clutch, it’s one of the reliable websites that you can go through to read the real reviews of clients about the company. It’s a reliable place that enables you to gather the real details about your service provider. It helps you find out if any recurrent issues in the process of projects are completed.
+                - paragraph [ref=f1e95]: Another good advantage of using the clutch is it includes unbiased reviews written directly by clients. Clutch conducts genuine client review and creates verified profiles of service providers.
+                - heading "3. Have a Look at their Website" [level=3] [ref=f1e96]
+                - paragraph [ref=f1e97]: The next thing that you need to do is to get a complete overview of their website. It’s something that you need to do even before taking a look at their portfolio. Once you go through your service provider’s official website, it gives you idea terms of the responsibility and competence of your website. If they claim world-class eCommerce development services, then you can expect them to reflect the same thing through their website.
+                - heading "4. Go through the CVs of their Professionals" [level=3] [ref=f1e98]
+                - paragraph [ref=f1e99]: You should not forget to check the CVs of the professional team members working with the eCommerce development company that you wish to hire. Hiring a perfect team is indeed necessary for implementing a successful project.
+                - paragraph [ref=f1e100]: If you are in the consideration phase, you are suggested to ask your service provider to provide the CVs of the team members who are concerned about handling your projects. This is indeed the right way to find out if they have everything to deliver your projects successfully. Apart from this, it also gives you a kind of assurance that your project is in the right hands.
+                - heading "5. Check for Additional Services" [level=3] [ref=f1e101]
+                - paragraph [ref=f1e102]: When you develop an eCommerce website for your business, you need to always think of long-term solutions rather than short-term solutions. Besides, you should also take it from a broader perspective.
+                - paragraph [ref=f1e103]: You need to understand that your website needs some extra services that include graphics designers, UX experts, and SEO professionals to take your development to another level. You need to choose a service that offers all the required services. And it will help you in saving various troubles. If you save time, it helps you in focusing on your core business needs and you will be able to grow your business.
+                - heading "6. Looks for Nearshoring or Offshoring" [level=3] [ref=f1e104]
+                - paragraph [ref=f1e105]: The next thing that you need to be concerned about when hiring an eCommerce service provider is offshoring or nearshoring. In nearshoring, the software development company is located in neighboring countries. It indicates that you will be able to visit your eCommerce development company to interact face to face when required. This is the most crucial arrangement, especially if you have a large project to develop as it needs constant collaboration and feedback.
+                - paragraph [ref=f1e106]: Offshoring, on the other hand, reflects that the eCommerce development company is located in another country. In this, the company is generally based in remote locations overseas. It naturally leads to a time zone difference, which makes quick fixes, or also real-time communication, which is certainly impossible. The positive side of offshoring is it helps you keep the development cost minimum.
+                - paragraph [ref=f1e107]: So, you need to make the right decision based on the type of your project to Choose The Best Ecommerce Development Company.
+                - heading "Conclusion" [level=2] [ref=f1e108]
+                - paragraph [ref=f1e109]: When hiring an eCommerce development company, you will come across numerous options. All you need to do is choose and hire the best company that caters to your needs and delivers you the best website. Following the above tips for How to Find the Best eCommerce Development Company help you in making the right decision.
+          - generic [ref=f1e110]:
+            - link "← All articles" [ref=f1e111] [cursor=pointer]:
+              - /url: /sunsys-urltest/blog
+            - link "Talk to our team" [ref=f1e112] [cursor=pointer]:
+              - /url: /sunsys-urltest/contact?type=quote
+    - generic [ref=f1e116]:
+      - generic [ref=f1e117]:
+        - paragraph [ref=f1e118]: Let’s begin
+        - heading [level=2] [ref=f1e119]:
+          - text: Planning a new website for your
+          - emphasis [ref=f1e120]: business
+          - text: "?"
+        - paragraph [ref=f1e121]: Tell us what you need. You get a free quote and consultation within one working hour.
+        - generic [ref=f1e122]:
+          - link "Request a quote" [ref=f1e123] [cursor=pointer]:
+            - /url: /sunsys-urltest/contact?type=quote
+          - link "Explore services" [ref=f1e127] [cursor=pointer]:
+            - /url: /sunsys-urltest/service
+        - list [ref=f1e128]:
+          - listitem [ref=f1e129]: 20+ years
+          - listitem [ref=f1e130]: 1,300+ projects
+          - listitem [ref=f1e132]: 8 countries
+      - generic [ref=f1e134]:
+        - img "Developers working together at laptops" [ref=f1e137]
+        - generic [ref=f1e139]: Reply within one working hour
+  - contentinfo [ref=f1e143]:
+    - generic [ref=f1e145]:
+      - generic [ref=f1e146]:
+        - generic [ref=f1e147]:
+          - paragraph [ref=f1e148]: Let’s talk
+          - paragraph [ref=f1e149]:
+            - text: Have a project in
+            - emphasis [ref=f1e150]: mind
+            - text: "?"
+        - link "Get a free quote" [ref=f1e152] [cursor=pointer]:
+          - /url: /sunsys-urltest/contact?type=quote
+      - generic [ref=f1e155]:
+        - generic [ref=f1e156]:
+          - img "Sunsys Technologies" [ref=f1e157]
+          - paragraph [ref=f1e158]: Website design, development and hosting from Bengaluru since 2006.
+          - list [ref=f1e159]:
+            - listitem [ref=f1e160]:
+              - link "Facebook" [ref=f1e161] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f1e164]:
+              - link "Instagram" [ref=f1e165] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f1e168]:
+              - link "X" [ref=f1e169] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f1e172]:
+              - link "LinkedIn" [ref=f1e173] [cursor=pointer]:
+                - /url: "#"
+        - navigation "Company" [ref=f1e176]:
+          - paragraph [ref=f1e177]: Company
+          - list [ref=f1e181]:
+            - listitem [ref=f1e182]:
+              - link "About us" [ref=f1e183] [cursor=pointer]:
+                - /url: /sunsys-urltest/about
+            - listitem [ref=f1e184]:
+              - link "Services" [ref=f1e185] [cursor=pointer]:
+                - /url: /sunsys-urltest/service
+            - listitem [ref=f1e186]:
+              - link "Blog" [ref=f1e187] [cursor=pointer]:
+                - /url: /sunsys-urltest/blog
+            - listitem [ref=f1e188]:
+              - link "Career" [ref=f1e189] [cursor=pointer]:
+                - /url: /sunsys-urltest/career
+            - listitem [ref=f1e190]:
+              - link "Contact us" [ref=f1e191] [cursor=pointer]:
+                - /url: /sunsys-urltest/contact
+        - navigation "Other links" [ref=f1e192]:
+          - paragraph [ref=f1e193]: Other links
+          - list [ref=f1e197]:
+            - listitem [ref=f1e198]:
+              - link "Domain registration (opens in a new tab)" [ref=f1e199] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/
+                - text: Domain registration
+                - generic [ref=f1e200]: (opens in a new tab)
+            - listitem [ref=f1e201]:
+              - link "Whois lookup (opens in a new tab)" [ref=f1e202] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/domain-registration/domain-whois-lookup.php
+                - text: Whois lookup
+                - generic [ref=f1e203]: (opens in a new tab)
+            - listitem [ref=f1e204]:
+              - link "Customer login (opens in a new tab)" [ref=f1e205] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/LoginServlet?role=customer&currenturl=https://sunsys.myorderbox.com
+                - text: Customer login
+                - generic [ref=f1e206]: (opens in a new tab)
+            - listitem [ref=f1e207]:
+              - link "Reseller login (opens in a new tab)" [ref=f1e208] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/AuthServlet?validatenow=false&role=reseller&currenturl=https://sunsys.myorderbox.com
+                - text: Reseller login
+                - generic [ref=f1e209]: (opens in a new tab)
+            - listitem [ref=f1e210]:
+              - link "Sitemap" [ref=f1e211] [cursor=pointer]:
+                - /url: /sunsys-urltest/sitemap
+        - generic [ref=f1e212]:
+          - paragraph [ref=f1e213]: Visit us
+          - list [ref=f1e217]:
+            - listitem [ref=f1e218]:
+              - link "4, 2nd Floor, 8th Main Road, CHBS Layout, Vijayanagar, Bengaluru 560040" [ref=f1e222] [cursor=pointer]:
+                - /url: /sunsys-urltest/contact
+            - listitem [ref=f1e223]:
+              - link "info@sunsys.in" [ref=f1e227] [cursor=pointer]:
+                - /url: mailto:info@sunsys.in
+            - listitem [ref=f1e228]:
+              - link "+91 9845244232" [ref=f1e231] [cursor=pointer]:
+                - /url: tel:+919845244232
+            - listitem [ref=f1e232]:
+              - generic [ref=f1e236]: Mon to Fri, 9:00 am to 5:00 pm
+    - generic [ref=f1e238]:
+      - paragraph [ref=f1e239]: © 2026 Sunsys Technologies (India) Pvt. Ltd. All rights reserved.
+      - link [ref=f1e240] [cursor=pointer]:
+        - /url: "#"

@@ -1,7 +1,7 @@
 <?php
 // Public blog API.
 // GET               → { posts, categories, recent }   (?q= search, ?category= slug filter)
-// GET ?slug=x       → { post, categories, recent }    one published post with rendered HTML
+// GET ?slug=x       → { post, related, categories, recent }    one published post with rendered HTML, and 3 to read next
 require __DIR__ . '/_lib/bootstrap.php';
 require __DIR__ . '/_lib/blog.php';
 
@@ -13,7 +13,7 @@ try {
         if (!$p) json_out(blog_public(['error' => 'Not found'] + blog_sidebar()), 404);
         $seo = blog_seo($p);
         unset($p['meta_title'], $p['meta_description'], $p['noindex'], $p['nofollow'], $p['updated_at']);
-        json_out(blog_public(['post' => $p + ['seo' => $seo]] + blog_sidebar()));
+        json_out(blog_public(['post' => $p + ['seo' => $seo], 'related' => blog_related($p)] + blog_sidebar()));
     }
 
     $where = LIVE;

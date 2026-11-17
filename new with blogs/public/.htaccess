@@ -1,0 +1,95 @@
+# Site root (public_html, or a subfolder of it). Caching + compression only; folder rules live in admin/,
+# api/ and uploads/. If cPanel added lines here (e.g. a PHP version handler), keep them when redeploying.
+# The rules below are relative to this folder, so they work at a domain root and in a subfolder alike.
+
+# For a subfolder build (npm run build:staging) the build writes the folder into this path
+ErrorDocument 404 /404.html
+
+# blog/post/ has both: index.php adds each article's SEO tags to the built index.html
+DirectoryIndex index.php index.html
+
+# SEO from Admin > SEO: pages go through api/page.php, which adds the tags set there to the built HTML.
+# robots.txt and sitemap.xml are generated from the same settings.
+# Pages are folders (about/index.html) but their addresses have no trailing slash, so Apache must not add one
+# before the rules below run; folders that aren't pages (admin/, …) get their slash from a rule instead.
+DirectorySlash Off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # The site's folder from the web root, for the redirects below (a subfolder build writes it in, like ErrorDocument)
+  RewriteBase /
+  # sunsys.in (no www) → https://www.sunsys.in, same address. Only that host, so staging and local copies are unaffected.
+  RewriteCond %{HTTP_HOST} ^sunsys\.in$ [NC]
+  RewriteRule ^ https://www.sunsys.in%{REQUEST_URI} [R=301,L,NE]
+  RewriteRule ^robots\.txt$ api/robots.php [L]
+  RewriteRule ^sitemap\.xml$ api/sitemap.php [L]
+
+  # ---- Addresses are the old WordPress site's (www.sunsys.in/<page>, no trailing slash). ----
+  # Single-page redirects (old pages with no exact match, and any added later) are managed in Admin > Redirects.
+  # Old blog archives
+  RewriteRule ^category/ecommerce(?:/.*)?$ blog?category=e-commerce [R=301,L,QSD]
+  RewriteRule ^category/uncategorized(?:/.*)?$ blog [R=301,L,QSD]
+  RewriteRule ^category/([a-z0-9-]+)(?:/.*)?$ blog?category=$1 [R=301,L,QSD]
+  RewriteRule ^(?:blog/page|page)/[0-9]+/?$ blog [R=301,L,QSD]
+  RewriteRule ^(?:tag|author)/ blog [R=301,L,QSD]
+  # This site's own earlier addresses (/services/<slug>, /industries/<slug>): keep in step with `path` in src/data/site.ts
+  RewriteRule ^services/?$ service [R=301,L]
+  RewriteRule ^services/website-development/?$ website-development [R=301,L]
+  RewriteRule ^services/wordpress-development/?$ wordpress-development-company-india [R=301,L]
+  RewriteRule ^services/ecommerce-development/?$ ecommerce-web-development-india [R=301,L]
+  RewriteRule ^services/custom-web-development/?$ php-web-development-company [R=301,L]
+  RewriteRule ^services/woocommerce-development/?$ woocommerce-web-development-company [R=301,L]
+  RewriteRule ^services/landing-page/?$ website-development-landing-page [R=301,L]
+  RewriteRule ^services/cms-web-development/?$ cms-development-company-bangalore [R=301,L]
+  RewriteRule ^services/website-maintenance/?$ website-maintenance-india [R=301,L]
+  RewriteRule ^services/website-redesign/?$ website-redesign-services [R=301,L]
+  RewriteRule ^services/responsive-web-design/?$ responsive-web-design [R=301,L]
+  RewriteRule ^services/linux-hosting/?$ linux-hosting-company-bangalore [R=301,L]
+  RewriteRule ^services/web-hosting/?$ web-hosting-services-company-in-bangalore [R=301,L]
+  RewriteRule ^services/email-hosting/?$ email-hosting-service-provider [R=301,L]
+  RewriteRule ^industries/tours-and-travels/?$ travel-hospitality [R=301,L]
+  RewriteRule ^industries/hotel-and-resort/?$ hotel [R=301,L]
+  RewriteRule ^industries/healthcare/?$ healthcare [R=301,L]
+  RewriteRule ^industries/corporate/?$ b2b-business [R=301,L]
+  RewriteRule ^industries/education/?$ education [R=301,L]
+  RewriteRule ^industries/real-estate-and-construction/?$ real-estate [R=301,L]
+
+  # Built pages (folders with an index.html) go through api/page.php, which also drops a trailing slash
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(?!(?:api|admin|uploads|_astro|blog/post)(?:/|$)) api/page.php [L]
+  # Other folders (admin, …): add the trailing slash Apache would have added
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+[^/])$ $1/ [R=301,L]
+  # Blog articles at /<slug> (anything else that isn't a file or folder; unknown ones get the 404 page)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([a-z0-9-]+)/?$ blog/post/index.php?slug=$1 [L,QSA]
+  # Anything else that doesn't exist: a redirect from Admin > Redirects, or the 404 page
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(?!(?:api|admin|uploads|_astro)/) api/notfound.php [L]
+</IfModule>
+
+# Compress text responses (Brotli where the host has it, gzip otherwise)
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json image/svg+xml image/x-icon
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json image/svg+xml image/x-icon
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Astro build output has content hashes in the file names, so it never changes: cache for a year
+  <If "%{REQUEST_URI} =~ m#/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # Pages: always revalidate so a redeploy shows up straight away
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # Un-hashed static files (logos, favicon, blog uploads, fonts)
+  <FilesMatch "\.(png|svg|ico|jpe?g|webp|avif|gif|woff2?)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>

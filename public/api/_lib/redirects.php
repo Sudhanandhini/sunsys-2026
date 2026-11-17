@@ -100,7 +100,11 @@ function redirect_resolve(string $path, string $query): ?array
 /** Browser address for a stored target: site paths get the subfolder (if any) in front. */
 function redirect_location(string $target): string
 {
-    return str_starts_with($target, '/') && !str_starts_with($target, '//') ? base_path() . $target : $target;
+    if (!str_starts_with($target, '/') || str_starts_with($target, '//')) return $target;
+    // Page addresses have no trailing slash: /about-us/ → /about-us (folders like /blog/post/?slug= keep theirs)
+    [$p, $q] = array_pad(explode('?', $target, 2), 2, null);
+    if ($q === null && $p !== '/') $p = rtrim($p, '/') ?: '/';
+    return base_path() . $p . ($q !== null ? "?$q" : '');
 }
 
 /**
@@ -192,4 +196,118 @@ function redirect_save(string $source, string $target, int $code, string $note =
     if ($id) q('UPDATE seo_redirects SET source_path = ?, source_query = ?, target = ?, code = ?, note = ?, active = ? WHERE id = ?', [$src[0], $src[1], $target, $code, $note, $active ? 1 : 0, $id]);
     else q('INSERT INTO seo_redirects (source_path, source_query, target, code, note, active) VALUES (?, ?, ?, ?, ?, ?)', [$src[0], $src[1], $target, $code, $note, $active ? 1 : 0]);
     return '';
+}
+
+/**
+ * A built page's address changed in Admin > SEO, from $from to $to ($built = the address from the website build).
+ * Each old address (the build's and the previous custom one) gets a 301 to $to, listed in Admin > SEO > Redirects;
+ * redirects that led to $from now go straight to $to, and none may start at $to, which serves the page.
+ */
+function redirect_page_moved(string $built, string $from, string $to): void
+{
+    $drop = function (string $p): void {
+        if ($s = redirect_split($p)) q("DELETE FROM seo_redirects WHERE source_path = ? AND source_query = ''", [$s[0]]);
+    };
+    $drop($to);
+    $to = seo_url_path($to);
+    if ($from !== $to) q('UPDATE seo_redirects SET target = ? WHERE target IN (?, ?)', [$to, $from, seo_url_path($from)]);
+    foreach (array_unique([$built, $from]) as $old) {
+        if (seo_url_path($old) === $to) continue;
+        $drop($old);
+        redirect_save($old, $to, 301, 'Page address changed in SEO');
+    }
+}
+
+/** Make sure every custom page address set in Admin > SEO has its 301 from the build's address listed. */
+function redirect_sync_page_moves(): void
+{
+    foreach (seo_aliases() as $built => $public) {
+        q('UPDATE seo_redirects SET target = ? WHERE target = ?', [seo_url_path($public), $public]); // written with a slash before
+        $public = seo_url_path($public);
+        $s = redirect_split($built);
+        if ($s && !q("SELECT 1 FROM seo_redirects WHERE source_path = ? AND source_query = ''", [$s[0]])->fetchColumn()) {
+            redirect_save($built, $public, 301, 'Page address changed in SEO');
+        }
+    }
+}
+
+/** The request's path relative to the site folder (the site may sit in a subfolder). */
+function request_site_path(): string
+{
+    $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    $base = base_path();
+    if ($base !== '' && ($uri === $base || str_starts_with($uri, "$base/"))) $uri = substr($uri, strlen($base)) ?: '/';
+    return $uri;
+}
+
+/** Old WordPress pages with no exact match on this site: added once to Admin > SEO > Redirects (see below). */
+const REDIRECT_WP_DEFAULTS = [
+    '/home' => '/', '/thank-you' => '/', '/404-2' => '/',
+    '/html-website-development-company' => '/php-web-development-company',
+    '/web-portal-development-company-bangalore' => '/php-web-development-company',
+    '/ecommerce-bangalore' => '/ecommerce-web-development-india',
+    '/ecommerce-web-development-india/ahmedabad' => '/ecommerce-web-development-india',
+    '/ecommerce-web-development-india/bangalore' => '/ecommerce-web-development-india',
+    '/ecommerce-web-development-india/chennai' => '/ecommerce-web-development-india',
+    '/ecommerce-web-development-india/kolkata' => '/ecommerce-web-development-india',
+    '/ecommerce-web-development-india/mumbai' => '/ecommerce-web-development-india',
+    '/wordpress-development-new' => '/wordpress-development-company-india',
+    '/wordpress-development-company-india/bangalore' => '/wordpress-development-company-india',
+    '/wordpress-development-company-india/chennai' => '/wordpress-development-company-india',
+    '/wordpress-development-company-india/delhi' => '/wordpress-development-company-india',
+    '/wordpress-development-company-india/hyderabad' => '/wordpress-development-company-india',
+    '/website-maintenance-india/bangalore' => '/website-maintenance-india',
+    '/redesign-new' => '/website-redesign-services',
+    '/chennai' => '/website-development', '/hyderabad' => '/website-development', '/india' => '/website-development',
+    '/kolkata' => '/website-development', '/mumbai' => '/website-development', '/uk' => '/website-development',
+    '/usa' => '/website-development',
+    '/manufacturing-industrial' => '/service', '/ngo' => '/service', '/retail' => '/service',
+    // linked from the imported articles, but not on the old site any more
+    '/website-maintenance-company-bangalore' => '/website-maintenance-india',
+    '/seo-strategies-for-startups' => '/blog/5-effective-seo-strategies-for-successful-startups',
+    '/impact-of-covid-19-on-ecommerce' => '/blog?category=e-commerce',
+];
+
+/**
+ * One-off, run by migrate() in bootstrap.php when this site moved to the old WordPress addresses:
+ *  - SEO settings saved for a service/industry page follow it to its new address (SEO_SITE_MOVES);
+ *  - each old address gets a 301 to the new one, and the old WordPress pages without a match get theirs,
+ *    all listed (and editable) in Admin > SEO > Redirects;
+ *  - redirects kept in the `redirects` table by an earlier copy of this admin are brought over.
+ * Existing redirects for the same address are left alone (redirect_save refuses duplicates and loops).
+ */
+function redirect_seed_site_moves(): void
+{
+    foreach (SEO_SITE_MOVES as $old => [$new, $type]) {
+        if (!q('SELECT 1 FROM seo_pages WHERE path = ?', [$new])->fetchColumn()) q('UPDATE seo_pages SET path = ?, type = ? WHERE path = ?', [$new, $type, $old]);
+        redirect_save($old, seo_url_path($new), 301, 'Page moved to its old WordPress address');
+    }
+    foreach (REDIRECT_WP_DEFAULTS as $from => $to) redirect_save($from, $to, 301, 'Old WordPress page');
+    // only that admin's own table (from_path, to_url); other leftovers named `redirects` are ignored
+    if (q("SHOW TABLES LIKE 'redirects'")->fetchColumn() && q("SHOW COLUMNS FROM redirects LIKE 'from_path'")->fetchColumn()) {
+        foreach (q('SELECT from_path, to_url, code FROM redirects')->fetchAll() as $r) {
+            redirect_save($r['from_path'], $r['to_url'], (int) $r['code'] === 302 ? 302 : 301, 'Imported from the earlier Redirects list');
+        }
+    }
+}
+
+/**
+ * One-off, run by migrate() in bootstrap.php when articles moved from /<slug> to /blog/<slug> (blog_path()):
+ * links between articles (https://www.sunsys.in/<slug>, as the old WordPress blog wrote them) and redirects
+ * that ended at an article now point at /blog/<slug> directly, instead of going through the 301.
+ */
+function redirect_blog_paths_v1(): void
+{
+    $slugs = q('SELECT slug FROM posts')->fetchAll(PDO::FETCH_COLUMN);
+    if (!$slugs) return;
+    usort($slugs, fn ($a, $b) => strlen($b) <=> strlen($a));
+    $alt = implode('|', array_map(fn ($s) => preg_quote($s, '#'), $slugs));
+    // the site's own address + /<slug>, any trailing slashes; ends at a quote (also \" inside JSON), ?, #, < or space
+    $re = '#(https?://(?:www\.)?sunsys\.in)/(' . $alt . ')/*(?=[\\\\"\'?\#<\s)]|$)#i';
+    foreach (q('SELECT id, body, blocks FROM posts')->fetchAll() as $p) {
+        $body = preg_replace($re, '$1/blog/$2', (string) $p['body']);
+        $blocks = $p['blocks'] === null ? null : preg_replace($re, '$1/blog/$2', $p['blocks']);
+        if ($body !== (string) $p['body'] || $blocks !== $p['blocks']) q('UPDATE posts SET body = ?, blocks = ? WHERE id = ?', [$body, $blocks, $p['id']]);
+    }
+    foreach ($slugs as $s) q('UPDATE seo_redirects SET target = ? WHERE target IN (?, ?)', [blog_path($s), '/' . $s, '/' . $s . '/']);
 }

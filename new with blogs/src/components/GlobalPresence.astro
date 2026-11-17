@@ -1,0 +1,123 @@
+---
+// Navy "global presence" band: dotted world map (built at compile time, no client JS for the map),
+// arcs from the Bengaluru office to each client country, and the client logo strip.
+import DottedMap from 'dotted-map';
+import ClientLogos from './ClientLogos.astro';
+import { company, stats } from '../data/site';
+
+const map = new DottedMap({ height: 64, grid: 'diagonal', region: { lat: { min: -46, max: 72 }, lng: { min: -135, max: 165 } } });
+const pts = map.getPoints();
+const W = Math.ceil(Math.max(...pts.map((p) => p.x)) + 1);
+const H = Math.ceil(Math.max(...pts.map((p) => p.y)) + 1);
+// One path of zero-length round-capped segments: far lighter than thousands of <circle>s
+const dots = pts.map((p) => `M${+p.x.toFixed(2)} ${+p.y.toFixed(2)}h0`).join('');
+
+const hq = { name: 'India', note: `Head office · Bengaluru`, region: 'Asia', ...map.getPin({ lat: 12.97, lng: 77.59 }) };
+// Approximate country centres; label placement is tuned so neighbours do not collide
+const places = [
+  { name: 'UAE', region: 'Middle East', lat: 24.4, lng: 54.4, anchor: 'end', dx: -1.6, dy: 2.6 },
+  { name: 'Israel', region: 'Middle East', lat: 31.4, lng: 34.9, anchor: 'end', dx: -1.6, dy: -0.6 },
+  { name: 'United Kingdom', region: 'Europe', lat: 52.6, lng: -1.5, anchor: 'end', dx: -1.6, dy: -0.8 },
+  { name: 'Nigeria', region: 'Africa', lat: 9.1, lng: 8.7, anchor: 'end', dx: -1.6, dy: 0.9 },
+  { name: 'Canada', region: 'North America', lat: 56, lng: -106, anchor: 'middle', dx: 0, dy: -2.2 },
+  { name: 'United States', region: 'North America', lat: 39, lng: -98, anchor: 'middle', dx: 0, dy: 3.6 },
+  { name: 'Australia', region: 'Oceania', lat: -25, lng: 134, anchor: 'start', dx: 1.8, dy: 0.9 },
+].map((p) => {
+  const pin = map.getPin({ lat: p.lat, lng: p.lng });
+  // Quadratic arc bowing upward, height proportional to distance
+  const mx = (hq.x + pin.x) / 2, my = (hq.y + pin.y) / 2;
+  const dist = Math.hypot(pin.x - hq.x, pin.y - hq.y);
+  const arc = `M${hq.x} ${hq.y}Q${mx.toFixed(2)} ${(Math.min(hq.y, pin.y) - dist * 0.32).toFixed(2)} ${pin.x} ${pin.y}`;
+  return { ...p, x: pin.x, y: pin.y, arc };
+});
+
+const all = [{ ...hq, anchor: 'start', dx: 1.8, dy: 0.9 }, ...places];
+const clientCount = stats.find((s) => s.label === 'Clients served');
+const slug = (s: string) => s.toLowerCase().replace(/\W+/g, '-');
+---
+<section class="gp relative overflow-hidden bg-navy py-20 text-white md:py-28" data-gp>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_70%_40%,rgba(2,102,203,.28),transparent_70%)]"></div>
+  <div class="container-x relative">
+    <!-- heading + stat tiles -->
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between" data-reveal>
+      <div>
+        <p class="eyebrow">Where we work</p>
+        <h2 class="h-classic mt-4 !text-white">Global <em class="text-gold-soft">presence</em></h2>
+        <p class="lead mt-4 !text-white/75">Built in Bengaluru, trusted by businesses across {all.length} countries in Asia, the Middle East, Europe, Africa, the Americas and Oceania.</p>
+      </div>
+      <dl class="flex shrink-0 gap-3">
+        <div class="flex min-w-28 flex-col-reverse items-center rounded-xl border border-white/15 bg-white/[.04] px-6 py-4 backdrop-blur">
+          <dt class="mt-1 text-[12px] font-semibold uppercase tracking-[.14em] text-white/65">Countries</dt>
+          <dd class="font-serif text-4xl leading-none text-white">{all.length}</dd>
+        </div>
+        {clientCount && (
+          <div class="flex min-w-28 flex-col-reverse items-center rounded-xl border border-white/15 bg-white/[.04] px-6 py-4 backdrop-blur">
+            <dt class="mt-1 text-[12px] font-semibold uppercase tracking-[.14em] text-white/65">Clients</dt>
+            <dd class="font-serif text-4xl leading-none text-white">{clientCount.value.toLocaleString('en-IN')}<span class="text-gold-soft">{clientCount.suffix}</span></dd>
+          </div>
+        )}
+      </dl>
+    </div>
+
+    <!-- map -->
+    <div class="relative mt-12 rounded-2xl border border-white/10 bg-white/[.03] p-4 md:p-8" data-reveal="fade" data-gp-map>
+      <svg viewBox={`0 0 ${W} ${H}`} class="block h-auto w-full" role="img" aria-label={`World map marking our Bengaluru head office and client countries: ${places.map((p) => p.name).join(', ')}`}>
+        <defs>
+          <linearGradient id="gp-arc" x1="0" x2="1">
+            <stop offset="0" stop-color="#d9c39b" stop-opacity=".2" />
+            <stop offset="1" stop-color="#d9c39b" />
+          </linearGradient>
+        </defs>
+        <path d={dots} stroke="rgba(255,255,255,.22)" stroke-width=".42" stroke-linecap="round" fill="none" />
+        <text x={W * 0.315} y={H * 0.48} text-anchor="middle" class="gp-ocean">Atlantic Ocean</text>
+        <text x={W * 0.66} y={H * 0.74} class="gp-ocean">Indian Ocean</text>
+
+        {places.map((p, i) => (
+          <path d={p.arc} class="gp-arc" pathLength="1" style={`--d:${0.3 + i * 0.12}s`} data-gp-arc={slug(p.name)} />
+        ))}
+        {all.map((p, i) => (
+          <g class={`gp-pin ${i ? '' : 'is-hq'}`} style={`--d:${0.2 + i * 0.12}s`} data-gp-pin={slug(p.name)}>
+            <circle cx={p.x} cy={p.y} r={i ? 1.6 : 2.2} class="gp-pulse" />
+            <circle cx={p.x} cy={p.y} r={i ? 0.75 : 1.05} class="gp-dot" />
+            <text x={p.x + p.dx} y={p.y + p.dy} text-anchor={p.anchor} class="gp-label">{p.name}</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+
+    <!-- client marquee -->
+      <!--  <div class="mt-16 border-t border-white/10 pt-10" data-reveal="fade">
+      <p class="text-center text-[12px] font-bold uppercase tracking-[.2em] text-gold-soft">Trusted by</p>
+      <div class="mt-6"><ClientLogos dark /></div>
+    </div>  -->
+  </div>
+</section>
+
+<style is:global>
+  .gp .gp-ocean { font: italic 400 1.8px var(--font-head); letter-spacing: .25em; fill: rgba(255,255,255,.28); }
+  .gp .gp-label { font: 700 2.1px var(--font-head); fill: #fff; paint-order: stroke; stroke: var(--color-navy); stroke-width: .5px; transition: fill .3s; }
+  .gp .gp-dot { fill: var(--color-gold-soft); stroke: var(--color-navy); stroke-width: .3; }
+  .gp .gp-pulse { fill: var(--color-gold-soft); opacity: .25; transform-box: fill-box; transform-origin: center; animation: gp-pulse 2.6s ease-out infinite; animation-delay: var(--d); }
+  .gp .is-hq .gp-dot { fill: #4fb3ff; stroke: #fff; stroke-width: .35; }
+  .gp .is-hq .gp-pulse { fill: #4fb3ff; }
+  .gp .is-hq .gp-label { font-size: 2.6px; }
+  .gp .gp-arc { fill: none; stroke: url(#gp-arc); stroke-width: .3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-width .3s; }
+  /* Phones: map text is too small to read, so only the head office stays labelled */
+  @media (width < 40rem) {
+    .gp .gp-ocean, .gp .gp-pin:not(.is-hq) .gp-label { display: none; }
+    .gp .is-hq .gp-label { font-size: 4px; }
+  }
+  @keyframes gp-pulse { 0% { transform: scale(.5); opacity: .5; } 100% { transform: scale(2.4); opacity: 0; } }
+
+  /* Scroll-in: arcs draw out from Bengaluru, pins pop in after */
+  .reveal-on .gp [data-gp-map] .gp-arc { stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1) var(--d), stroke-width .3s; }
+  .reveal-on .gp [data-gp-map] .gp-pin { opacity: 0; transition: opacity .6s ease calc(var(--d) + .6s); }
+  .reveal-on .gp [data-gp-map].is-in .gp-arc { stroke-dashoffset: 0; }
+  .reveal-on .gp [data-gp-map].is-in .gp-pin { opacity: 1; }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on .gp [data-gp-map] .gp-arc { stroke-dashoffset: 0 !important; }
+    .reveal-on .gp [data-gp-map] .gp-pin { opacity: 1 !important; }
+  }
+</style>

@@ -285,3 +285,9 @@ code.path { background: none; padding: 0; font-size: 12.5px; color: #b42357; whi
 .redirect-help h2 { margin-bottom: 0; }
 .redirect-help p { margin: 0; line-height: 1.55; }
 @media (max-width: 1100px) { .redirect-layout { grid-template-columns: 1fr; } }
+
+/* Blog authors (authors.php) */
+.author-cell { display: flex; align-items: center; gap: 12px; }
+.author-cell img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.author-cell img[width="64"] { width: 64px; height: 64px; }
+.author-initial { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #0b3a6e; color: #e7d3ad; font-weight: 700; flex-shrink: 0; }

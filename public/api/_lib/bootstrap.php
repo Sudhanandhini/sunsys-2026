@@ -129,6 +129,45 @@ function migrate(PDO $pdo): void
         updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         UNIQUE KEY source (source_path, source_query)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    // Custom address for a built page (Admin > SEO > edit page > Address)
+    $col = $pdo->query("SHOW COLUMNS FROM seo_pages LIKE 'url_path'")->fetchColumn();
+    if (!$col) $pdo->exec("ALTER TABLE seo_pages ADD url_path VARCHAR(255) NOT NULL DEFAULT '' AFTER custom, ADD INDEX (url_path)");
+    // Blog authors (Admin > Blog posts > Authors), shown at the end of each article
+    if (!$pdo->query("SHOW TABLES LIKE 'authors'")->fetchColumn()) $pdo->exec("CREATE TABLE IF NOT EXISTS authors (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        designation VARCHAR(120) NOT NULL DEFAULT '',
+        bio VARCHAR(600) NOT NULL DEFAULT '',
+        linkedin VARCHAR(255) NOT NULL DEFAULT '',
+        photo VARCHAR(255) NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $col = $pdo->query("SHOW COLUMNS FROM posts LIKE 'author_id'")->fetchColumn();
+    if (!$col) $pdo->exec('ALTER TABLE posts ADD author_id INT UNSIGNED NULL AFTER category_id, ADD INDEX (author_id)');
+    // Service and industry pages moved to the old WordPress site's addresses: move their SEO settings and add the
+    // 301s from the old addresses (plus the old WordPress pages without a match), once
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'site_moves_v1'")->fetchColumn()) {
+        require_once __DIR__ . '/seo.php';
+        require_once __DIR__ . '/redirects.php';
+        try {
+            redirect_seed_site_moves();
+            $pdo->exec("INSERT INTO settings (k, v) VALUES ('site_moves_v1', NOW())");
+        } catch (Throwable $ex) {
+            // tried again on the next request
+        }
+    }
+    // Blog articles moved from /<slug> to /blog/<slug>: point links between articles, and redirects, there; once
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'blog_paths_v1'")->fetchColumn()) {
+        require_once __DIR__ . '/seo.php';
+        require_once __DIR__ . '/redirects.php';
+        try {
+            redirect_blog_paths_v1();
+            $pdo->exec("INSERT INTO settings (k, v) VALUES ('blog_paths_v1', NOW())");
+        } catch (Throwable $ex) {
+            // tried again on the next request
+        }
+    }
 }
 
 function q(string $sql, array $params = []): PDOStatement

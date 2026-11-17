@@ -6,7 +6,7 @@ import { url } from '../lib/url';
 import Icon from './Icon.jsx';
 import Photo from './Photo.astro';
 import { photoPath } from '../lib/photos';
-import { industries } from '../data/site';
+import { industries, pageHref } from '../data/site';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photoPath(`/images/industries/${ind.slug}.jpg`) }));
@@ -38,7 +38,7 @@ const items = industries.map((ind, i) => ({ ...ind, n: pad(i + 1), img: photoPat
     <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:pb-16">
       {items.map((ind, i) => (
         <li class={i % 3 === 1 ? 'lg:translate-y-16' : ''} data-ind-col={i % 3}>
-          <a href={url(`/industries/${ind.slug}`)} class="ind-card group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0b3a6e] ring-1 ring-white/10" data-ind-card>
+          <a href={url(pageHref(ind))} class="ind-card group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[#0b3a6e] ring-1 ring-white/10" data-ind-card>
             {ind.img
               ? <Photo src={ind.img} alt="" sizes="(min-width: 1200px) 370px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" loading="lazy" class="ind-img absolute inset-0 size-full object-cover" data-ind-img />
               : <span class="ind-img absolute inset-0 bg-[linear-gradient(150deg,#0b3a6e,#062a52)]" data-ind-img></span>}

@@ -1,0 +1,16 @@
+- main [ref=e4]:
+  - img "Sunsys Technologies" [ref=e5]
+  - paragraph [ref=e6]: Admin dashboard
+  - heading [level=1] [ref=e7]:
+    - text: Welcome
+    - emphasis [ref=e8]: back
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - text: Email
+      - textbox "Email" [active] [ref=e11]
+    - generic [ref=e12]:
+      - text: Password
+      - textbox "Password" [ref=e13]
+    - button "Log in" [ref=e14] [cursor=pointer]
+  - link "← Back to website" [ref=e15] [cursor=pointer]:
+    - /url: ../

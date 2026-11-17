@@ -1,0 +1,59 @@
+---
+// Single article page: /blog/post/?slug=… The article loads from the PHP API.
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import BlogPost from '../../components/BlogPost.jsx';
+---
+<Base title="Blog" description="Articles on website design, development, hosting and online growth from Sunsys Technologies.">
+  <BlogPost client:load />
+  <CtaBand />
+</Base>
+
+<style is:global>
+  @keyframes post-in { from { opacity: 0; transform: translateY(20px); } }
+  .post-in { animation: post-in .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+  @keyframes post-cover { from { clip-path: inset(100% 0 0 0); } }
+  .post-cover { aspect-ratio: 16 / 9; animation: post-cover 1.3s cubic-bezier(.65,0,.35,1) .2s both; }
+  @keyframes blog-rise { from { opacity: 0; transform: translateY(24px); } }
+  .blog-rise { animation: blog-rise .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+
+  .prose-sunsys { font-size: 18px; line-height: 1.8; color: var(--color-body); }
+  .prose-sunsys > * + * { margin-top: 1.2em; }
+  .prose-sunsys h2 { font-family: var(--font-serif); font-weight: 400; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; color: var(--color-ink); margin-top: 1.8em; }
+  .prose-sunsys h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; color: var(--color-ink); margin-top: 1.5em; }
+  /* land table-of-contents jumps below the sticky header */
+  .prose-sunsys h2 { scroll-margin-top: 120px; }
+  html:has(.prose-sunsys) { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html:has(.prose-sunsys) { scroll-behavior: auto; } }
+  .prose-sunsys a { color: var(--color-navy); border-bottom: 1px solid var(--color-gold); }
+  .prose-sunsys a:hover { color: var(--color-gold); }
+  .prose-sunsys ul, .prose-sunsys ol { padding-left: 1.4em; }
+  .prose-sunsys ul { list-style: none; padding-left: 0; }
+  .prose-sunsys ul li { position: relative; padding-left: 1.6em; }
+  .prose-sunsys ul li::before { content: ""; position: absolute; left: .2em; top: .7em; width: 6px; height: 6px; background: var(--color-gold); transform: rotate(45deg); }
+  .prose-sunsys ol { list-style: decimal; } .prose-sunsys ol li::marker { color: var(--color-gold); font-family: var(--font-serif); }
+  .prose-sunsys li + li { margin-top: .4em; }
+  .prose-sunsys blockquote { border-left: 2px solid var(--color-gold); padding-left: 1.4em; font-family: var(--font-serif); font-style: italic; font-size: 22px; color: color-mix(in srgb, var(--color-ink) 85%, transparent); }
+  .prose-sunsys code { background: var(--color-cream); padding: .1em .4em; border-radius: 4px; font-size: .88em; }
+  .prose-sunsys strong { color: var(--color-ink); }
+  /* Builder content (api/_lib/blocks.php) */
+  .prose-sunsys h4 { font-family: var(--font-serif); font-weight: 500; font-size: 20px; color: var(--color-ink); margin-top: 1.4em; }
+  .prose-sunsys u { text-underline-offset: .18em; }
+  .prose-sunsys blockquote p + p { margin-top: .8em; }
+  .prose-sunsys .pb-row { display: grid; gap: 1.2em 2rem; }
+  .prose-sunsys .pb-col { min-width: 0; }
+  .prose-sunsys .pb-col > * + * { margin-top: 1.2em; }
+  .prose-sunsys .pb-col > :first-child { margin-top: 0; }
+  @media (min-width: 768px) {
+    .prose-sunsys .pb-cols-2, .prose-sunsys .pb-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .prose-sunsys .pb-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1280px) { .prose-sunsys .pb-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .prose-sunsys .pb-img img { width: 100%; height: auto; border-radius: 12px; }
+  .prose-sunsys .pb-img a { border: 0; }
+  .prose-sunsys .pb-img figcaption { margin-top: .7em; text-align: center; font-size: 14px; color: color-mix(in srgb, var(--color-body) 80%, transparent); }
+  .prose-sunsys a.pb-btn { display: inline-block; padding: .95em 1.7em; border: 1px solid var(--color-navy); border-radius: 2px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; line-height: 1.2; transition: background-color .3s, color .3s, border-color .3s; }
+  .prose-sunsys a.pb-btn-solid { background: var(--color-navy); color: #fff; }
+  .prose-sunsys a.pb-btn-outline { color: var(--color-navy); }
+  .prose-sunsys a.pb-btn:hover { background: var(--color-gold); border-color: var(--color-gold); color: var(--color-navy); }
+</style>

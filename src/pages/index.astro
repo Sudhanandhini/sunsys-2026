@@ -2,7 +2,7 @@
 import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
-import aboutTeam from '../images/about.png';
+import aboutTeam from '../images/sunsys-about.webp';
 import Icon from '../components/Icon.jsx';
 import Photo from '../components/Photo.astro';
 import Stats from '../components/Stats.jsx';
@@ -13,7 +13,7 @@ import IndustriesShowcase from '../components/IndustriesShowcase.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import QuoteCta from '../components/QuoteCta.astro';
 import ServicesGrid from '../components/ServicesGrid.astro';
-import { company, services, stats, ratings, partners } from '../data/site';
+import { company, services, stats, ratings, partners, pageHref } from '../data/site';
 const hosting = services.filter((s) => s.group === 'hosting');
 const years = new Date().getFullYear() - company.founded;
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -62,7 +62,7 @@ const btnDark = 'btn !rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold up
       <div class="relative" data-reveal="left">
         <div aria-hidden="true" class="absolute -top-5 -left-5 h-2/3 w-2/3 border-t border-l border-gold-soft"></div>
         <div class="relative overflow-hidden shadow-2xl shadow-black/30">
-          <Image src={aboutTeam} alt="The Sunsys Technologies team at the Bengaluru office" widths={[560, 1120]} sizes="(min-width: 1024px) 560px, 100vw" format="webp" loading="lazy" class="aspect-square w-full origin-[30%_0%] scale-110 object-cover" />
+          <Image src={aboutTeam} alt="The Sunsys Technologies team at the Bengaluru office" widths={[560, 640]} sizes="(min-width: 1024px) 560px, 100vw" format="webp" loading="lazy" class="aspect-[640/479] w-full object-contain" />
         </div>
         <div class="absolute -right-4 -bottom-8 bg-gold px-8 py-6 text-navy shadow-xl md:-right-8">
           <p class="font-serif text-5xl font-light leading-none">{years}<span class="text-white">+</span></p>
@@ -134,7 +134,7 @@ const btnDark = 'btn !rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold up
           {hosting.map((s) => (
             <li class="relative" data-host-row>
               <span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px origin-left bg-line" data-host-line></span>
-              <a href={url(`/services/${s.slug}`)} class="group relative grid grid-cols-[auto_1fr_auto] items-start gap-5 py-6 pr-2 transition-[padding] duration-500 hover:pl-3 md:gap-6">
+              <a href={url(pageHref(s))} class="group relative grid grid-cols-[auto_1fr_auto] items-start gap-5 py-6 pr-2 transition-[padding] duration-500 hover:pl-3 md:gap-6">
                 <span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-ivory transition-transform duration-500 group-hover:scale-x-100"></span>
                 <span class="relative grid size-14 place-items-center rounded-full border border-gold/50 text-navy transition-colors duration-500 group-hover:border-navy group-hover:bg-navy group-hover:text-gold-soft" data-host-icon>
                   <Icon name={s.icon} size={24} strokeWidth={1.4} />
@@ -157,7 +157,7 @@ const btnDark = 'btn !rounded-[2px] bg-navy px-7 py-3.5 text-[13px] font-bold up
         </ul>
 
         <div class="mt-9 flex flex-wrap items-center gap-6" data-host-fade>
-          <a href={url('/services/website-maintenance')} class={btnDark}>See maintenance plans</a>
+          <a href={url(pageHref(services.find((s) => s.slug === 'website-maintenance')!))} class={btnDark}>See maintenance plans</a>
           <a href={url('/contact?type=quote')} class="inline-flex items-center gap-2 border-b border-gold pb-1 text-[13px] font-semibold uppercase tracking-[.15em] text-navy hover:text-gold">Ask about hosting <Icon name="ArrowRight" size={14} strokeWidth={2} /></a>
         </div>
       </div>

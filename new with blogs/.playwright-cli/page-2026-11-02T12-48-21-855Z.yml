@@ -1,0 +1,312 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e4]:
+    - paragraph [ref=e5]: Est. 2006 · Bengaluru
+    - paragraph [ref=e7]:
+      - generic [ref=e8]: Build your business identity with our consultancy
+      - link "Get started now" [ref=e10] [cursor=pointer]:
+        - /url: /contact?type=quote
+        - text: Get started now
+        - generic [aria-hidden] [ref=e11]: →
+    - paragraph [ref=e12]: Mon to Fri, 9:00 am to 5:00 pm
+  - banner [ref=e14]:
+    - navigation "Main" [ref=e16]:
+      - link "Sunsys Technologies home" [ref=e17] [cursor=pointer]:
+        - /url: /
+        - img "Sunsys Technologies" [ref=e18]
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Home" [ref=e21] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e22]:
+          - link "About Us" [ref=e23] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e24]:
+          - button "Services" [ref=e25]
+        - listitem [ref=e28]:
+          - link "Blog" [ref=e29] [cursor=pointer]:
+            - /url: /blog
+        - listitem [ref=e30]:
+          - link "Career" [ref=e31] [cursor=pointer]:
+            - /url: /career
+        - listitem [ref=e32]:
+          - link "Contact Us" [ref=e33] [cursor=pointer]:
+            - /url: /contact
+      - link "Get a quote" [ref=e35] [cursor=pointer]:
+        - /url: /contact?type=quote
+  - main [ref=e39]:
+    - generic [ref=e40]:
+      - iframe [ref=e42]
+      - generic [ref=e45]:
+        - paragraph [ref=e46]: Exceptional Web Design in Bangalore
+        - heading [level=1] [ref=e47]:
+          - text: Custom Websites That
+          - emphasis [ref=e48]: Elevate Your Brand!
+        - paragraph [ref=e49]: Enhance your brand with our expertly crafted, easy-to-navigate websites. Stand out online with a design tailored to your needs.
+    - generic [ref=e51]:
+      - list [ref=e52]:
+        - listitem [ref=e53]:
+          - paragraph [ref=e54]: Trustpilot
+          - paragraph [ref=e55]:
+            - generic [ref=e66]: "5"
+        - listitem [ref=e67]:
+          - paragraph [ref=e68]: Clutch
+          - paragraph [ref=e69]:
+            - generic [ref=e80]: "4"
+        - listitem [ref=e81]:
+          - paragraph [ref=e82]: G2
+          - paragraph [ref=e83]:
+            - generic [ref=e94]: "3.5"
+      - generic [ref=e95]:
+        - paragraph [ref=e96]: Partners and certifications
+        - list [ref=e97]:
+          - listitem [ref=e98]: Google Partner
+          - listitem [ref=e99]: Microsoft Partner
+          - listitem [ref=e100]: ResellerClub
+          - listitem [ref=e101]: PhonePe
+          - listitem [ref=e102]: ICANN Accredited
+    - generic [ref=e104]:
+      - heading "Web development, crafted with care" [level=2] [ref=e107]:
+        - generic [aria-hidden] [ref=e109]: Web development,
+        - generic [aria-hidden] [ref=e111]:
+          - emphasis [ref=e112]: crafted
+          - text: with care
+      - list [ref=e113]
+      - link "View all services" [ref=e115] [cursor=pointer]:
+        - /url: /services
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - generic [ref=e118]:
+          - img "The Sunsys Technologies team at the Bengaluru office" [ref=e121]
+          - generic [ref=e122]:
+            - paragraph [ref=e123]: 20+
+            - paragraph [ref=e124]: years of craft
+        - generic [ref=e125]:
+          - paragraph [ref=e126]: Our story
+          - heading "A trusted website design company in Bangalore" [level=2] [ref=e127]
+          - blockquote [ref=e128]: Quality work at a fair price, since 2006.
+          - paragraph [ref=e129]: Founded by Mr. Manjunatha Narasimhaiah in May 2006, Sunsys Technologies started as a web services provider and was registered as Sunsys Technologies (India) Pvt. Ltd. in May 2009.
+          - paragraph [ref=e130]: Today we design, build and host websites for businesses in India, Dubai, the UK, the USA and beyond.
+          - link "About our company" [ref=e131] [cursor=pointer]:
+            - /url: /about
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - term [ref=e137]: Team members
+          - definition [ref=e138]: 10+
+        - generic [ref=e139]:
+          - term [ref=e140]: Projects completed
+          - definition [ref=e141]: 1,300+
+        - generic [ref=e142]:
+          - term [ref=e143]: Years of experience
+          - definition [ref=e144]: 20+
+        - generic [ref=e145]:
+          - term [ref=e146]: Clients served
+          - definition [ref=e147]: 1,000+
+    - generic [ref=e149]:
+      - img "Server rack with network cables in a data centre" [ref=e153]
+      - generic [ref=e155]:
+        - heading "Hosting & maintenance" [level=2] [ref=e156]:
+          - generic [aria-hidden] [ref=e158]:
+            - text: Hosting &
+            - emphasis [ref=e159]: maintenance
+        - list [ref=e160]:
+          - listitem [ref=e161]:
+            - link [ref=e162] [cursor=pointer]:
+              - /url: /services/linux-hosting
+          - listitem [ref=e168]:
+            - link [ref=e169] [cursor=pointer]:
+              - /url: /services/web-hosting
+          - listitem [ref=e175]:
+            - link [ref=e176] [cursor=pointer]:
+              - /url: /services/email-hosting
+    - generic [ref=e183]:
+      - heading "Tailored solutions for your industry" [level=2] [ref=e186]:
+        - generic [aria-hidden] [ref=e188]: Tailored solutions
+        - generic [aria-hidden] [ref=e190]:
+          - text: for
+          - emphasis [ref=e191]: your
+          - text: industry
+      - list [ref=e192]:
+        - listitem [ref=e193]:
+          - link "01 Tours and Travels Package listings, enquiry forms and booking flows for travel agencies. Explore Tours and Travels websites" [ref=e194] [cursor=pointer]:
+            - /url: /industries/tours-and-travels
+            - generic [ref=e197]: "01"
+            - generic [ref=e202]:
+              - generic [ref=e204]: Tours and Travels
+              - generic: Package listings, enquiry forms and booking flows for travel agencies.
+              - generic [ref=e206]:
+                - text: Explore
+                - generic [ref=e207]: Tours and Travels websites
+        - listitem [ref=e211]:
+          - link "02 Hotel & Resort Room galleries, availability enquiries and direct booking for hotels and resorts. Explore Hotel & Resort websites" [ref=e212] [cursor=pointer]:
+            - /url: /industries/hotel-and-resort
+            - generic [ref=e215]: "02"
+            - generic [ref=e221]:
+              - generic [ref=e223]: Hotel & Resort
+              - generic: Room galleries, availability enquiries and direct booking for hotels and resorts.
+              - generic [ref=e225]:
+                - text: Explore
+                - generic [ref=e226]: Hotel & Resort websites
+        - listitem [ref=e230]:
+          - link "03 Healthcare Doctor profiles, appointment requests and clear service pages for clinics and hospitals. Explore Healthcare websites" [ref=e231] [cursor=pointer]:
+            - /url: /industries/healthcare
+            - generic [ref=e234]: "03"
+            - generic [ref=e240]:
+              - generic [ref=e242]: Healthcare
+              - generic: Doctor profiles, appointment requests and clear service pages for clinics and hospitals.
+              - generic [ref=e244]:
+                - text: Explore
+                - generic [ref=e245]: Healthcare websites
+        - listitem [ref=e249]:
+          - link "04 Corporate Company websites that present your services, leadership and careers clearly. Explore Corporate websites" [ref=e250] [cursor=pointer]:
+            - /url: /industries/corporate
+            - generic [ref=e253]: "04"
+            - generic [ref=e260]:
+              - generic [ref=e262]: Corporate
+              - generic: Company websites that present your services, leadership and careers clearly.
+              - generic [ref=e264]:
+                - text: Explore
+                - generic [ref=e265]: Corporate websites
+        - listitem [ref=e269]:
+          - link "05 Education Admissions, events, galleries and notices for schools and colleges. Explore Education websites" [ref=e270] [cursor=pointer]:
+            - /url: /industries/education
+            - generic [ref=e273]: "05"
+            - generic [ref=e279]:
+              - generic [ref=e281]: Education
+              - generic: Admissions, events, galleries and notices for schools and colleges.
+              - generic [ref=e283]:
+                - text: Explore
+                - generic [ref=e284]: Education websites
+        - listitem [ref=e288]:
+          - link "06 Real Estate & Construction Project showcases, floor plans and site-visit enquiries for builders and developers. Explore Real Estate & Construction websites" [ref=e289] [cursor=pointer]:
+            - /url: /industries/real-estate-and-construction
+            - generic [ref=e292]: "06"
+            - generic [ref=e300]:
+              - generic [ref=e302]: Real Estate & Construction
+              - generic: Project showcases, floor plans and site-visit enquiries for builders and developers.
+              - generic [ref=e304]:
+                - text: Explore
+                - generic [ref=e305]: Real Estate & Construction websites
+    - generic [ref=e310]:
+      - heading "How we work" [level=2] [ref=e312]:
+        - generic [aria-hidden] [ref=e314]:
+          - text: How we
+          - emphasis [ref=e315]: work
+      - list [ref=e316]
+    - generic [ref=e319]:
+      - generic [ref=e320]:
+        - generic [ref=e321]:
+          - paragraph [ref=e322]: Where we work
+          - heading [level=2] [ref=e323]:
+            - text: Global
+            - emphasis [ref=e324]: presence
+          - paragraph [ref=e325]: Built in Bengaluru, trusted by businesses across 8 countries in Asia, the Middle East, Europe, Africa, the Americas and Oceania.
+        - generic [ref=e326]:
+          - generic [ref=e327]:
+            - term [ref=e328]: Countries
+            - definition [ref=e329]: "8"
+          - generic [ref=e330]:
+            - term [ref=e331]: Clients
+            - definition [ref=e332]: 1,000+
+      - 'img "World map marking our Bengaluru head office and client countries: UAE, Israel, United Kingdom, Nigeria, Canada, United States, Australia" [ref=e334]':
+        - generic [ref=e336]: Atlantic Ocean
+        - generic [ref=e337]: Indian Ocean
+        - generic [ref=e345]: India
+        - generic [ref=e349]: UAE
+        - generic [ref=e353]: Israel
+        - generic [ref=e357]: United Kingdom
+        - generic [ref=e361]: Nigeria
+        - generic [ref=e365]: Canada
+        - generic [ref=e369]: United States
+        - generic [ref=e373]: Australia
+  - contentinfo [ref=e379]:
+    - generic [ref=e381]:
+      - generic [ref=e382]:
+        - generic [ref=e383]:
+          - paragraph [ref=e384]: Let’s talk
+          - paragraph [ref=e385]:
+            - text: Have a project in
+            - emphasis [ref=e386]: mind
+            - text: "?"
+        - link "Get a free quote" [ref=e388] [cursor=pointer]:
+          - /url: /contact?type=quote
+      - generic [ref=e391]:
+        - generic [ref=e392]:
+          - img "Sunsys Technologies" [ref=e393]
+          - paragraph [ref=e394]: Website design, development and hosting from Bengaluru since 2006.
+          - list [ref=e395]:
+            - listitem [ref=e396]:
+              - link "Facebook" [ref=e397] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e400]:
+              - link "Instagram" [ref=e401] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e404]:
+              - link "X" [ref=e405] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e408]:
+              - link "LinkedIn" [ref=e409] [cursor=pointer]:
+                - /url: "#"
+        - navigation "Company" [ref=e412]:
+          - paragraph [ref=e413]: Company
+          - list [ref=e417]:
+            - listitem [ref=e418]:
+              - link "About us" [ref=e419] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e420]:
+              - link "Services" [ref=e421] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e422]:
+              - link "Blog" [ref=e423] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e424]:
+              - link "Career" [ref=e425] [cursor=pointer]:
+                - /url: /career
+            - listitem [ref=e426]:
+              - link "Contact us" [ref=e427] [cursor=pointer]:
+                - /url: /contact
+        - navigation "Other links" [ref=e428]:
+          - paragraph [ref=e429]: Other links
+          - list [ref=e433]:
+            - listitem [ref=e434]:
+              - link "Domain registration (opens in a new tab)" [ref=e435] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/
+                - text: Domain registration
+                - generic [ref=e436]: (opens in a new tab)
+            - listitem [ref=e437]:
+              - link "Whois lookup (opens in a new tab)" [ref=e438] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/domain-registration/domain-whois-lookup.php
+                - text: Whois lookup
+                - generic [ref=e439]: (opens in a new tab)
+            - listitem [ref=e440]:
+              - link "Customer login (opens in a new tab)" [ref=e441] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/LoginServlet?role=customer&currenturl=https://sunsys.myorderbox.com
+                - text: Customer login
+                - generic [ref=e442]: (opens in a new tab)
+            - listitem [ref=e443]:
+              - link "Reseller login (opens in a new tab)" [ref=e444] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/AuthServlet?validatenow=false&role=reseller&currenturl=https://sunsys.myorderbox.com
+                - text: Reseller login
+                - generic [ref=e445]: (opens in a new tab)
+            - listitem [ref=e446]:
+              - link "Sitemap" [ref=e447] [cursor=pointer]:
+                - /url: /sitemap
+        - generic [ref=e448]:
+          - paragraph [ref=e449]: Visit us
+          - list [ref=e453]:
+            - listitem [ref=e454]:
+              - link "4, 2nd Floor, 8th Main Road, CHBS Layout, Vijayanagar, Bengaluru 560040" [ref=e458] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e459]:
+              - link "+91 9845244232" [ref=e462] [cursor=pointer]:
+                - /url: tel:+919845244232
+            - listitem [ref=e463]:
+              - link "info@sunsys.in" [ref=e467] [cursor=pointer]:
+                - /url: mailto:info@sunsys.in
+            - listitem [ref=e468]:
+              - generic [ref=e472]: Mon to Fri, 9:00 am to 5:00 pm
+    - generic [ref=e474]:
+      - paragraph [ref=e475]: © 2026 Sunsys Technologies (India) Pvt. Ltd. All rights reserved.
+      - link [ref=e476] [cursor=pointer]:
+        - /url: "#"

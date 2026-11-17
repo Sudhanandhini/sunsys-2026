@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://sunsys.in/sitemap.xml
+Sitemap: https://www.sunsys.in/sitemap.xml

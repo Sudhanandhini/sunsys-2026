@@ -5,7 +5,7 @@ Astro 5 + React 19 islands + Tailwind CSS 4. Static output; JS ships only for th
 ## Run
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # static site in dist/ for https://sunsys.in (domain root)
+npm run build      # static site in dist/ for https://www.sunsys.in (domain root)
 npm run build:staging  # same, for https://sunsysweb.co.in/sunsys-2026/ (upload dist/ into public_html/sunsys-2026)
 npm run perf       # production build on http://localhost:4400 (use this for Lighthouse, not npm run dev)
 
@@ -33,6 +33,18 @@ Requires PHP 8.0+ with pdo_mysql and fileinfo, and Apache with .htaccess (standa
 `npm run dev` does not run PHP, so the blog and live job list only load on the server (the Career page falls back
 to the jobs in `src/data/site.ts`). To test locally with XAMPP, see the PHP built-in server note below:
 `php -S 127.0.0.1:8099 -t dist` (protected folders are only blocked by .htaccess on Apache).
+
+## Addresses and redirects
+Every page keeps the old WordPress site's address, without a trailing slash (`/about`, `/hotel`; `/about/` 301s to `/about`).
+Service and industry pages sit at the site root at the address in their `path` (`src/data/site.ts`); `slug` only names
+their photos and details. Blog articles are at `/blog/<post slug>` (Apache routes them to `blog/post/index.php`);
+the old `/<post slug>` (WordPress) and `/blog/post/?slug=` addresses 301 there. `blog_path()` in `public/api/_lib/seo.php`
+and `postHref` in `src/components/BlogSidebar.jsx` build the address.
+Redirects are managed in Admin > SEO > Redirects (table `seo_redirects`). On first run it is filled with this site's
+earlier `/services/…` and `/industries/…` addresses (`SEO_SITE_MOVES` in `public/api/_lib/seo.php`: update it and
+`path` together) and the old site's unmatched pages (`REDIRECT_WP_DEFAULTS` in `public/api/_lib/redirects.php`).
+A page can also be given a new address in Admin > SEO > edit page; its old address then 301s there automatically.
+The root `.htaccess` only keeps pattern redirects for the old blog archives (category, tag, author, page/N).
 
 ## Forms
 Contact, quote and newsletter forms POST JSON to `/api/contact.php` (override with `PUBLIC_FORM_ENDPOINT`).

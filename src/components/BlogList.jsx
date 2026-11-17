@@ -8,9 +8,10 @@ const placeholder = {
   backgroundSize: '18px 18px, cover',
 };
 
-function Card({ p, i }) {
+// Also used for "Related articles" under a post (BlogPost.jsx)
+export function Card({ p, i }) {
   return (
-    <li className="blog-rise h-full" style={{ '--d': `${(i % 2) * 0.1}s` }}>
+    <li className="blog-rise h-full" style={{ '--d': `${(i % 3) * 0.1}s` }}>
       <a href={postHref(p)} className="blog-card group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-gold/20 transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(6,42,82,.35)] hover:ring-gold/50">
         <span className="relative block aspect-[16/10] overflow-hidden bg-navy">
           {p.cover
@@ -72,7 +73,7 @@ export default function BlogList({ api = url('/api/posts.php') }) {
   const posts = data?.posts ?? [];
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-12">
       <div>
         {(filter.q || filter.category) && data && (
           <div className="mb-8 flex flex-wrap items-center gap-3 text-[15px]">
@@ -84,8 +85,8 @@ export default function BlogList({ api = url('/api/posts.php') }) {
         )}
 
         {!data ? (
-          <ul className="grid gap-8 sm:grid-cols-2" aria-busy="true" aria-label="Loading articles">
-            {[0, 1, 2, 3].map((i) => (
+          <ul className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3" aria-busy="true" aria-label="Loading articles">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
               <li key={i} className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-gold/20">
                 <div className="aspect-[16/10] bg-cream" />
                 <div className="space-y-3 p-7"><div className="h-6 w-4/5 bg-cream" /><div className="h-4 w-full bg-cream" /><div className="h-4 w-2/3 bg-cream" /></div>
@@ -93,7 +94,7 @@ export default function BlogList({ api = url('/api/posts.php') }) {
             ))}
           </ul>
         ) : posts.length ? (
-          <ul className={`grid gap-8 transition-opacity duration-300 sm:grid-cols-2 ${loading ? 'opacity-50' : ''}`}>
+          <ul className={`grid gap-7 transition-opacity duration-300 sm:grid-cols-2 xl:grid-cols-3 ${loading ? 'opacity-50' : ''}`}>
             {posts.map((p, i) => <Card key={p.slug} p={p} i={i} />)}
           </ul>
         ) : (

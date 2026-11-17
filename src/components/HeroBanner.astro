@@ -11,6 +11,7 @@ const VIDEO = 'https://player.vimeo.com/video/1150019487?background=1&autoplay=1
   <div aria-hidden="true" class="hb-video absolute inset-0 -z-10">
     <Photo src="/images/hero-video.jpg" alt="" widths={[640, 1024, 1440, 1920]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" />
     <iframe data-src={VIDEO} title="Sunsys Technologies background video" tabindex="-1" allow="autoplay; fullscreen; picture-in-picture" class="hb-frame" data-video></iframe>
+    <div class="hb-overlay absolute inset-0"></div>
   </div>
 
   <div class="hb-copy container-x relative py-16 md:py-24">
@@ -31,8 +32,9 @@ const VIDEO = 'https://player.vimeo.com/video/1150019487?background=1&autoplay=1
   .hero-banner .hb-video { container-type: size; }
   .hero-banner .hb-frame { position: absolute; top: 50%; left: 50%; width: max(100cqw, 177.78cqh); height: max(100cqh, 56.25cqw); transform: translate(-50%, -50%); border: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
   .hero-banner .hb-frame.is-ready { opacity: 1; }
-  /* No overlay on the video, so the text carries its own shadow to stay readable on bright frames */
-  .hero-banner .hb-copy { text-shadow: 0 1px 3px rgb(0 0 0 / .45), 0 4px 28px rgb(0 0 0 / .55); }
+  /* Light navy tint over the video, a touch stronger behind the copy on the left, so the text stays readable */
+  .hero-banner .hb-overlay { background: linear-gradient(90deg, rgb(6 42 82 / .55) 0%, rgb(6 42 82 / .35) 55%, rgb(6 42 82 / .2) 100%); }
+  .hero-banner .hb-copy { text-shadow: 0 1px 3px rgb(0 0 0 / .3), 0 4px 20px rgb(0 0 0 / .3); }
   .hero-banner .hb-badge { text-shadow: none; }
 </style>
 

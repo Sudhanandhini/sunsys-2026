@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { url } from '../lib/url';
 
 const fmt = (d) => (d ? new Date(d.replace(' ', 'T')).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
-export const postHref = (p) => url(`/blog/post/?slug=${encodeURIComponent(p.slug)}`);
+// Articles live at /blog/<slug> (blog_path() in public/api/_lib/seo.php is the server's copy; keep them in step)
+export const postHref = (p) => url(`/blog/${encodeURIComponent(p.slug)}`);
 
 function Box({ title, children, i = 0 }) {
   return (
@@ -20,7 +21,9 @@ function Box({ title, children, i = 0 }) {
 
 // Blog sidebar: search, categories with counts, recent posts.
 // onSearch / onCategory are given on the list page (filter in place); on an article they navigate to /blog.
-export default function BlogSidebar({ categories = [], recent = [], query = '', category = '', onSearch, onCategory }) {
+// On an article it shows only the recent posts (search={false} categories={[]}), below the table of contents,
+// with `sticky` off (the column around both sticks) and `exclude` dropping that article from the list.
+export default function BlogSidebar({ categories = [], recent = [], query = '', category = '', onSearch, onCategory, sticky = true, exclude = '', search = true }) {
   const [q, setQ] = useState(query);
 
   const submit = (e) => {
@@ -34,10 +37,11 @@ export default function BlogSidebar({ categories = [], recent = [], query = '', 
     onCategory(slug);
   };
   const total = categories.reduce((n, c) => n + Number(c.count || 0), 0);
+  recent = recent.filter((p) => p.slug !== exclude).slice(0, 4);
 
   return (
-    <aside className="grid content-start gap-6 lg:sticky lg:top-28">
-      <Box>
+    <aside className={`grid content-start gap-6 ${sticky ? 'lg:sticky lg:top-28' : ''}`}>
+      {search && <Box>
         <form role="search" onSubmit={submit} className="flex gap-2">
           <label htmlFor="blog-q" className="sr-only">Search articles</label>
           <input
@@ -50,7 +54,7 @@ export default function BlogSidebar({ categories = [], recent = [], query = '', 
           />
           <button type="submit" className="rounded-lg bg-navy px-5 text-[13px] font-bold uppercase tracking-[.12em] text-white transition-colors hover:bg-gold hover:text-navy">Search</button>
         </form>
-      </Box>
+      </Box>}
 
       {categories.length > 0 && (
         <Box title="Categories" i={1}>

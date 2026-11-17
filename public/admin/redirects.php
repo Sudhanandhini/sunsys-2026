@@ -2,8 +2,10 @@
 // Admin > SEO > Redirects: send old or moved addresses to their new page (301/302/307/308), or mark them gone (410).
 require __DIR__ . '/_inc/layout.php';
 require __DIR__ . '/_inc/seo-admin.php';
-require dirname(__DIR__) . '/api/_lib/redirects.php';
+require_once dirname(__DIR__) . '/api/_lib/redirects.php';
 $user = require_admin();
+// Pages moved to a new address in Admin > SEO keep a 301 from their old one; list any that are missing
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') redirect_sync_page_moves();
 
 $form = ['id' => 0, 'source' => '', 'target' => '', 'code' => 301, 'note' => '', 'active' => 1];
 $error = '';
@@ -128,7 +130,7 @@ admin_head('Redirects', 'seo.php', $user);
       <input type="hidden" name="action" value="save"><input type="hidden" name="id" value="<?= $form['id'] ?>">
       <h2><?= $form['id'] ? 'Edit redirect' : 'Add a redirect' ?></h2>
       <label>Old address <span class="muted">(path or full URL)</span>
-        <input name="source" required maxlength="600" value="<?= e($form['source']) ?>" placeholder="/old-page or /blog/post/?slug=old-post">
+        <input name="source" required maxlength="600" value="<?= e($form['source']) ?>" placeholder="/old-page or /blog/old-post">
       </label>
       <label>Type
         <select name="code" id="redirect-code">

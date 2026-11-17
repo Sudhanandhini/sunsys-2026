@@ -1,0 +1,76 @@
+- generic [active] [ref=f4e1]:
+  - complementary [ref=f4e2]:
+    - link "Sunsys Technologies Admin" [ref=f4e3] [cursor=pointer]:
+      - /url: index.php
+      - img "Sunsys Technologies" [ref=f4e4]
+      - generic [ref=f4e5]: Admin
+    - navigation [ref=f4e6]:
+      - link "Dashboard" [ref=f4e7] [cursor=pointer]:
+        - /url: index.php
+      - link "Blog posts" [ref=f4e11] [cursor=pointer]:
+        - /url: posts.php
+      - link "Job openings" [ref=f4e15] [cursor=pointer]:
+        - /url: jobs.php
+      - link "Applications" [ref=f4e19] [cursor=pointer]:
+        - /url: applications.php
+      - link "Enquiries 1" [ref=f4e23] [cursor=pointer]:
+        - /url: enquiries.php
+        - generic [ref=f4e26]: Enquiries
+        - generic [ref=f4e27]: "1"
+      - link "SEO" [ref=f4e28] [cursor=pointer]:
+        - /url: seo.php
+      - link "Redirects" [ref=f4e32] [cursor=pointer]:
+        - /url: redirects.php
+      - link "Account" [ref=f4e36] [cursor=pointer]:
+        - /url: account.php
+    - button "Log out" [ref=f4e42] [cursor=pointer]
+  - generic [ref=f4e46]:
+    - banner [ref=f4e47]:
+      - heading "Redirects" [level=1] [ref=f4e48]
+      - generic [ref=f4e49]:
+        - generic [ref=f4e50]: S
+        - generic [ref=f4e51]: Sudha Admin
+    - generic [ref=f4e53]:
+      - generic [ref=f4e54]:
+        - generic [ref=f4e55]:
+          - searchbox "Search redirects" [ref=f4e56]: old-offer
+          - button "Search" [ref=f4e57] [cursor=pointer]
+        - table [ref=f4e58]:
+          - rowgroup [ref=f4e59]:
+            - row [ref=f4e60]:
+              - columnheader "Old address" [ref=f4e61]
+              - columnheader "Sends to" [ref=f4e62]
+              - columnheader "Type" [ref=f4e63]
+              - columnheader "Visits" [ref=f4e64]
+              - columnheader "Actions" [ref=f4e65]
+          - rowgroup [ref=f4e66]:
+            - row [ref=f4e67]:
+              - cell [ref=f4e68]:
+                - link "/old-offer" [ref=f4e69] [cursor=pointer]:
+                  - /url: /sunsys-urltest/old-offer
+              - cell "/contact" [ref=f4e70]
+              - cell "301" [ref=f4e71]
+              - cell "1 last 2 Nov 2026" [ref=f4e73]:
+                - text: "1"
+                - generic [ref=f4e74]: last 2 Nov 2026
+              - cell [ref=f4e75]:
+                - link "Edit" [ref=f4e76] [cursor=pointer]:
+                  - /url: "?edit=29"
+                - button "Delete" [ref=f4e78] [cursor=pointer]
+      - generic [ref=f4e79]:
+        - heading "Add a redirect" [level=2] [ref=f4e80]
+        - generic [ref=f4e81]:
+          - text: Old address
+          - textbox "Old address" [ref=f4e82]:
+            - /placeholder: /old-page
+        - generic [ref=f4e83]:
+          - text: Send visitors to
+          - textbox "Send visitors to" [ref=f4e84]:
+            - /placeholder: /contact or https://…
+        - generic [ref=f4e85]:
+          - text: Type
+          - combobox "Type" [ref=f4e86]:
+            - option "301 Permanent (moved for good; search engines update)" [selected]
+            - option "302 Temporary (coming back later)"
+        - button "Add redirect" [ref=f4e87] [cursor=pointer]
+        - paragraph [ref=f4e88]: Use paths on this site, like /old-page, without the domain. A redirect also works on an address that is still a page or article, and takes it over. Use 301 for pages that have moved for good, so search engines move their ranking across.

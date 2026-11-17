@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/_inc/layout.php';
+require_once dirname(__DIR__) . '/api/_lib/seo.php'; // blog_path()
 $user = require_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,6 +44,7 @@ admin_head('Blog posts', 'posts.php', $user);
   </nav>
   <form class="search" method="get"><?php if ($status): ?><input type="hidden" name="status" value="<?= e($status) ?>"><?php endif; ?><input name="q" placeholder="Search titles" value="<?= e($search) ?>" aria-label="Search posts"></form>
   <a class="btn btn-line" href="categories.php">Categories</a>
+  <a class="btn btn-line" href="authors.php">Authors</a>
   <a class="btn" href="post-edit.php">+ New post</a>
 </div>
 
@@ -59,7 +61,7 @@ admin_head('Blog posts', 'posts.php', $user);
         <td class="nowrap"><?= fmt_date($p['published_at'] ?? $p['updated_at']) ?></td>
         <td class="r nowrap">
           <a class="lnk" href="post-edit.php?id=<?= $p['id'] ?>">Edit</a>
-          <?php if ($p['status'] === 'published'): ?><a class="lnk" href="../blog/post/?slug=<?= e(urlencode($p['slug'])) ?>" target="_blank" rel="noopener">View</a><?php endif; ?>
+          <?php if ($p['status'] === 'published'): ?><a class="lnk" href="..<?= e(blog_path($p['slug'])) ?>" target="_blank" rel="noopener">View</a><?php endif; ?>
           <form method="post" class="inline"><?= csrf_field() ?><input type="hidden" name="id" value="<?= $p['id'] ?>">
             <?php if ($p['status'] === 'published'): ?><button class="lnk" name="action" value="unpublish">Unpublish</button><?php else: ?><button class="lnk" name="action" value="publish">Publish</button><?php endif; ?>
             <button class="lnk danger" name="action" value="delete" onclick="return confirm('Delete this post permanently?')">Delete</button>

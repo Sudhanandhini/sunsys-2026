@@ -30,7 +30,7 @@ sort($types);
 $rows = array_values(array_filter($rows, function ($r) use ($search, $type) {
     if ($type !== '' && $r['type'] !== $type) return false;
     if ($search === '') return true;
-    return mb_stripos($r['name'] . ' ' . $r['path'] . ' ' . $r['title'], $search) !== false;
+    return mb_stripos($r['name'] . ' ' . $r['path'] . ' ' . $r['built_path'] . ' ' . $r['title'], $search) !== false;
 }));
 [$per, $off, $page, $pages] = paginate(count($rows), 25);
 $shown = array_slice($rows, $off, $per);
@@ -83,7 +83,7 @@ admin_head('SEO', 'seo.php', $user);
       <tr>
         <td class="chk"><input type="checkbox" name="ids[]" value="<?= e($r['key']) ?>" form="bulk" aria-label="Select <?= e($r['name']) ?>"></td>
         <td><a href="<?= e($r['edit']) ?>"><b><?= e($r['name']) ?></b></a><?php if ($r['edited']): ?> <span class="pill pill-reviewed">Custom SEO</span><?php endif; ?><?php if (!$r['built']): ?> <span class="pill pill-draft">Not built</span><?php endif; ?></td>
-        <td><code class="path"><?= e($r['path']) ?></code></td>
+        <td><code class="path"><?= e($r['path']) ?></code><?php if ($r['built_path']): ?><br><span class="muted small" title="The address from the website build; it redirects to the one above">was <?= e($r['built_path']) ?></span><?php endif; ?></td>
         <td class="nowrap"><?= e($r['type']) ?></td>
         <td class="seo-title-cell"><?= $r['title'] !== '' ? e($r['title']) : '<span class="muted">—</span>' ?></td>
         <td><?= seo_toggle($r['key'], $r['noindex'] ? 'index' : 'noindex', $r['noindex'] ? 'noindex' : 'index', !$r['noindex']) ?></td>

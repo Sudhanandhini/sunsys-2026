@@ -1,0 +1,361 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e4]:
+    - paragraph [ref=e5]: Est. 2006 · Bengaluru
+    - paragraph [ref=e7]:
+      - generic [ref=e8]: Build your business identity with our consultancy
+      - link "Get started now" [ref=e10] [cursor=pointer]:
+        - /url: /contact?type=quote
+        - text: Get started now
+        - generic [aria-hidden] [ref=e11]: →
+    - paragraph [ref=e12]: Mon to Fri, 9:00 am to 5:00 pm
+  - banner [ref=e14]:
+    - navigation "Main" [ref=e16]:
+      - link "Sunsys Technologies home" [ref=e17] [cursor=pointer]:
+        - /url: /
+        - img "Sunsys Technologies" [ref=e18]
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Home" [ref=e21] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e22]:
+          - link "About Us" [ref=e23] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e24]:
+          - button "Services" [ref=e25]
+        - listitem [ref=e28]:
+          - link "Blog" [ref=e29] [cursor=pointer]:
+            - /url: /blog
+        - listitem [ref=e30]:
+          - link "Career" [ref=e31] [cursor=pointer]:
+            - /url: /career
+        - listitem [ref=e32]:
+          - link "Contact Us" [ref=e33] [cursor=pointer]:
+            - /url: /contact
+      - link "Get a quote" [ref=e35] [cursor=pointer]:
+        - /url: /contact?type=quote
+  - main [ref=e39]:
+    - article [ref=e177]:
+      - generic [ref=e179]:
+        - navigation "Breadcrumb" [ref=e180]:
+          - link "Home" [ref=e181] [cursor=pointer]:
+            - /url: /
+          - link "Blog" [ref=e183] [cursor=pointer]:
+            - /url: /blog
+          - link "Woocommerce" [ref=e185] [cursor=pointer]:
+            - /url: /blog?category=woocommerce
+        - heading "Best WooCommerce Plugins to Website Development" [level=1] [ref=e186]
+        - paragraph [ref=e187]:
+          - generic [ref=e188]: 16 October 2024
+          - generic [ref=e190]: Sunsys Technologies
+      - generic [ref=e192]:
+        - complementary [ref=e193]:
+          - navigation "Table of contents" [ref=e194]:
+            - heading "Table of contents" [level=2] [ref=e195]
+            - list [ref=e200]:
+              - listitem [ref=e201]:
+                - link "Introduction" [ref=e202] [cursor=pointer]:
+                  - /url: "#introduction"
+              - listitem [ref=e203]:
+                - link "What is WooCommerce?" [ref=e204] [cursor=pointer]:
+                  - /url: "#what-is-woocommerce"
+              - listitem [ref=e205]:
+                - link "Related Links:" [ref=e206] [cursor=pointer]:
+                  - /url: "#related-links"
+              - listitem [ref=e207]:
+                - link "Top 10 WooCommerce Plugins to Enhance Your Site" [ref=e208] [cursor=pointer]:
+                  - /url: "#top-10-woocommerce-plugins-to-enhance-your-site"
+              - listitem [ref=e209]:
+                - link "1. WooCommerce Customizer Plugin" [ref=e210] [cursor=pointer]:
+                  - /url: "#1-woocommerce-customizer-plugin"
+              - listitem [ref=e211]:
+                - link "2. Booster for WooCommerce" [ref=e212] [cursor=pointer]:
+                  - /url: "#2-booster-for-woocommerce"
+              - listitem [ref=e213]:
+                - link "3. Checkout Field Editor" [ref=e214] [cursor=pointer]:
+                  - /url: "#3-checkout-field-editor"
+              - listitem [ref=e215]:
+                - link "4. PDF and Packing Slips" [ref=e216] [cursor=pointer]:
+                  - /url: "#4-pdf-and-packing-slips"
+              - listitem [ref=e217]:
+                - link "5. WooCommerce Multilingual Plugin" [ref=e218] [cursor=pointer]:
+                  - /url: "#5-woocommerce-multilingual-plugin"
+              - listitem [ref=e219]:
+                - link "6. PickPlugins Product Slider Plugin" [ref=e220] [cursor=pointer]:
+                  - /url: "#6-pickplugins-product-slider-plugin"
+              - listitem [ref=e221]:
+                - link "7. EU VAT Compliance Assistant" [ref=e222] [cursor=pointer]:
+                  - /url: "#7-eu-vat-compliance-assistant"
+              - listitem [ref=e223]:
+                - link "8. WooCommerce Menu Cart Plugin" [ref=e224] [cursor=pointer]:
+                  - /url: "#8-woocommerce-menu-cart-plugin"
+              - listitem [ref=e225]:
+                - link "9. YITH WooCommerce Compare" [ref=e226] [cursor=pointer]:
+                  - /url: "#9-yith-woocommerce-compare"
+              - listitem [ref=e227]:
+                - link "Benefits of WooCommerce Plugins" [ref=e228] [cursor=pointer]:
+                  - /url: "#benefits-of-woocommerce-plugins"
+              - listitem [ref=e229]:
+                - link "1. Complete Control of Your Data" [ref=e230] [cursor=pointer]:
+                  - /url: "#1-complete-control-of-your-data"
+              - listitem [ref=e231]:
+                - link "2. Custom Functionality" [ref=e232] [cursor=pointer]:
+                  - /url: "#2-custom-functionality"
+              - listitem [ref=e233]:
+                - link "3. Cost-Effective" [ref=e234] [cursor=pointer]:
+                  - /url: "#3-cost-effective"
+              - listitem [ref=e235]:
+                - link "4. Sell Any Type of Product" [ref=e236] [cursor=pointer]:
+                  - /url: "#4-sell-any-type-of-product"
+              - listitem [ref=e237]:
+                - link "5. SEO-Friendly" [ref=e238] [cursor=pointer]:
+                  - /url: "#5-seo-friendly"
+              - listitem [ref=e239]:
+                - link "6. High-Grade Security" [ref=e240] [cursor=pointer]:
+                  - /url: "#6-high-grade-security"
+              - listitem [ref=e241]:
+                - link "Conclusion" [ref=e242] [cursor=pointer]:
+                  - /url: "#conclusion"
+        - generic [ref=e243]:
+          - generic [ref=e244]:
+            - img "Best WooCommerce Plugins to Website Development" [ref=e245]
+            - generic [ref=e246]:
+              - paragraph [ref=e247]: In today’s competitive digital landscape, an eCommerce store that fails to deliver a seamless user experience risks frustrating customers, leading to a decline in conversion rates, sales, and overall…
+              - generic [ref=e248]:
+                - heading "Introduction" [level=2] [ref=e249]
+                - paragraph [ref=e250]: In today’s competitive digital landscape, an eCommerce store that fails to deliver a seamless user experience risks frustrating customers, leading to a decline in conversion rates, sales, and overall ROI. If you're running an online store on the WooCommerce platform, you’re in luck! WooCommerce offers a wide range of plugins that enhance functionality and improve user experience, making your store a complete solution for both small and large businesses.
+                - heading "What is WooCommerce?" [level=2] [ref=e251]
+                - paragraph [ref=e252]: WooCommerce is one of the most powerful WordPress plugins, designed specifically for online merchants. Whether you run a small or large eCommerce business, WooCommerce offers the flexibility and customization needed for success. Since its introduction in 2011, WooCommerce has grown rapidly in popularity due to its ease of installation, extensive features, and free base product. Many eCommerce websites rely on WooCommerce to power their online stores, making it one of the fastest-growing eCommerce platforms in the world.
+                - heading [level=3] [ref=e253]:
+                  - strong [ref=e254]: "Related Links:"
+                - paragraph [ref=e255]:
+                  - strong [ref=e256]:
+                    - link "Top 10 WooCommerce Payment Gateways in India" [ref=e257] [cursor=pointer]:
+                      - /url: https://sunsys.in/blog/post/?slug=top-10-woocommerce-payment-gateways-in-india
+                - heading "Top 10 WooCommerce Plugins to Enhance Your Site" [level=2] [ref=e258]
+                - paragraph [ref=e259]:
+                  - emphasis [ref=e260]: "Here’s a list of top WooCommerce plugins you can leverage to boost your store’s functionality:"
+                - heading "1. WooCommerce Customizer Plugin" [level=3] [ref=e261]
+                - paragraph [ref=e262]: This plugin simplifies custom code implementation, allowing you to modify add-to-cart buttons, sales badges, checkout coupons, and more—all through visual editing settings.
+                - paragraph [ref=e263]: "Features:"
+                - list [ref=e264]:
+                  - listitem [ref=e265]: Customizes add-to-cart text, badges, and more
+                  - listitem [ref=e266]: Free extensions like MailChimp and WooCommerce Membership
+                  - listitem [ref=e267]: Visual editing capabilities
+                - paragraph [ref=e268]: "Price:"
+                - list [ref=e269]:
+                  - listitem [ref=e270]: Free
+                - paragraph [ref=e271]: "Price:"
+                - list [ref=e272]:
+                  - listitem [ref=e273]: Free
+                - heading "2. Booster for WooCommerce" [level=3] [ref=e274]
+                - paragraph [ref=e275]: Booster enhances your site with features like price conversion, global discounts, PDF invoicing, and more.
+                - paragraph [ref=e276]: "Features:"
+                - list [ref=e277]:
+                  - listitem [ref=e278]: Custom price labels and buttons
+                  - listitem [ref=e279]: PDF invoicing and emails
+                  - listitem [ref=e280]: Boosts shipping and payment gateways
+                - paragraph [ref=e281]: "Price:"
+                - list [ref=e282]:
+                  - listitem [ref=e283]: "Free (Premium version: $49.99)"
+                - heading "3. Checkout Field Editor" [level=3] [ref=e284]
+                - paragraph [ref=e285]: This plugin allows you to customize your checkout page by adding, removing, and editing fields.
+                - paragraph [ref=e286]: "Features:"
+                - list [ref=e287]:
+                  - listitem [ref=e288]: Customizes checkout fields with ease
+                  - listitem [ref=e289]: Adds new field types like labels, classes, etc.
+                - paragraph [ref=e290]: "Price:"
+                - list [ref=e291]:
+                  - listitem [ref=e292]: Free (Premium version available)
+                - heading "4. PDF and Packing Slips" [level=3] [ref=e293]
+                - paragraph [ref=e294]: Automatically attach PDF invoices to emails and generate packing slips in bulk.
+                - paragraph [ref=e295]: "Features:"
+                - list [ref=e296]:
+                  - listitem [ref=e297]: Generates PDF invoices and packing slips
+                  - listitem [ref=e298]: Supports multiple languages
+                - paragraph [ref=e299]: "Price:"
+                - list [ref=e300]:
+                  - listitem [ref=e301]: "Free (Pro version: €54.00)"
+                - heading "5. WooCommerce Multilingual Plugin" [level=3] [ref=e302]
+                - paragraph [ref=e303]: Translate every aspect of your store, from products to checkout pages, and offer multiple currencies
+                - paragraph [ref=e304]: "Features:"
+                - list [ref=e305]:
+                  - listitem [ref=e306]: Easy multilingual setup
+                  - listitem [ref=e307]: Supports various currencies
+                - paragraph [ref=e308]: "Price:"
+                - list [ref=e309]:
+                  - listitem [ref=e310]: "Free (Paid version: $99)"
+                - heading "6. PickPlugins Product Slider Plugin" [level=3] [ref=e311]
+                - paragraph [ref=e312]: Create engaging product sliders with this plugin to feature products on any page of your site.
+                - paragraph [ref=e313]: "Features:"
+                - list [ref=e314]:
+                  - listitem [ref=e315]: Supports multiple product displays
+                  - listitem [ref=e316]: Customizable animations and themes
+                - paragraph [ref=e317]: "Price:"
+                - list [ref=e318]:
+                  - listitem [ref=e319]: "Free (Premium version: $29)"
+                - heading "7. EU VAT Compliance Assistant" [level=3] [ref=e320]
+                - paragraph [ref=e321]: Ensure VAT compliance with this plugin, which automatically calculates VAT based on customer location.
+                - paragraph [ref=e322]: "Features:"
+                - list [ref=e323]:
+                  - listitem [ref=e324]: Supports both physical and digital goods
+                  - listitem [ref=e325]: VAT rates for different countries
+                - paragraph [ref=e326]: "Price:"
+                - list [ref=e327]:
+                  - listitem [ref=e328]: "Free (Premium version: $50)"
+                - heading "8. WooCommerce Menu Cart Plugin" [level=3] [ref=e329]
+                - paragraph [ref=e330]: Easily add a shopping cart button to your website’s navigation menu.
+                - paragraph [ref=e331]: "Features:"
+                - list [ref=e332]:
+                  - listitem [ref=e333]: Quick installation
+                  - listitem [ref=e334]: Custom CSS for advanced editing
+                - paragraph [ref=e335]: "Price:"
+                - list [ref=e336]:
+                  - listitem [ref=e337]: "Free (Premium version: €27.00)"
+                - heading "9. YITH WooCommerce Compare" [level=3] [ref=e338]
+                - paragraph [ref=e339]: This plugin allows customers to compare products side by side, improving the shopping experience.
+                - paragraph [ref=e340]: "Features:"
+                - list [ref=e341]:
+                  - listitem [ref=e342]: Adds a comparison button to products
+                  - listitem [ref=e343]: Customizable settings for comparisons
+                - paragraph [ref=e344]: "Price:"
+                - list [ref=e345]:
+                  - listitem [ref=e346]: "Free (Premium version: $63.99)"
+                - heading "Benefits of WooCommerce Plugins" [level=2] [ref=e347]
+                - paragraph [ref=e348]:
+                  - emphasis [ref=e349]: "Here are some of the key advantages of using WooCommerce plugins for your website:"
+                - heading "1. Complete Control of Your Data" [level=3] [ref=e350]
+                - paragraph [ref=e351]: WooCommerce plugins give you full control over your store’s data, ensuring secure backup and order history management.
+                - heading "2. Custom Functionality" [level=3] [ref=e352]
+                - paragraph [ref=e353]: WooCommerce offers the largest community of developers and plugins, allowing you to easily find or create custom features.
+                - heading "3. Cost-Effective" [level=3] [ref=e354]
+                - paragraph [ref=e355]: Most WooCommerce plugins are free, making it a budget-friendly option for online stores.
+                - heading "4. Sell Any Type of Product" [level=3] [ref=e356]
+                - paragraph [ref=e357]: You can sell both digital and physical products, create memberships, and offer subscription-based products.
+                - heading "5. SEO-Friendly" [level=3] [ref=e358]
+                - paragraph [ref=e359]: WooCommerce is powered by WordPress, one of the most SEO-friendly platforms, giving your store a competitive advantage in search rankings.
+                - heading "6. High-Grade Security" [level=3] [ref=e360]
+                - paragraph [ref=e361]: Regular updates ensure that your store is secure, protecting both you and your customers.
+                - heading "Conclusion" [level=2] [ref=e362]
+                - paragraph [ref=e363]: WooCommerce offers a wealth of plugins to enhance your eCommerce site’s functionality, user experience, and security. Whether you’re just starting out or looking to scale your business, these plugins can help you achieve your goals. If you need assistance with WooCommerce development, feel free to Connect with Us.
+          - generic [ref=e364]:
+            - link "← All articles" [ref=e365] [cursor=pointer]:
+              - /url: /blog
+            - link "Talk to our team" [ref=e366] [cursor=pointer]:
+              - /url: /contact?type=quote
+    - generic [ref=e49]:
+      - generic [ref=e50]:
+        - paragraph [ref=e51]: Let’s begin
+        - heading [level=2] [ref=e52]:
+          - text: Planning a new website for your
+          - emphasis [ref=e53]: business
+          - text: "?"
+        - paragraph [ref=e54]: Tell us what you need. You get a free quote and consultation within one working hour.
+        - generic [ref=e55]:
+          - link "Request a quote" [ref=e56] [cursor=pointer]:
+            - /url: /contact?type=quote
+          - link "Explore services" [ref=e60] [cursor=pointer]:
+            - /url: /services
+        - list [ref=e61]:
+          - listitem [ref=e62]: 20+ years
+          - listitem [ref=e63]: 1,300+ projects
+          - listitem [ref=e65]: 8 countries
+      - generic [ref=e67]:
+        - img "Developers working together at laptops" [ref=e70]
+        - generic [ref=e72]: Reply within one working hour
+  - contentinfo [ref=e76]:
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: Let’s talk
+          - paragraph [ref=e82]:
+            - text: Have a project in
+            - emphasis [ref=e83]: mind
+            - text: "?"
+        - link "Get a free quote" [ref=e85] [cursor=pointer]:
+          - /url: /contact?type=quote
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - img "Sunsys Technologies" [ref=e90]
+          - paragraph [ref=e91]: Website design, development and hosting from Bengaluru since 2006.
+          - list [ref=e92]:
+            - listitem [ref=e93]:
+              - link "Facebook" [ref=e94] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e97]:
+              - link "Instagram" [ref=e98] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e101]:
+              - link "X" [ref=e102] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e105]:
+              - link "LinkedIn" [ref=e106] [cursor=pointer]:
+                - /url: "#"
+        - navigation "Company" [ref=e109]:
+          - paragraph [ref=e110]: Company
+          - list [ref=e114]:
+            - listitem [ref=e115]:
+              - link "About us" [ref=e116] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e117]:
+              - link "Services" [ref=e118] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e119]:
+              - link "Blog" [ref=e120] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e121]:
+              - link "Career" [ref=e122] [cursor=pointer]:
+                - /url: /career
+            - listitem [ref=e123]:
+              - link "Contact us" [ref=e124] [cursor=pointer]:
+                - /url: /contact
+        - navigation "Other links" [ref=e125]:
+          - paragraph [ref=e126]: Other links
+          - list [ref=e130]:
+            - listitem [ref=e131]:
+              - link "Domain registration (opens in a new tab)" [ref=e132] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/
+                - text: Domain registration
+                - generic [ref=e133]: (opens in a new tab)
+            - listitem [ref=e134]:
+              - link "Whois lookup (opens in a new tab)" [ref=e135] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/domain-registration/domain-whois-lookup.php
+                - text: Whois lookup
+                - generic [ref=e136]: (opens in a new tab)
+            - listitem [ref=e137]:
+              - link "Customer login (opens in a new tab)" [ref=e138] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/LoginServlet?role=customer&currenturl=https://sunsys.myorderbox.com
+                - text: Customer login
+                - generic [ref=e139]: (opens in a new tab)
+            - listitem [ref=e140]:
+              - link "Reseller login (opens in a new tab)" [ref=e141] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/AuthServlet?validatenow=false&role=reseller&currenturl=https://sunsys.myorderbox.com
+                - text: Reseller login
+                - generic [ref=e142]: (opens in a new tab)
+            - listitem [ref=e143]:
+              - link "Sitemap" [ref=e144] [cursor=pointer]:
+                - /url: /sitemap
+        - generic [ref=e145]:
+          - paragraph [ref=e146]: Visit us
+          - list [ref=e150]:
+            - listitem [ref=e151]:
+              - link "4, 2nd Floor, 8th Main Road, CHBS Layout, Vijayanagar, Bengaluru 560040" [ref=e155] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e156]:
+              - link "+91 9845244232" [ref=e159] [cursor=pointer]:
+                - /url: tel:+919845244232
+            - listitem [ref=e160]:
+              - link "info@sunsys.in" [ref=e164] [cursor=pointer]:
+                - /url: mailto:info@sunsys.in
+            - listitem [ref=e165]:
+              - generic [ref=e169]: Mon to Fri, 9:00 am to 5:00 pm
+    - generic [ref=e171]:
+      - paragraph [ref=e172]: © 2026 Sunsys Technologies (India) Pvt. Ltd. All rights reserved.
+      - link [ref=e173] [cursor=pointer]:
+        - /url: "#"
+  - generic [ref=e369]:
+    - button [ref=e370]
+    - button [ref=e376]
+    - button [ref=e380]
+    - button [ref=e388]

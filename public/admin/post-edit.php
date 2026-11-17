@@ -9,8 +9,9 @@ $user = require_admin();
 $id = (int) ($_GET['id'] ?? 0);
 $post = $id ? q('SELECT * FROM posts WHERE id = ?', [$id])->fetch() : null;
 if ($id && !$post) { flash('That post no longer exists.', 'err'); redirect('posts.php'); }
-$post = $post ?: ['id' => 0, 'slug' => '', 'title' => '', 'excerpt' => '', 'body' => '', 'blocks' => null, 'meta_title' => '', 'meta_description' => '', 'noindex' => 0, 'nofollow' => 0, 'cover' => null, 'category_id' => null, 'status' => 'draft', 'published_at' => null];
+$post = $post ?: ['id' => 0, 'slug' => '', 'title' => '', 'excerpt' => '', 'body' => '', 'blocks' => null, 'meta_title' => '', 'meta_description' => '', 'noindex' => 0, 'nofollow' => 0, 'cover' => null, 'category_id' => null, 'author_id' => null, 'status' => 'draft', 'published_at' => null];
 $cats = q('SELECT id, name FROM categories ORDER BY sort_order, name')->fetchAll();
+$authors = q('SELECT id, name, designation FROM authors ORDER BY name')->fetchAll();
 $error = '';
 // Images in the saved version, so ones removed in the builder can be deleted from disk
 $oldSlug = $post['status'] === 'published' ? $post['slug'] : ''; // live address before this save
@@ -31,12 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $post['status'] = ($_POST['status'] ?? '') === 'published' ? 'published' : 'draft';
     $cid = (int) ($_POST['category_id'] ?? 0);
     $post['category_id'] = $cid && in_array($cid, array_map('intval', array_column($cats, 'id')), true) ? $cid : null;
+    $aid = (int) ($_POST['author_id'] ?? 0);
+    $post['author_id'] = $aid && in_array($aid, array_map('intval', array_column($authors, 'id')), true) ? $aid : null;
     $date = clean($_POST['published_at'] ?? '', 20);
     $post['published_at'] = $date ? date('Y-m-d H:i:s', strtotime($date)) : ($post['status'] === 'published' ? ($post['published_at'] ?: date('Y-m-d H:i:s')) : $post['published_at']);
 
     if ($post['title'] === '') $error = 'Add a title.';
     elseif ($post['body'] === '' && !blocks_images($blocks)) $error = 'Add some content to the article.';
     elseif ((int) q('SELECT COUNT(*) FROM posts WHERE slug = ? AND id <> ?', [$post['slug'], $post['id']])->fetchColumn()) $error = 'Another post already uses this web address. Change the slug.';
+    // articles live at /blog/<slug>, next to the article template's own folder (blog/post)
+    elseif ($post['slug'] === 'post') $error = 'That web address is reserved. Change the slug.';
+    // old /<slug> article addresses 301 to /blog/<slug>, so a page already at /<slug> would hide that redirect
+    elseif (file_exists(dirname(__DIR__) . '/' . $post['slug']) || seo_alias_target('/' . $post['slug'] . '/') !== null) $error = 'A page on the website uses /' . $post['slug'] . '. Change the slug.';
 
     if (!$error) {
         try {
@@ -55,22 +62,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$error) {
         if ($post['excerpt'] === '') $post['excerpt'] = mb_strimwidth(trim(preg_replace('/\s+/', ' ', blocks_text($blocks, true) ?: $post['body'])), 0, 200, '…');
-        $vals = [$post['slug'], $post['title'], $post['excerpt'], $post['body'], $post['blocks'], $post['meta_title'], $post['meta_description'], $post['noindex'], $post['nofollow'], $post['cover'], $post['category_id'], $post['status'], $post['published_at']];
+        $vals = [$post['slug'], $post['title'], $post['excerpt'], $post['body'], $post['blocks'], $post['meta_title'], $post['meta_description'], $post['noindex'], $post['nofollow'], $post['cover'], $post['category_id'], $post['author_id'], $post['status'], $post['published_at']];
         if ($post['id']) {
-            q('UPDATE posts SET slug=?, title=?, excerpt=?, body=?, blocks=?, meta_title=?, meta_description=?, noindex=?, nofollow=?, cover=?, category_id=?, status=?, published_at=? WHERE id=?', [...$vals, $post['id']]);
+            q('UPDATE posts SET slug=?, title=?, excerpt=?, body=?, blocks=?, meta_title=?, meta_description=?, noindex=?, nofollow=?, cover=?, category_id=?, author_id=?, status=?, published_at=? WHERE id=?', [...$vals, $post['id']]);
         } else {
-            q('INSERT INTO posts (slug, title, excerpt, body, blocks, meta_title, meta_description, noindex, nofollow, cover, category_id, status, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $vals);
+            q('INSERT INTO posts (slug, title, excerpt, body, blocks, meta_title, meta_description, noindex, nofollow, cover, category_id, author_id, status, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $vals);
             $post['id'] = (int) db()->lastInsertId();
         }
         // SEO: the article's address changed, so the old one 301s to the new one (and the new address must not redirect)
         $moved = '';
         try {
-            $newSrc = redirect_split('/blog/post/?slug=' . rawurlencode($post['slug']));
-            q('DELETE FROM seo_redirects WHERE source_path = ? AND source_query = ?', [$newSrc[0], $newSrc[1]]);
+            // Articles live at /blog/<slug>
+            $newPath = blog_path($post['slug']);
+            $newSrc = redirect_split($newPath);
+            q("DELETE FROM seo_redirects WHERE source_path = ? AND source_query = ''", [$newSrc[0]]);
             if ($oldSlug !== '' && $oldSlug !== $post['slug']) {
-                $oldSrc = redirect_split('/blog/post/?slug=' . rawurlencode($oldSlug));
-                $exists = q('SELECT id FROM seo_redirects WHERE source_path = ? AND source_query = ?', [$oldSrc[0], $oldSrc[1]])->fetchColumn();
-                $moved = redirect_save('/blog/post/?slug=' . rawurlencode($oldSlug), '/blog/post/?slug=' . rawurlencode($post['slug']), 301, 'Post address changed', 1, (int) $exists) === '' ? ' The old address now redirects here (301).' : '';
+                $oldPath = blog_path($oldSlug);
+                $oldSrc = redirect_split($oldPath);
+                $exists = q("SELECT id FROM seo_redirects WHERE source_path = ? AND source_query = ''", [$oldSrc[0]])->fetchColumn();
+                // redirects that led to the old address go straight to the new one
+                q('UPDATE seo_redirects SET target = ? WHERE target = ?', [$newPath, $oldPath]);
+                $moved = redirect_save($oldPath, $newPath, 301, 'Post address changed', 1, (int) $exists) === '' ? ' The old address now redirects here (301).' : '';
             }
         } catch (Throwable $ex) {
         }
@@ -95,7 +107,7 @@ admin_head($post['id'] ? 'Edit post' : 'New post', 'posts.php', $user);
   <div class="stack">
   <div class="card stack">
     <label>Title<input name="title" required maxlength="200" value="<?= e($post['title']) ?>" class="big" id="title"></label>
-    <label>Web address <span class="muted">/blog/post/?slug=</span><input name="slug" maxlength="140" value="<?= e($post['slug']) ?>" id="slug" placeholder="made from the title if left empty"></label>
+    <label>Web address <span class="muted">/blog/</span><input name="slug" maxlength="140" value="<?= e($post['slug']) ?>" id="slug" placeholder="made from the title if left empty"></label>
     <label>Short summary <span class="muted">(shown on the blog list, up to 400 characters)</span><textarea name="excerpt" rows="2" maxlength="400" id="excerpt"><?= e($post['excerpt']) ?></textarea></label>
     <div class="stack">
       <span class="field-label">Content</span>
@@ -143,8 +155,15 @@ admin_head($post['id'] ? 'Edit post' : 'New post', 'posts.php', $user);
         </select>
         <a href="categories.php" class="small" style="font-weight:600">Manage categories</a>
       </label>
+      <label>Author <span class="muted">(shown at the end of the article)</span>
+        <select name="author_id">
+          <option value="">No author</option>
+          <?php foreach ($authors as $a): ?><option value="<?= $a['id'] ?>" <?= (int) $post['author_id'] === (int) $a['id'] ? 'selected' : '' ?>><?= e($a['name'] . ($a['designation'] ? ' · ' . $a['designation'] : '')) ?></option><?php endforeach; ?>
+        </select>
+        <a href="authors.php" class="small" style="font-weight:600">Manage authors</a>
+      </label>
       <button class="btn btn-block" type="submit">Save</button>
-      <?php if ($post['id'] && $post['status'] === 'published'): ?><a class="btn btn-line btn-block" href="../blog/post/?slug=<?= e(urlencode($post['slug'])) ?>" target="_blank" rel="noopener">View on website</a><?php endif; ?>
+      <?php if ($post['id'] && $post['status'] === 'published'): ?><a class="btn btn-line btn-block" href="..<?= e(blog_path($post['slug'])) ?>" target="_blank" rel="noopener">View on website</a><?php endif; ?>
     </div>
     <div class="card stack">
       <h2>Cover image</h2>

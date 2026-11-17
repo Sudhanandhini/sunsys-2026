@@ -1,9 +1,9 @@
 <?php
 // Serves a built page with the SEO set in Admin > SEO applied. The root .htaccess routes every page request
 // here (folders containing an index.html); everything else is served by Apache as usual.
-require __DIR__ . '/_lib/bootstrap.php';
-require __DIR__ . '/_lib/seo.php';
-require __DIR__ . '/_lib/redirects.php';
+require_once __DIR__ . '/_lib/bootstrap.php';
+require_once __DIR__ . '/_lib/seo.php';
+require_once __DIR__ . '/_lib/redirects.php';
 
 // Admin > SEO > Redirects can send a built page elsewhere (or mark it gone)
 redirect_serve(function () {
@@ -22,18 +22,14 @@ if (!$file || !is_file($file)) {
     readfile(site_root() . '/404.html');
     exit;
 }
-// Same URL style as the build (and its canonicals): /about → /about/
-if (!str_ends_with($uri, '/')) {
+// Custom address set in Admin > SEO, or the same address written with a trailing slash: one 301 to the address
+// as it should be written (/about-us, never /about/ or /about-us/)
+$public = seo_public_path($path);
+if ($public !== $path || ($path !== '/' && str_ends_with($uri, '/'))) {
     $qs = $_SERVER['QUERY_STRING'] ?? '';
-    header('Location: ' . $base . $path . ($qs !== '' ? "?$qs" : ''), true, 301);
+    header('Cache-Control: public, max-age=3600');
+    header('Location: ' . $base . seo_url_path($public) . ($qs !== '' ? "?$qs" : ''), true, 301);
     exit;
 }
 
-header('Content-Type: text/html; charset=utf-8');
-header('Cache-Control: no-cache');
-$html = file_get_contents($file);
-try {
-    echo seo_apply($html, seo_meta_for(seo_page($path)));
-} catch (Throwable $ex) {
-    echo $html; // database unavailable: the page as built
-}
+seo_serve($path);

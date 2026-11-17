@@ -1,0 +1,276 @@
+- generic [active] [ref=f2e1]:
+  - link "Skip to content" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f2e4]:
+    - paragraph [ref=f2e5]: Est. 2006 · Bengaluru
+    - paragraph [ref=f2e7]:
+      - generic [ref=f2e8]: Build your business identity with our consultancy
+      - link "Get started now" [ref=f2e10] [cursor=pointer]:
+        - /url: /sunsys-urltest/contact?type=quote
+        - text: Get started now
+        - generic [aria-hidden] [ref=f2e11]: →
+    - paragraph [ref=f2e12]: Mon to Fri, 9:00 am to 5:00 pm
+  - banner [ref=f2e14]:
+    - navigation "Main" [ref=f2e16]:
+      - link "Sunsys Technologies home" [ref=f2e17] [cursor=pointer]:
+        - /url: /sunsys-urltest/
+        - img "Sunsys Technologies" [ref=f2e18]
+      - list [ref=f2e19]:
+        - listitem [ref=f2e20]:
+          - link "Home" [ref=f2e21] [cursor=pointer]:
+            - /url: /sunsys-urltest/
+        - listitem [ref=f2e22]:
+          - link "About Us" [ref=f2e23] [cursor=pointer]:
+            - /url: /sunsys-urltest/about
+        - listitem [ref=f2e24]:
+          - button "Services" [ref=f2e25]
+        - listitem [ref=f2e28]:
+          - link "Blog" [ref=f2e29] [cursor=pointer]:
+            - /url: /sunsys-urltest/blog
+        - listitem [ref=f2e30]:
+          - link "Career" [ref=f2e31] [cursor=pointer]:
+            - /url: /sunsys-urltest/career
+        - listitem [ref=f2e32]:
+          - link "Contact Us" [ref=f2e33] [cursor=pointer]:
+            - /url: /sunsys-urltest/contact
+      - link "Get a quote" [ref=f2e35] [cursor=pointer]:
+        - /url: /sunsys-urltest/contact?type=quote
+  - main [ref=f2e39]:
+    - generic [ref=f2e42]:
+      - navigation "Breadcrumb" [ref=f2e43]:
+        - list [ref=f2e44]:
+          - listitem [ref=f2e45]:
+            - link "Home" [ref=f2e46] [cursor=pointer]:
+              - /url: /sunsys-urltest/
+          - listitem [ref=f2e47]:
+            - link "Services" [ref=f2e49] [cursor=pointer]:
+              - /url: /sunsys-urltest/service
+          - listitem [ref=f2e50]:
+            - generic [ref=f2e52]: Hotel & Resort
+      - paragraph [ref=f2e53]: Industry solutions
+      - heading [level=1] [ref=f2e54]:
+        - text: Websites for
+        - emphasis [ref=f2e55]: hotel & resort
+      - paragraph [ref=f2e56]: Room galleries, availability enquiries and direct booking for hotels and resorts.
+    - generic [ref=f2e62]:
+      - generic [ref=f2e63]:
+        - generic [ref=f2e64]:
+          - paragraph [ref=f2e65]: What your site needs
+          - heading [level=2] [ref=f2e66]:
+            - text: Built for
+            - emphasis [ref=f2e67]: hotel & resort
+        - paragraph [ref=f2e68]: Hotel and resort websites that show off your property and encourage direct bookings.
+      - list [ref=f2e69]:
+        - listitem [ref=f2e70]:
+          - generic [ref=f2e71]: I
+          - heading "Room galleries" [level=3] [ref=f2e73]
+          - paragraph [ref=f2e74]: Rooms and suites presented with photos, amenities and rates.
+        - listitem [ref=f2e75]:
+          - generic [ref=f2e76]: II
+          - heading "Availability enquiries" [level=3] [ref=f2e78]
+          - paragraph [ref=f2e79]: Forms that capture dates and guests in a few taps.
+        - listitem [ref=f2e80]:
+          - generic [ref=f2e81]: III
+          - heading "Direct booking" [level=3] [ref=f2e83]
+          - paragraph [ref=f2e84]: Booking flows that help you rely less on third-party sites.
+        - listitem [ref=f2e85]:
+          - generic [ref=f2e86]: IV
+          - heading "Facilities and offers" [level=3] [ref=f2e88]
+          - paragraph [ref=f2e89]: Dining, events and seasonal offers on their own pages.
+      - generic [ref=f2e90]:
+        - generic [ref=f2e96]:
+          - paragraph [ref=f2e97]: Planning a hotel & resort website?
+          - paragraph [ref=f2e98]: Tell us about your business and we will suggest the right pages and features.
+        - link "Request a quote" [ref=f2e99] [cursor=pointer]:
+          - /url: /sunsys-urltest/contact?type=quote
+    - generic [ref=f2e104]:
+      - generic [ref=f2e105]:
+        - paragraph [ref=f2e106]: How we help
+        - heading [level=2] [ref=f2e107]:
+          - text: Services that
+          - emphasis [ref=f2e108]: fit
+      - list [ref=f2e109]:
+        - listitem [ref=f2e110]:
+          - link "Website Development Business websites planned, designed and built end to end by one team. Discover" [ref=f2e111] [cursor=pointer]:
+            - /url: /sunsys-urltest/website-development
+            - generic [ref=f2e115]: Website Development
+            - generic [ref=f2e116]: Business websites planned, designed and built end to end by one team.
+            - generic [ref=f2e117]: Discover
+        - listitem [ref=f2e118]:
+          - link "E-Commerce Development Online stores with smooth checkout, payments and inventory built in. Discover" [ref=f2e119] [cursor=pointer]:
+            - /url: /sunsys-urltest/ecommerce-web-development-india
+            - generic [ref=f2e123]: E-Commerce Development
+            - generic [ref=f2e124]: Online stores with smooth checkout, payments and inventory built in.
+            - generic [ref=f2e125]: Discover
+        - listitem [ref=f2e126]:
+          - link "Responsive Web Design Websites that work well on phones, tablets and desktops. Discover" [ref=f2e127] [cursor=pointer]:
+            - /url: /sunsys-urltest/responsive-web-design
+            - generic [ref=f2e131]: Responsive Web Design
+            - generic [ref=f2e132]: Websites that work well on phones, tablets and desktops.
+            - generic [ref=f2e133]: Discover
+        - listitem [ref=f2e134]:
+          - link "Website Maintenance Regular updates, backups and security checks for your website. Discover" [ref=f2e135] [cursor=pointer]:
+            - /url: /sunsys-urltest/website-maintenance-india
+            - generic [ref=f2e139]: Website Maintenance
+            - generic [ref=f2e140]: Regular updates, backups and security checks for your website.
+            - generic [ref=f2e141]: Discover
+    - generic [ref=f2e143]:
+      - heading "How we work" [level=2] [ref=f2e145]:
+        - generic [aria-hidden] [ref=f2e147]:
+          - text: How we
+          - emphasis [ref=f2e148]: work
+      - list [ref=f2e149]
+    - generic [ref=f2e152]:
+      - generic [ref=f2e153]:
+        - paragraph [ref=f2e154]: FAQ
+        - heading [level=2] [ref=f2e155]:
+          - text: Questions we
+          - emphasis [ref=f2e156]: often
+          - text: hear
+        - paragraph [ref=f2e157]:
+          - text: Can’t find your answer?
+          - link "Ask us directly" [ref=f2e158] [cursor=pointer]:
+            - /url: /sunsys-urltest/contact
+          - text: .
+      - generic [ref=f2e159]:
+        - group [ref=f2e160]:
+          - generic "01 Can you connect a booking engine?" [ref=f2e161] [cursor=pointer]:
+            - generic [ref=f2e162]: "01"
+            - generic [ref=f2e163]: Can you connect a booking engine?
+          - generic [ref=f2e166]: Yes. We can link or embed the booking system you use and match it to your site design.
+        - group [ref=f2e167]:
+          - generic "02 How do we get started?" [ref=f2e168] [cursor=pointer]:
+            - generic [ref=f2e169]: "02"
+            - generic [ref=f2e170]: How do we get started?
+    - generic [ref=f2e175]:
+      - generic [ref=f2e177]:
+        - paragraph [ref=f2e178]: More sectors
+        - heading [level=2] [ref=f2e179]:
+          - text: Other
+          - emphasis [ref=f2e180]: industries
+      - list [ref=f2e181]:
+        - listitem [ref=f2e182]:
+          - link "Tours and Travels" [ref=f2e183] [cursor=pointer]:
+            - /url: /sunsys-urltest/travel-hospitality
+        - listitem [ref=f2e190]:
+          - link "Healthcare" [ref=f2e191] [cursor=pointer]:
+            - /url: /sunsys-urltest/healthcare
+        - listitem [ref=f2e199]:
+          - link "Corporate" [ref=f2e200] [cursor=pointer]:
+            - /url: /sunsys-urltest/b2b-business
+        - listitem [ref=f2e209]:
+          - link "Education" [ref=f2e210] [cursor=pointer]:
+            - /url: /sunsys-urltest/education
+        - listitem [ref=f2e218]:
+          - link "Real Estate & Construction" [ref=f2e219] [cursor=pointer]:
+            - /url: /sunsys-urltest/real-estate
+    - generic [ref=f2e232]:
+      - generic [ref=f2e233]:
+        - paragraph [ref=f2e234]: Let’s begin
+        - heading [level=2] [ref=f2e235]:
+          - text: Planning a new website for your
+          - emphasis [ref=f2e236]: business
+          - text: "?"
+        - paragraph [ref=f2e237]: Tell us what you need. You get a free quote and consultation within one working hour.
+        - generic [ref=f2e238]:
+          - link "Request a quote" [ref=f2e239] [cursor=pointer]:
+            - /url: /sunsys-urltest/contact?type=quote
+          - link "Explore services" [ref=f2e243] [cursor=pointer]:
+            - /url: /sunsys-urltest/service
+        - list [ref=f2e244]:
+          - listitem [ref=f2e245]: 20+ years
+          - listitem [ref=f2e246]: 1,300+ projects
+          - listitem [ref=f2e248]: 8 countries
+      - generic [ref=f2e250]:
+        - img "Developers working together at laptops" [ref=f2e253]
+        - generic [ref=f2e255]: Reply within one working hour
+  - contentinfo [ref=f2e259]:
+    - generic [ref=f2e261]:
+      - generic [ref=f2e262]:
+        - generic [ref=f2e263]:
+          - paragraph [ref=f2e264]: Let’s talk
+          - paragraph [ref=f2e265]:
+            - text: Have a project in
+            - emphasis [ref=f2e266]: mind
+            - text: "?"
+        - link "Get a free quote" [ref=f2e268] [cursor=pointer]:
+          - /url: /sunsys-urltest/contact?type=quote
+      - generic [ref=f2e271]:
+        - generic [ref=f2e272]:
+          - img "Sunsys Technologies" [ref=f2e273]
+          - paragraph [ref=f2e274]: Website design, development and hosting from Bengaluru since 2006.
+          - list [ref=f2e275]:
+            - listitem [ref=f2e276]:
+              - link "Facebook" [ref=f2e277] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f2e280]:
+              - link "Instagram" [ref=f2e281] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f2e284]:
+              - link "X" [ref=f2e285] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f2e288]:
+              - link "LinkedIn" [ref=f2e289] [cursor=pointer]:
+                - /url: "#"
+        - navigation "Company" [ref=f2e292]:
+          - paragraph [ref=f2e293]: Company
+          - list [ref=f2e297]:
+            - listitem [ref=f2e298]:
+              - link "About us" [ref=f2e299] [cursor=pointer]:
+                - /url: /sunsys-urltest/about
+            - listitem [ref=f2e300]:
+              - link "Services" [ref=f2e301] [cursor=pointer]:
+                - /url: /sunsys-urltest/service
+            - listitem [ref=f2e302]:
+              - link "Blog" [ref=f2e303] [cursor=pointer]:
+                - /url: /sunsys-urltest/blog
+            - listitem [ref=f2e304]:
+              - link "Career" [ref=f2e305] [cursor=pointer]:
+                - /url: /sunsys-urltest/career
+            - listitem [ref=f2e306]:
+              - link "Contact us" [ref=f2e307] [cursor=pointer]:
+                - /url: /sunsys-urltest/contact
+        - navigation "Other links" [ref=f2e308]:
+          - paragraph [ref=f2e309]: Other links
+          - list [ref=f2e313]:
+            - listitem [ref=f2e314]:
+              - link "Domain registration (opens in a new tab)" [ref=f2e315] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/
+                - text: Domain registration
+                - generic [ref=f2e316]: (opens in a new tab)
+            - listitem [ref=f2e317]:
+              - link "Whois lookup (opens in a new tab)" [ref=f2e318] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/domain-registration/domain-whois-lookup.php
+                - text: Whois lookup
+                - generic [ref=f2e319]: (opens in a new tab)
+            - listitem [ref=f2e320]:
+              - link "Customer login (opens in a new tab)" [ref=f2e321] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/LoginServlet?role=customer&currenturl=https://sunsys.myorderbox.com
+                - text: Customer login
+                - generic [ref=f2e322]: (opens in a new tab)
+            - listitem [ref=f2e323]:
+              - link "Reseller login (opens in a new tab)" [ref=f2e324] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/AuthServlet?validatenow=false&role=reseller&currenturl=https://sunsys.myorderbox.com
+                - text: Reseller login
+                - generic [ref=f2e325]: (opens in a new tab)
+            - listitem [ref=f2e326]:
+              - link "Sitemap" [ref=f2e327] [cursor=pointer]:
+                - /url: /sunsys-urltest/sitemap
+        - generic [ref=f2e328]:
+          - paragraph [ref=f2e329]: Visit us
+          - list [ref=f2e333]:
+            - listitem [ref=f2e334]:
+              - link "4, 2nd Floor, 8th Main Road, CHBS Layout, Vijayanagar, Bengaluru 560040" [ref=f2e338] [cursor=pointer]:
+                - /url: /sunsys-urltest/contact
+            - listitem [ref=f2e339]:
+              - link "info@sunsys.in" [ref=f2e343] [cursor=pointer]:
+                - /url: mailto:info@sunsys.in
+            - listitem [ref=f2e344]:
+              - link "+91 9845244232" [ref=f2e347] [cursor=pointer]:
+                - /url: tel:+919845244232
+            - listitem [ref=f2e348]:
+              - generic [ref=f2e352]: Mon to Fri, 9:00 am to 5:00 pm
+    - generic [ref=f2e354]:
+      - paragraph [ref=f2e355]: © 2026 Sunsys Technologies (India) Pvt. Ltd. All rights reserved.
+      - link [ref=f2e356] [cursor=pointer]:
+        - /url: "#"

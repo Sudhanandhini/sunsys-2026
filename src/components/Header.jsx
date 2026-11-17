@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
-import { nav, services, industries } from '../data/site';
+import { nav, services, industries, pageHref } from '../data/site';
 import { url } from '../lib/url';
 
 const web = services.filter((s) => s.group === 'web');
@@ -60,7 +60,10 @@ export default function Header({ path = '/', promoImg = '' }) {
 
   const open = () => { clearTimeout(closeTimer.current); setMega(true); };
   const close = () => { closeTimer.current = setTimeout(() => setMega(false), 140); };
-  const isActive = (href) => (href === '/' ? path === url('/') : path.startsWith(url(href)));
+  // Service and industry pages sit at the site root (old site's addresses), so "Services" also matches those
+  const here = path.replace(/\/+$/, '');
+  const isActive = (href) => (href === '/' ? path === url('/')
+    : here === url(href) || here.startsWith(url(href) + '/') || (href === '/service' && [...services, ...industries].some((s) => here === url(pageHref(s)))));
 
   const linkCls = (on) =>
     `hdr-nav relative flex items-center gap-1 whitespace-nowrap px-2.5 py-2 font-head text-[13px] font-semibold uppercase tracking-[.1em] transition-colors xl:px-3.5 xl:text-[14px] xl:tracking-[.12em] ${
@@ -149,19 +152,19 @@ export default function Header({ path = '/', promoImg = '' }) {
             <div className="mega-col" style={{ '--i': 0 }}>
               <ColHead>Web development</ColHead>
               <ul className="grid grid-flow-col grid-rows-[repeat(5,auto)] content-start gap-x-8">
-                {web.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}
+                {web.map((s) => <MegaLink key={s.slug} href={url(pageHref(s))}>{s.title}</MegaLink>)}
               </ul>
             </div>
             <div className="mega-col" style={{ '--i': 1 }}>
               <ColHead>Hosting &amp; care</ColHead>
-              <ul>{hosting.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}</ul>
-              <a href={url('/services')} className="mt-5 inline-flex items-center gap-2 border-b border-gold pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">
+              <ul>{hosting.map((s) => <MegaLink key={s.slug} href={url(pageHref(s))}>{s.title}</MegaLink>)}</ul>
+              <a href={url('/service')} className="mt-5 inline-flex items-center gap-2 border-b border-gold pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-navy hover:text-gold">
                 All services <ArrowRight size={13} strokeWidth={2.2} />
               </a>
             </div>
             <div className="mega-col" style={{ '--i': 2 }}>
               <ColHead>Industries</ColHead>
-              <ul>{industries.map((s) => <MegaLink key={s.slug} href={url(`/industries/${s.slug}`)}>{s.title}</MegaLink>)}</ul>
+              <ul>{industries.map((s) => <MegaLink key={s.slug} href={url(pageHref(s))}>{s.title}</MegaLink>)}</ul>
             </div>
             {/* feature card */}
             <a href={url('/contact?type=quote')} className="mega-col group relative block overflow-hidden rounded-t-[999px] bg-navy" style={{ '--i': 3 }}>
@@ -217,9 +220,9 @@ export default function Header({ path = '/', promoImg = '' }) {
                   </button>
                   {mobServices && (
                     <div className="space-y-6 pb-5">
-                      <div><ColHead>Web development</ColHead><ul>{web.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}</ul></div>
-                      <div><ColHead>Hosting &amp; care</ColHead><ul>{hosting.map((s) => <MegaLink key={s.slug} href={url(`/services/${s.slug}`)}>{s.title}</MegaLink>)}</ul></div>
-                      <div><ColHead>Industries</ColHead><ul>{industries.map((s) => <MegaLink key={s.slug} href={url(`/industries/${s.slug}`)}>{s.title}</MegaLink>)}</ul></div>
+                      <div><ColHead>Web development</ColHead><ul>{web.map((s) => <MegaLink key={s.slug} href={url(pageHref(s))}>{s.title}</MegaLink>)}</ul></div>
+                      <div><ColHead>Hosting &amp; care</ColHead><ul>{hosting.map((s) => <MegaLink key={s.slug} href={url(pageHref(s))}>{s.title}</MegaLink>)}</ul></div>
+                      <div><ColHead>Industries</ColHead><ul>{industries.map((s) => <MegaLink key={s.slug} href={url(pageHref(s))}>{s.title}</MegaLink>)}</ul></div>
                     </div>
                   )}
                 </li>

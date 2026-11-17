@@ -10,7 +10,7 @@ const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeU
 
 const cards = [
 
-  { icon: 'Phone', title: 'Quick response', text: 'A free quote and consultation within one working hour.', links: [[company.phone, company.phoneHref], [company.email, `mailto:${company.email}`]] },
+  { icon: 'Phone', title: 'Quick response', text: 'A free quote and consultation within one working hour.', links: [[company.email, `mailto:${company.email}`], [company.phone, company.phoneHref]] },
    { icon: 'MapPin', title: 'Visit our office', text: company.address },
   { icon: 'Clock', title: 'Office hours', text: company.hours },
 ];
@@ -97,8 +97,8 @@ const cards = [
               <p class="text-[11px] font-bold uppercase tracking-[.2em] text-gold-soft">Sunsys Technologies</p>
               <p class="mt-3 text-[15px] leading-relaxed text-white/85">{company.address}</p>
               <p class="mt-3 text-[15px] leading-relaxed text-white/85">
-                <a href={company.phoneHref} class="block hover:text-white">{company.phone}</a>
                 <a href={`mailto:${company.email}`} class="block hover:text-white">{company.email}</a>
+                <a href={company.phoneHref} class="block hover:text-white">{company.phone}</a>
               </p>
               <a href={directions} target="_blank" rel="noopener" class="group mt-5 inline-flex items-center gap-2 border-b border-gold-soft/60 pb-1 text-[12px] font-bold uppercase tracking-[.16em] text-gold-soft hover:border-gold-soft">
                 Get directions <Icon name="ArrowRight" size={13} strokeWidth={2.2} className="transition-transform group-hover:translate-x-1" />

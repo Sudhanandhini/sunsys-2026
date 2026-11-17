@@ -1,5 +1,5 @@
 ---
-// Single article page: /blog/post/?slug=… The article loads from the PHP API.
+// Single article page, served for /blog/<slug> (blog/post/index.php on the server). The article loads from the PHP API.
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import BlogPost from '../../components/BlogPost.jsx';
@@ -16,11 +16,18 @@ import BlogPost from '../../components/BlogPost.jsx';
   .post-cover { aspect-ratio: 16 / 9; animation: post-cover 1.3s cubic-bezier(.65,0,.35,1) .2s both; }
   @keyframes blog-rise { from { opacity: 0; transform: translateY(24px); } }
   .blog-rise { animation: blog-rise .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+  /* related-article cards (same as the blog list's) */
+  .blog-card .blog-img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .blog-card:hover .blog-img { transform: scale(1.08); }
 
   .prose-sunsys { font-size: 18px; line-height: 1.8; color: var(--color-body); }
   .prose-sunsys > * + * { margin-top: 1.2em; }
   .prose-sunsys h2 { font-family: var(--font-serif); font-weight: 400; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; color: var(--color-ink); margin-top: 1.8em; }
   .prose-sunsys h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; color: var(--color-ink); margin-top: 1.5em; }
+  /* land table-of-contents jumps below the sticky header */
+  .prose-sunsys h2 { scroll-margin-top: 120px; }
+  html:has(.prose-sunsys) { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html:has(.prose-sunsys) { scroll-behavior: auto; } }
   .prose-sunsys a { color: var(--color-navy); border-bottom: 1px solid var(--color-gold); }
   .prose-sunsys a:hover { color: var(--color-gold); }
   .prose-sunsys ul, .prose-sunsys ol { padding-left: 1.4em; }

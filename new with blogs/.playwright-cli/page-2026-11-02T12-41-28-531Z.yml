@@ -1,0 +1,148 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e4]:
+    - paragraph [ref=e5]: Est. 2006 · Bengaluru
+    - paragraph [ref=e7]:
+      - generic [ref=e8]: Build your business identity with our consultancy
+      - link "Get started now" [ref=e10] [cursor=pointer]:
+        - /url: /contact?type=quote
+        - text: Get started now
+        - generic [aria-hidden] [ref=e11]: →
+    - paragraph [ref=e12]: Mon to Fri, 9:00 am to 5:00 pm
+  - banner [ref=e14]:
+    - navigation "Main" [ref=e16]:
+      - link "Sunsys Technologies home" [ref=e17] [cursor=pointer]:
+        - /url: /
+        - img "Sunsys Technologies" [ref=e18]
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Home" [ref=e21] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e22]:
+          - link "About Us" [ref=e23] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e24]:
+          - button "Services" [ref=e25]
+        - listitem [ref=e28]:
+          - link "Blog" [ref=e29] [cursor=pointer]:
+            - /url: /blog
+        - listitem [ref=e30]:
+          - link "Career" [ref=e31] [cursor=pointer]:
+            - /url: /career
+        - listitem [ref=e32]:
+          - link "Contact Us" [ref=e33] [cursor=pointer]:
+            - /url: /contact
+      - link "Get a quote" [ref=e35] [cursor=pointer]:
+        - /url: /contact?type=quote
+  - main [ref=e39]:
+    - generic [ref=e49]:
+      - generic [ref=e50]:
+        - paragraph [ref=e51]: Let’s begin
+        - heading [level=2] [ref=e52]:
+          - text: Planning a new website for your
+          - emphasis [ref=e53]: business
+          - text: "?"
+        - paragraph [ref=e54]: Tell us what you need. You get a free quote and consultation within one working hour.
+        - generic [ref=e55]:
+          - link "Request a quote" [ref=e56] [cursor=pointer]:
+            - /url: /contact?type=quote
+          - link "Explore services" [ref=e60] [cursor=pointer]:
+            - /url: /services
+        - list [ref=e61]:
+          - listitem [ref=e62]: 20+ years
+          - listitem [ref=e63]: 1,300+ projects
+          - listitem [ref=e65]: 8 countries
+      - generic [ref=e67]:
+        - img "Developers working together at laptops" [ref=e70]
+        - generic [ref=e72]: Reply within one working hour
+  - contentinfo [ref=e76]:
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: Let’s talk
+          - paragraph [ref=e82]:
+            - text: Have a project in
+            - emphasis [ref=e83]: mind
+            - text: "?"
+        - link "Get a free quote" [ref=e85] [cursor=pointer]:
+          - /url: /contact?type=quote
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - img "Sunsys Technologies" [ref=e90]
+          - paragraph [ref=e91]: Website design, development and hosting from Bengaluru since 2006.
+          - list [ref=e92]:
+            - listitem [ref=e93]:
+              - link "Facebook" [ref=e94] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e97]:
+              - link "Instagram" [ref=e98] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e101]:
+              - link "X" [ref=e102] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e105]:
+              - link "LinkedIn" [ref=e106] [cursor=pointer]:
+                - /url: "#"
+        - navigation "Company" [ref=e109]:
+          - paragraph [ref=e110]: Company
+          - list [ref=e114]:
+            - listitem [ref=e115]:
+              - link "About us" [ref=e116] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e117]:
+              - link "Services" [ref=e118] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e119]:
+              - link "Blog" [ref=e120] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e121]:
+              - link "Career" [ref=e122] [cursor=pointer]:
+                - /url: /career
+            - listitem [ref=e123]:
+              - link "Contact us" [ref=e124] [cursor=pointer]:
+                - /url: /contact
+        - navigation "Other links" [ref=e125]:
+          - paragraph [ref=e126]: Other links
+          - list [ref=e130]:
+            - listitem [ref=e131]:
+              - link "Domain registration (opens in a new tab)" [ref=e132] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/
+                - text: Domain registration
+                - generic [ref=e133]: (opens in a new tab)
+            - listitem [ref=e134]:
+              - link "Whois lookup (opens in a new tab)" [ref=e135] [cursor=pointer]:
+                - /url: https://sunsys.supersite2.myorderbox.com/domain-registration/domain-whois-lookup.php
+                - text: Whois lookup
+                - generic [ref=e136]: (opens in a new tab)
+            - listitem [ref=e137]:
+              - link "Customer login (opens in a new tab)" [ref=e138] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/LoginServlet?role=customer&currenturl=https://sunsys.myorderbox.com
+                - text: Customer login
+                - generic [ref=e139]: (opens in a new tab)
+            - listitem [ref=e140]:
+              - link "Reseller login (opens in a new tab)" [ref=e141] [cursor=pointer]:
+                - /url: https://sunsys.myorderbox.com/servlet/AuthServlet?validatenow=false&role=reseller&currenturl=https://sunsys.myorderbox.com
+                - text: Reseller login
+                - generic [ref=e142]: (opens in a new tab)
+            - listitem [ref=e143]:
+              - link "Sitemap" [ref=e144] [cursor=pointer]:
+                - /url: /sitemap
+        - generic [ref=e145]:
+          - paragraph [ref=e146]: Visit us
+          - list [ref=e150]:
+            - listitem [ref=e151]:
+              - link "4, 2nd Floor, 8th Main Road, CHBS Layout, Vijayanagar, Bengaluru 560040" [ref=e155] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e156]:
+              - link "+91 9845244232" [ref=e159] [cursor=pointer]:
+                - /url: tel:+919845244232
+            - listitem [ref=e160]:
+              - link "info@sunsys.in" [ref=e164] [cursor=pointer]:
+                - /url: mailto:info@sunsys.in
+            - listitem [ref=e165]:
+              - generic [ref=e169]: Mon to Fri, 9:00 am to 5:00 pm
+    - generic [ref=e171]:
+      - paragraph [ref=e172]: © 2026 Sunsys Technologies (India) Pvt. Ltd. All rights reserved.
+      - link [ref=e173] [cursor=pointer]:
+        - /url: "#"

@@ -13,8 +13,10 @@ import frauncesItalicLatin from '@fontsource-variable/fraunces/files/fraunces-la
 interface Props { title: string; description?: string }
 const { title, description = 'Sunsys Technologies is a Bengaluru website design and development company offering custom websites, e-commerce, hosting and maintenance since 2006.' } = Astro.props;
 const fullTitle = title === 'Home' ? 'Sunsys Technologies | Website Design & Development Company in Bangalore' : `${title} | Sunsys Technologies`;
-// Every page URL ends in "/" (a subfolder build's home page comes through as "/sunsys-2026" without it)
-const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site);
+// Page URLs have no trailing "/", the same as the old WordPress site; only the home page ends in "/"
+const trimmed = Astro.url.pathname.replace(/\/+$/, '');
+const home = import.meta.env.BASE_URL.replace(/\/*$/, '/');
+const canonical = new URL(trimmed === home.slice(0, -1) ? home : trimmed, Astro.site);
 // Mega-menu promo photo (React can't use astro:assets, so it gets a pre-built URL)
 const promo = await getImage({ src: photo('/images/cta-team.jpg')!, width: 480, format: 'webp', quality: 70 });
 ---

@@ -8,16 +8,48 @@ ErrorDocument 404 /404.html
 # blog/post/ has both: index.php adds each article's SEO tags to the built index.html
 DirectoryIndex index.php index.html
 
-# SEO from Admin > SEO: pages go through api/page.php, which adds the tags set there to the built HTML.
-# robots.txt and sitemap.xml are generated from the same settings.
+# Page addresses have no trailing slash (/about, not /about/), the same as the old WordPress site. Pages are
+# folders (about/index.html), so Apache must not add one before the rules below run; api/page.php serves /about
+# and sends /about/ to /about. Folders that aren't pages (admin/, …) get their slash from a rule instead.
+DirectorySlash Off
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # The site's folder from the web root, for the redirects below (a subfolder build writes it in, like ErrorDocument)
+  RewriteBase /
+  # sunsys.in (no www) → https://www.sunsys.in, same address. Only that host, so staging and local copies are unaffected.
+  RewriteCond %{HTTP_HOST} ^sunsys\.in$ [NC]
+  RewriteRule ^ https://www.sunsys.in%{REQUEST_URI} [R=301,L,NE]
+  # SEO from Admin > SEO: robots.txt and sitemap.xml are generated from its settings
   RewriteRule ^robots\.txt$ api/robots.php [L]
   RewriteRule ^sitemap\.xml$ api/sitemap.php [L]
+
+  # ---- Old WordPress blog archives (patterns). Single old pages, and this site's own earlier addresses
+  # (/services/<slug>, /industries/<slug>), are in Admin > SEO > Redirects, where they can be edited.
+  RewriteRule ^category/ecommerce(?:/.*)?$ blog?category=e-commerce [R=301,L,QSD]
+  RewriteRule ^category/uncategorized(?:/.*)?$ blog [R=301,L,QSD]
+  RewriteRule ^category/([a-z0-9-]+)(?:/.*)?$ blog?category=$1 [R=301,L,QSD]
+  RewriteRule ^(?:blog/page|page)/[0-9]+/?$ blog [R=301,L,QSD]
+  RewriteRule ^(?:tag|author)/ blog [R=301,L,QSD]
+
+  # Built pages (folders with an index.html) go through api/page.php: SEO from the admin, redirects, custom
+  # addresses, and no trailing slash
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^(?!(?:api|admin|uploads|_astro|blog/post)(?:/|$)) api/page.php [L]
-  # Addresses that don't exist: api/redirect.php applies Admin > SEO > Redirects, else shows the 404 page
+  # Other folders (admin, blog/post, …): add the trailing slash Apache would have added
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+[^/])$ $1/ [R=301,L]
+  # Blog articles at /blog/<slug>
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^blog/([a-z0-9-]+)/?$ blog/post/index.php?slug=$1 [L,QSA]
+  # Any other one-word address that isn't a file or folder: an old WordPress article address (/<slug>) 301s to
+  # /blog/<slug>; a word that isn't an article goes on to custom page addresses, redirects or the 404 page
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([a-z0-9-]+)/?$ blog/post/index.php?slug=$1 [L,QSA]
+  # Anything else that doesn't exist: custom page addresses and Admin > SEO > Redirects, else the 404 page
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(?!(?:api|admin|_astro)(?:/|$)) api/redirect.php [L]

@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import BlogList from '../components/BlogList.jsx';
+---
+<Base title="Blog" description="Articles on website design, development, hosting and online growth from Sunsys Technologies.">
+  <PageHero eyebrow="Insights" title="Ideas for a better website" accent="website" intro="Practical advice on websites, hosting and growing your business online." crumbs={[{ label: 'Blog' }]} />
+  <section class="bg-ivory py-20 md:py-28">
+    <div class="container-x">
+      <BlogList client:load />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style is:global>
+  .blog-card .blog-img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .blog-card:hover .blog-img { transform: scale(1.08); }
+  @keyframes blog-rise { from { opacity: 0; transform: translateY(24px); } }
+  .blog-rise { animation: blog-rise .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0s); }
+</style>

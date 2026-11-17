@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!str_contains($s['title_template'], '%s')) $errors['title_template'] = 'Include %s where the page title goes, e.g. "%s | Sunsys Technologies".';
     $url = trim((string) ($_POST['site_url'] ?? ''));
-    if ($url !== '' && !preg_match('#^https?://[a-z0-9.-]+(:\d+)?/?$#i', $url)) $errors['site_url'] = 'Enter just the domain, like https://sunsys.in';
+    if ($url !== '' && !preg_match('#^https?://[a-z0-9.-]+(:\d+)?/?$#i', $url)) $errors['site_url'] = 'Enter just the domain, like https://www.sunsys.in';
     else $s['site_url'] = rtrim($url, '/');
     $img = seo_url_field((string) ($_POST['default_og_image'] ?? ''));
     if ($img === null) $errors['default_og_image'] = 'Use a full https:// address or a path starting with /.';
