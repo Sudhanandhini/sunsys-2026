@@ -168,6 +168,17 @@ function migrate(PDO $pdo): void
             // tried again on the next request
         }
     }
+    // New pages at addresses that the old-WordPress redirects used to send elsewhere (HTML, PHP, NGO, retail...): once
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'new_pages_v1'")->fetchColumn()) {
+        require_once __DIR__ . '/seo.php';
+        require_once __DIR__ . '/redirects.php';
+        try {
+            redirect_new_pages_v1();
+            $pdo->exec("INSERT INTO settings (k, v) VALUES ('new_pages_v1', NOW())");
+        } catch (Throwable $ex) {
+            // tried again on the next request
+        }
+    }
 }
 
 function q(string $sql, array $params = []): PDOStatement

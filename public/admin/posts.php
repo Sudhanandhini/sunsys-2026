@@ -73,5 +73,5 @@ admin_head('Blog posts', 'posts.php', $user);
   </table>
   <?php endif; ?>
 </section>
-<?= pager($page, $pages) ?>
+<?= pager($page, $pages, $total, $per, 'posts') ?>
 <?php admin_foot();

@@ -23,12 +23,14 @@ const fit = (detail?.services ?? ['website-development', 'responsive-web-design'
   .filter(Boolean);
 const others = industries.filter((i) => i.slug !== industry.slug);
 const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+// lower-case for mid-sentence use, keeping acronyms such as NGO as they are
+const lower = (t: string) => t.split(' ').map((w) => (/^[A-Z]{2,}s?$/.test(w) ? w : w.toLowerCase())).join(' ');
 ---
 <Base title={`${industry.title} Websites`} description={industry.summary}>
   <PageHero
     eyebrow="Industry solutions"
-    title={`Websites for ${industry.title.toLowerCase()}`}
-    accent={industry.title.toLowerCase()}
+    title={`Websites for ${lower(industry.title)}`}
+    accent={lower(industry.title)}
     intro={industry.summary}
     image={indPhoto(industry.slug)}
     crumbs={[{ label: 'Services', href: '/service' }, { label: industry.title }]}
@@ -40,7 +42,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
       <div class="grid gap-8 lg:grid-cols-[7fr_5fr] lg:items-end lg:gap-20" data-reveal>
         <div>
           <p class="eyebrow">What your site needs</p>
-          <h2 class="h-classic mt-4">Built for <em class="text-gold">{industry.title.toLowerCase()}</em></h2>
+          <h2 class="h-classic mt-4">Built for <em class="text-gold">{lower(industry.title)}</em></h2>
         </div>
         <p class="lead">{detail?.intro ?? industry.summary}</p>
       </div>
@@ -64,7 +66,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
         <div class="relative flex items-center gap-5">
           <span class="grid size-14 shrink-0 place-items-center rounded-full border border-gold-soft/50 text-gold-soft"><Icon name={industry.icon} size={24} strokeWidth={1.4} /></span>
           <div>
-            <p class="font-serif text-[24px] leading-tight">Planning a {industry.title.toLowerCase()} website?</p>
+            <p class="font-serif text-[24px] leading-tight">Planning a {lower(industry.title)} website?</p>
             <p class="mt-1 text-white/70">Tell us about your business and we will suggest the right pages and features.</p>
           </div>
         </div>
@@ -118,7 +120,7 @@ const roman = ['I', 'II', 'III', 'IV', 'V', 'VI'];
           <h2 class="h-classic mt-4 !text-white">Other <em class="text-gold-soft">industries</em></h2>
         </div>
       </div>
-      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {others.map((o, i) => (
           <li data-reveal style={`--d:${i * 0.1}s`}>
             <a href={url(pageHref(o))} class="rel-card group relative block aspect-[3/4] overflow-hidden rounded-t-[999px] bg-[#0b3a6e] ring-1 ring-white/10">

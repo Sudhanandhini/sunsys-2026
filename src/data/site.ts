@@ -64,7 +64,7 @@ export const services: Service[] = [
     points: ['Product catalogue and search', 'Payment gateway integration', 'Order and inventory management', 'GST-ready invoices'],
   },
   {
-    slug: 'custom-web-development', path: 'php-web-development-company', title: 'Custom Web Development', icon: 'Code', group: 'web',
+    slug: 'custom-web-development', path: 'custom-web-development-company', title: 'Custom Web Development', icon: 'Code', group: 'web',
     summary: 'Web applications built around your exact business process.',
     body: 'When an off-the-shelf tool does not fit, we build portals, dashboards and internal tools with modern stacks such as React, Node.js, PHP and MySQL.',
     points: ['Requirement study and scoping', 'Portals, dashboards and admin panels', 'API and third-party integrations', 'Ongoing support after launch'],
@@ -106,6 +106,18 @@ export const services: Service[] = [
     points: ['Mobile-first layouts', 'Touch-friendly navigation', 'Optimised images', 'Cross-browser testing'],
   },
   {
+    slug: 'html-website-development', path: 'html-website-development-company', title: 'HTML Website Development', icon: 'CodeXml', group: 'web',
+    summary: 'Fast, lightweight HTML websites hand-coded for speed, security and search.',
+    body: 'Static HTML and CSS websites with no database or plugins to maintain, so pages load in an instant, stay secure and cost little to host.',
+    points: ['Hand-coded HTML5 and CSS3', 'Pixel-perfect, responsive layouts', 'Clean, SEO-friendly markup', 'Low-maintenance, secure hosting'],
+  },
+  {
+    slug: 'php-web-development', path: 'php-web-development-company', title: 'PHP Web Development', icon: 'Braces', group: 'web',
+    summary: 'Secure, scalable PHP websites and web applications built to your requirements.',
+    body: 'From dynamic business websites to portals and admin panels, we build in PHP and MySQL with frameworks such as Laravel and CodeIgniter, on hosting you can get anywhere.',
+    points: ['Core PHP, Laravel and CodeIgniter', 'MySQL database design', 'Admin panels and dashboards', 'API and payment gateway integration'],
+  },
+  {
     slug: 'linux-hosting', path: 'linux-hosting-company-bangalore', title: 'Linux Hosting', icon: 'Terminal', group: 'hosting',
     summary: 'Reliable Linux hosting with cPanel for PHP, WordPress and Node.js sites.',
     body: 'Linux hosting plans with cPanel, free SSL and support for PHP, WordPress and Node.js applications.',
@@ -134,6 +146,9 @@ export const industries = [
   { slug: 'healthcare', path: 'healthcare', title: 'Healthcare', icon: 'HeartPulse', summary: 'Doctor profiles, appointment requests and clear service pages for clinics and hospitals.' },
   { slug: 'corporate', path: 'b2b-business', title: 'Corporate', icon: 'Building2', summary: 'Company websites that present your services, leadership and careers clearly.' },
   { slug: 'education', path: 'education', title: 'Education', icon: 'GraduationCap', summary: 'Admissions, events, galleries and notices for schools and colleges.' },
+  { slug: 'ngo', path: 'ngo', title: 'NGOs & Non-Profits', icon: 'HandHeart', summary: 'Cause pages, donation forms and volunteer sign-ups for NGOs, trusts and charities.' },
+  { slug: 'manufacturing-industrial', path: 'manufacturing-industrial', title: 'Manufacturing & Industrial', icon: 'Factory', summary: 'Product catalogues, capability pages and RFQ forms for manufacturers and industrial suppliers.' },
+  { slug: 'retail', path: 'retail', title: 'Retail', icon: 'ShoppingBag', summary: 'Product showcases, store locators and online ordering for shops and retail brands.' },
   { slug: 'real-estate-and-construction', path: 'real-estate', title: 'Real Estate & Construction', icon: 'HardHat', summary: 'Project showcases, floor plans and site-visit enquiries for builders and developers.' },
 ];
 

@@ -98,14 +98,23 @@ function paginate(int $total, int $per = 20): array
     return [$per, ($page - 1) * $per, $page, $pages];
 }
 
-function pager(int $page, int $pages): string
+/** Page links, plus "Showing 21-40 of 48 posts" under them when $total is given. */
+function pager(int $page, int $pages, ?int $total = null, int $per = 20, string $noun = 'items'): string
 {
-    if ($pages < 2) return '';
-    $qs = $_GET;
-    $h = '<nav class="pager">';
-    for ($i = 1; $i <= $pages; $i++) {
-        $qs['page'] = $i;
-        $h .= $i === $page ? "<span>$i</span>" : '<a href="?' . e(http_build_query($qs)) . "\">$i</a>";
+    $h = '';
+    if ($pages > 1) {
+        $qs = $_GET;
+        $h .= '<nav class="pager">';
+        for ($i = 1; $i <= $pages; $i++) {
+            $qs['page'] = $i;
+            $h .= $i === $page ? "<span>$i</span>" : '<a href="?' . e(http_build_query($qs)) . "\">$i</a>";
+        }
+        $h .= '</nav>';
     }
-    return $h . '</nav>';
+    if ($total) {
+        $from = ($page - 1) * $per + 1;
+        $to = min($total, $page * $per);
+        $h .= '<p class="pager-count">Showing ' . $from . '&ndash;' . $to . ' of <strong>' . number_format($total) . '</strong> ' . e($noun) . '</p>';
+    }
+    return $h;
 }

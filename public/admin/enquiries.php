@@ -73,6 +73,6 @@ $keep = fn(array $x) => e(http_build_query(array_filter($x + ['source' => $sourc
   </table>
   <?php endif; ?>
 </section>
-<?= pager($page, $pages) ?>
+<?= pager($page, $pages, $total, $per, 'enquiries') ?>
 <script src="assets/bulk.js"></script>
 <?php admin_foot();

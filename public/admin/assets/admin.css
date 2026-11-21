@@ -137,6 +137,8 @@ textarea.mono { font: 14px/1.7 ui-monospace, "Cascadia Code", Consolas, monospac
 .pager { display: flex; gap: 6px; justify-content: center; margin-top: 18px; }
 .pager a, .pager span { min-width: 34px; padding: 6px 10px; text-align: center; border-radius: 8px; border: 1px solid var(--line); background: #fff; font-weight: 700; font-size: 13px; }
 .pager span { background: var(--navy); color: #fff; border-color: var(--navy); }
+.pager-count { margin-top: 12px; text-align: center; font-size: 13px; color: var(--muted, #64748b); }
+.pager-count strong { color: var(--navy); }
 
 /* editor & detail */
 .editor { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }

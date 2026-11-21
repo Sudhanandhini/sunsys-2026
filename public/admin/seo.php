@@ -95,7 +95,7 @@ admin_head('SEO', 'seo.php', $user);
   </table>
   <?php endif; ?>
 </section>
-<?= pager($page, $pages) ?>
+<?= pager($page, $pages, count($rows), $per, 'pages') ?>
 <p class="muted small seo-foot"><?= count($rows) ?> pages<?= $noindexCount ? " · $noindexCount hidden from search engines" : '' ?> · <a href="../sitemap.xml" target="_blank" rel="noopener">sitemap.xml</a> · <a href="../robots.txt" target="_blank" rel="noopener">robots.txt</a></p>
 <script src="assets/bulk.js"></script>
 <?php admin_foot();

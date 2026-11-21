@@ -243,8 +243,7 @@ function request_site_path(): string
 /** Old WordPress pages with no exact match on this site: added once to Admin > SEO > Redirects (see below). */
 const REDIRECT_WP_DEFAULTS = [
     '/home' => '/', '/thank-you' => '/', '/404-2' => '/',
-    '/html-website-development-company' => '/php-web-development-company',
-    '/web-portal-development-company-bangalore' => '/php-web-development-company',
+    '/web-portal-development-company-bangalore' => '/custom-web-development-company',
     '/ecommerce-bangalore' => '/ecommerce-web-development-india',
     '/ecommerce-web-development-india/ahmedabad' => '/ecommerce-web-development-india',
     '/ecommerce-web-development-india/bangalore' => '/ecommerce-web-development-india',
@@ -261,7 +260,6 @@ const REDIRECT_WP_DEFAULTS = [
     '/chennai' => '/website-development', '/hyderabad' => '/website-development', '/india' => '/website-development',
     '/kolkata' => '/website-development', '/mumbai' => '/website-development', '/uk' => '/website-development',
     '/usa' => '/website-development',
-    '/manufacturing-industrial' => '/service', '/ngo' => '/service', '/retail' => '/service',
     // linked from the imported articles, but not on the old site any more
     '/website-maintenance-company-bangalore' => '/website-maintenance-india',
     '/seo-strategies-for-startups' => '/blog/5-effective-seo-strategies-for-successful-startups',
@@ -296,6 +294,27 @@ function redirect_seed_site_moves(): void
  * links between articles (https://www.sunsys.in/<slug>, as the old WordPress blog wrote them) and redirects
  * that ended at an article now point at /blog/<slug> directly, instead of going through the 301.
  */
+/**
+ * One-off, run by migrate() in bootstrap.php when these pages were added (2026-11-21):
+ *  - the redirects seeded from REDIRECT_WP_DEFAULTS for their addresses are removed, so the pages show
+ *    (only the seeded ones: a redirect added by hand in Admin > SEO > Redirects is kept);
+ *  - Custom Web Development moved from /php-web-development-company to /custom-web-development-company (PHP Web
+ *    Development took that address): its SEO settings and the redirects that pointed at it move with it.
+ */
+function redirect_new_pages_v1(): void
+{
+    $pages = ['/html-website-development-company', '/ngo', '/manufacturing-industrial', '/retail'];
+    q("DELETE FROM seo_redirects WHERE source_query = '' AND note = 'Old WordPress page' AND source_path IN (?, ?, ?, ?)", $pages);
+
+    $php = '/php-web-development-company';
+    $custom = '/custom-web-development-company';
+    if (!q('SELECT 1 FROM seo_pages WHERE path = ?', ["$custom/"])->fetchColumn()) {
+        q("UPDATE seo_pages SET path = ? WHERE path = ? AND name = 'Custom Web Development'", ["$custom/", "$php/"]);
+    }
+    q('UPDATE seo_redirects SET target = ? WHERE target IN (?, ?) AND source_path IN (?, ?)',
+        [$custom, $php, "$php/", '/services/custom-web-development', '/web-portal-development-company-bangalore']);
+}
+
 function redirect_blog_paths_v1(): void
 {
     $slugs = q('SELECT slug FROM posts')->fetchAll(PDO::FETCH_COLUMN);

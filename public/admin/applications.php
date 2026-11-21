@@ -65,6 +65,6 @@ admin_head('Applications', 'applications.php', $user);
   </table>
   <?php endif; ?>
 </section>
-<?= pager($page, $pages) ?>
+<?= pager($page, $pages, $total, $per, 'applications') ?>
 <script src="assets/bulk.js"></script>
 <?php admin_foot();

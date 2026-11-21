@@ -168,7 +168,7 @@ admin_head('Redirects', 'seo.php', $user);
     </form>
   </div>
 </div>
-<?= pager($page, $pages) ?>
+<?= pager($page, $pages, $total, $per, 'redirects') ?>
 <p class="muted small seo-foot"><?= $all ?> <?= $all === 1 ? 'redirect' : 'redirects' ?></p>
 <script>
   // 410 has no new address
