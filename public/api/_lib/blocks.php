@@ -1,11 +1,13 @@
 <?php
 // Page-builder content for blog posts: rows → columns → widgets, stored as JSON in posts.blocks.
 // The JSON is cleaned on save and again on render, so only these structures and inline tags can reach the page:
-//   heading (h2–h4) · paragraph · list · quote   inline: bold, italic, underline, colour, links, line breaks
-//   image (uploaded or https) · button link
+//   heading (h2–h4) · paragraph (may hold bullet/numbered lists) · list · quote   inline: bold, italic, underline, colour, links, line breaks
+//   image (uploaded or https) · button link · table (cells hold inline text, optional header row)
 declare(strict_types=1);
 
 const BLOCK_MAX_COLS = 4;
+const BLOCK_TABLE_MAX_ROWS = 200;
+const BLOCK_TABLE_MAX_COLS = 12;
 
 /** Links: http(s), mailto, tel, site-relative and #anchors only. */
 function block_url(string $u): ?string
@@ -70,30 +72,45 @@ function block_inline(string $html): string
     return trim(preg_replace('#^(<br>)+|(<br>)+$#', '', $s));
 }
 
-/** Rich text split into paragraphs: each top-level <p>/<div> the editor made is its own paragraph. */
+/** Rich text split into blocks: each top-level <p>/<div> is a paragraph (<p>…</p>) and each list stays a list (<ul>/<ol>). */
 function block_paragraphs(string $html): array
 {
     $root = block_dom(mb_substr($html, 0, 50000));
-    $paras = [];
+    $out = [];
     $run = '';
-    $flush = function () use (&$run, &$paras) {
+    $flush = function () use (&$run, &$out) {
         $t = trim(preg_replace('#^(<br>)+|(<br>)+$#', '', $run));
-        if (trim(strip_tags($t)) !== '') $paras[] = $t;
+        if (trim(strip_tags($t)) !== '') $out[] = "<p>$t</p>";
         $run = '';
     };
-    foreach (iterator_to_array($root->childNodes) as $n) {
-        if ($n instanceof DOMElement && in_array(strtolower($n->tagName), ['p', 'div'], true)) {
-            $flush();
-            $run = block_inline_node($n);
-            $flush();
-        } else {
-            $wrap = $root->ownerDocument->createElement('span');
-            $wrap->appendChild($n->cloneNode(true));
-            $run .= block_inline_node($wrap);
+    $walk = function (DOMNode $parent) use (&$walk, &$run, $flush, &$out, $root) {
+        foreach (iterator_to_array($parent->childNodes) as $n) {
+            $tag = $n instanceof DOMElement ? strtolower($n->tagName) : '';
+            if ($tag === 'ul' || $tag === 'ol') {
+                $flush();
+                $items = [];
+                foreach ($n->getElementsByTagName('li') as $li) { // nested lists are flattened into one level
+                    $c = $li->cloneNode(true);
+                    foreach (iterator_to_array($c->childNodes) as $k) if ($k instanceof DOMElement && in_array(strtolower($k->tagName), ['ul', 'ol'], true)) $c->removeChild($k);
+                    $i = trim(preg_replace('#^(<br>)+|(<br>)+$#', '', block_inline_node($c)));
+                    if (trim(strip_tags($i)) !== '') $items[] = "<li>$i</li>";
+                }
+                if ($items) $out[] = "<$tag>" . implode('', $items) . "</$tag>";
+            } elseif ($tag === 'p' || $tag === 'div') {
+                $flush();
+                if ($n->getElementsByTagName('ul')->length || $n->getElementsByTagName('ol')->length) $walk($n);
+                else $run = block_inline_node($n);
+                $flush();
+            } else {
+                $wrap = $root->ownerDocument->createElement('span');
+                $wrap->appendChild($n->cloneNode(true));
+                $run .= block_inline_node($wrap);
+            }
         }
-    }
+    };
+    $walk($root);
     $flush();
-    return $paras;
+    return $out;
 }
 
 /** Validate a decoded blocks document; anything unknown is dropped. */
@@ -124,7 +141,7 @@ function block_widget_clean(array $w): ?array
         case 'paragraph':
         case 'quote':
             $paras = block_paragraphs((string) ($w['html'] ?? ''));
-            return $paras ? ['type' => $w['type'], 'html' => '<p>' . implode('</p><p>', $paras) . '</p>'] : null;
+            return $paras ? ['type' => $w['type'], 'html' => implode('', $paras)] : null;
         case 'list':
             $items = array_values(array_filter(array_map(fn ($i) => block_inline((string) $i), array_slice((array) ($w['items'] ?? []), 0, 200)), fn ($i) => trim(strip_tags($i)) !== ''));
             return $items ? ['type' => 'list', 'ordered' => !empty($w['ordered']), 'items' => $items] : null;
@@ -132,6 +149,16 @@ function block_widget_clean(array $w): ?array
             $src = $str('src', 500);
             if (!preg_match('#^(/uploads/blog/[\w.-]+|https://\S+)$#', $src)) return null;
             return ['type' => 'image', 'src' => $src, 'alt' => $str('alt', 300), 'caption' => $str('caption', 300), 'href' => block_url($str('href')) ?? ''];
+        case 'table':
+            $rows = [];
+            foreach (array_slice(is_array($w['rows'] ?? null) ? $w['rows'] : [], 0, BLOCK_TABLE_MAX_ROWS) as $r) {
+                $rows[] = array_map(fn ($c) => block_inline(is_string($c) ? $c : ''), array_slice(is_array($r) ? array_values($r) : [], 0, BLOCK_TABLE_MAX_COLS));
+            }
+            $rows = array_values(array_filter($rows, fn ($r) => trim(strip_tags(implode('', $r))) !== ''));
+            if (!$rows) return null;
+            $n = max(array_map('count', $rows)); // every row gets the same number of cells
+            $rows = array_map(fn ($r) => array_pad($r, $n, ''), $rows);
+            return ['type' => 'table', 'header' => !empty($w['header']), 'rows' => $rows];
         case 'button':
             $href = block_url($str('href'));
             if (!$href || $str('text', 120) === '') return null;
@@ -168,6 +195,11 @@ function block_widget_render(array $w): string
             $img = '<img src="' . e(public_url($w['src'])) . '" alt="' . e($w['alt']) . '" loading="lazy" decoding="async">';
             if ($w['href']) $img = block_link($w['href'], $img);
             return '<figure class="pb-img">' . $img . ($w['caption'] !== '' ? '<figcaption>' . e($w['caption']) . '</figcaption>' : '') . '</figure>';
+        case 'table':
+            $rows = $w['rows'];
+            $head = $w['header'] ? '<thead><tr>' . implode('', array_map(fn ($c) => "<th>$c</th>", array_shift($rows))) . '</tr></thead>' : '';
+            $body = implode('', array_map(fn ($r) => '<tr>' . implode('', array_map(fn ($c) => "<td>$c</td>", $r)) . '</tr>', $rows));
+            return '<div class="pb-table"><table>' . $head . ($body !== '' ? "<tbody>$body</tbody>" : '') . '</table></div>';
         case 'button':
             $ext = $w['newTab'] ? ' target="_blank" rel="noopener"' : '';
             return '<p class="pb-btn-wrap"><a class="pb-btn pb-btn-' . $w['style'] . '" href="' . e($w['href']) . '"' . $ext . '>' . e($w['text']) . '</a></p>';
@@ -186,9 +218,11 @@ function blocks_text(array $doc, bool $paragraphsOnly = false): string
             'list' => implode("\n", $w['items']),
             'image' => $w['alt'] . ' ' . $w['caption'],
             'button' => $w['text'],
+            'table' => implode("
+", array_map(fn ($r) => implode(' | ', $r), $w['rows'])),
             default => '',
         };
-        $parts[] = trim(html_entity_decode(strip_tags(str_replace(['<br>', '</p><p>'], ["\n", "\n\n"], $html)), ENT_QUOTES, 'UTF-8'));
+        $parts[] = trim(html_entity_decode(strip_tags(preg_replace(['#<br>|</li><li>#', '#</(p|ul|ol)><(p|ul|ol)>#'], ["\n", "\n\n"], $html)), ENT_QUOTES, 'UTF-8'));
     }
     return trim(implode("\n\n", array_filter($parts, 'strlen')));
 }
@@ -218,6 +252,14 @@ function blocks_from_html(string $html): array
             $items = [];
             foreach ($n->childNodes as $li) if ($li instanceof DOMElement) $items[] = block_inline_node($li);
             $widgets[] = ['type' => 'list', 'ordered' => $tag === 'ol', 'items' => $items];
+        } elseif ($tag === 'table') {
+            $rows = [];
+            foreach ($n->getElementsByTagName('tr') as $tr) {
+                $cells = [];
+                foreach ($tr->childNodes as $c) if ($c instanceof DOMElement && in_array(strtolower($c->tagName), ['td', 'th'], true)) $cells[] = block_inline_node($c);
+                $rows[] = $cells;
+            }
+            $widgets[] = ['type' => 'table', 'header' => $n->getElementsByTagName('th')->length > 0, 'rows' => $rows];
         }
     }
     return blocks_clean(['rows' => [['cols' => [['widgets' => $widgets]]]]]);

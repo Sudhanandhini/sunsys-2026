@@ -201,5 +201,5 @@ admin_head($post['id'] ? 'Edit post' : 'New post', 'posts.php', $user);
   [t, s, mt, md, ex].forEach((el) => el.addEventListener('input', seo));
   seo();
 </script>
-<script src="assets/builder.js"></script>
+<script src="assets/builder.js?v=<?= @filemtime(__DIR__ . '/assets/builder.js') ?>"></script>
 <?php admin_foot();

@@ -313,7 +313,10 @@ function save_image(array $file): string
     $ext = [IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp'][$info[2] ?? 0] ?? null;
     if (!$ext) throw new RuntimeException('Image must be a JPG, PNG or WebP file.');
     $name = date('Ym') . '-' . bin2hex(random_bytes(8)) . '.' . $ext;
-    if (!move_uploaded_file($file['tmp_name'], public_upload_dir('blog') . '/' . $name)) throw new RuntimeException('Could not save the image.');
+    $dest = public_upload_dir('blog') . '/' . $name;
+    // 'remote': a file the admin's image copier downloaded itself (not a browser upload)
+    $ok = empty($file['remote']) ? move_uploaded_file($file['tmp_name'], $dest) : rename($file['tmp_name'], $dest);
+    if (!$ok) throw new RuntimeException('Could not save the image.');
     return '/uploads/blog/' . $name;
 }
 

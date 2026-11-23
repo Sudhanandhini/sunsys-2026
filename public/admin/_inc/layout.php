@@ -48,7 +48,7 @@ function admin_head(string $title, string $active, array $user): void
     ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title><?= e($title) ?> · Sunsys admin</title><link rel="icon" href="../favicon.svg"><link rel="stylesheet" href="assets/admin.css"></head>
+<title><?= e($title) ?> · Sunsys admin</title><link rel="icon" href="../favicon.svg"><link rel="stylesheet" href="assets/admin.css?v=<?= @filemtime(dirname(__DIR__) . '/assets/admin.css') ?>"></head>
 <body>
 <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">
 <aside class="side">
